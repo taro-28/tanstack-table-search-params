@@ -2,8 +2,10 @@ import type { RowData, TableOptions, TableState } from "@tanstack/react-table";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { onChangeGenerator } from "./onChangeGenerator";
-import { decode } from "./decode";
-import { typedObjectEntries } from "../../../utils/object";
+import { decoders } from "./decode";
+import { typedObjectEntries, typedObjectKeys } from "../../../utils/object";
+import type { Query } from "./types";
+import { encoders } from "./encode";
 
 export type State = Pick<TableState, "globalFilter" | "sorting">;
 
@@ -22,25 +24,37 @@ const onChangeNames = {
 	sorting: "onSortingChange",
 } as const satisfies Record<keyof State, keyof OnChanges>;
 
+type Props = {
+	[key in keyof State]?: {
+		encoder: (value: State[key]) => string | undefined;
+		decoder: (value: Query[string]) => State[key];
+	};
+};
+
 type Returns<TData extends RowData> = {
 	state: State;
 } & OnChanges<TData>;
 
-export const useTableSearchParams = <T extends RowData>(): Returns<T> => {
+export const useTableSearchParams = <T extends RowData>(
+	props: Props,
+): Returns<T> => {
 	const router = useRouter();
 
-	const state = useMemo(() => decode(router.query), [router.query]);
+	const state = useMemo(() => {
+		const entries = typedObjectKeys(decoders).map((key) => {
+			const decoder = props?.[key]?.decoder ?? decoders[key];
+			return [key, decoder(router.query[key])];
+		});
+		return Object.fromEntries(entries);
+	}, [router.query, props]);
 
-	const onChanges = useMemo(
-		() =>
-			Object.fromEntries(
-				typedObjectEntries(onChangeNames).map(([key, value]) => [
-					value,
-					onChangeGenerator(key, { router, state }),
-				]),
-			),
-		[router, state],
-	);
+	const onChanges = useMemo(() => {
+		const entries = typedObjectEntries(onChangeNames).map(([key, value]) => {
+			const encoder = props?.[key]?.encoder ?? encoders[key];
+			return [value, onChangeGenerator(key, { router, state, encoder })];
+		});
+		return Object.fromEntries(entries);
+	}, [router, state, props]);
 
 	return { state, ...onChanges };
 };
