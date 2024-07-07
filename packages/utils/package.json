@@ -1,0 +1,6 @@
+{
+  "name": "@tanstack-table-search-params/utils",
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  }
+}
