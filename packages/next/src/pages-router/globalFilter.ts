@@ -9,6 +9,6 @@ export const encodeGlobalFilter = (
 		: undefined;
 };
 
-export const decodeGlobalFilter = (globalFilter: Query[string]): string => {
-	return typeof globalFilter === "string" ? globalFilter : "";
+export const decodeGlobalFilter = (queryValue: Query[string]): string => {
+	return typeof queryValue === "string" ? queryValue : "";
 };

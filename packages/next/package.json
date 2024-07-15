@@ -1,5 +1,8 @@
 {
 	"name": "@tanstack-table-search-params/next",
+	"scripts": {
+		"test": "vitest"
+	},
 	"dependencies": {
 		"@tanstack-table-search-params/utils": "workspace:*",
 		"@tanstack/react-table": "^8.19.2",
@@ -10,6 +13,7 @@
 		"@types/node": "^20.14.10",
 		"@types/react": "^18.3.3",
 		"ts-invariant": "^0.10.3",
-		"typescript": "^5.5.3"
+		"typescript": "^5.5.3",
+		"vitest": "^2.0.2"
 	}
 }
