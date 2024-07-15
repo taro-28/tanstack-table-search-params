@@ -47,3 +47,23 @@ describe("decodeGlobalFilter", () => {
     expect(decodeGlobalFilter(queryValue)).toBe(want);
   });
 });
+
+describe("encode and decode globalFilter", () => {
+  test.each<{
+    name: string;
+    globalFilter: Parameters<typeof encodeGlobalFilter>[0];
+  }>([
+    {
+      name: "empty string",
+      globalFilter: "",
+    },
+    {
+      name: "non-empty string",
+      globalFilter: "foo",
+    },
+  ])("$name", ({ globalFilter }) => {
+    expect(decodeGlobalFilter(encodeGlobalFilter(globalFilter))).toBe(
+      globalFilter,
+    );
+  });
+});

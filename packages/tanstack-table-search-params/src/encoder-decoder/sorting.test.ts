@@ -70,3 +70,28 @@ describe("decodeSorting", () => {
     expect(decodeSorting(queryValue)).toEqual(want);
   });
 });
+
+describe("encode and decode sorting", () => {
+  test.each<{
+    name: string;
+    sorting: Parameters<typeof encodeSorting>[0];
+  }>([
+    {
+      name: "empty array",
+      sorting: [],
+    },
+    {
+      name: "non-empty array",
+      sorting: [{ id: "foo", desc: true }],
+    },
+    {
+      name: "multiple items",
+      sorting: [
+        { id: "foo", desc: true },
+        { id: "bar", desc: false },
+      ],
+    },
+  ])("$name", ({ sorting }) => {
+    expect(decodeSorting(encodeSorting(sorting))).toEqual(sorting);
+  });
+});
