@@ -16,6 +16,9 @@
       },
       "correctness": {
         "noNodejsModules": "off"
+      },
+      "complexity": {
+        "useLiteralKeys": "off"
       }
     }
   },

@@ -21,22 +21,24 @@
     "build": "tsup"
   },
   "devDependencies": {
+    "@tanstack-table-search-params/utils": "workspace:*",
+    "@tanstack/react-table": "^8.19.2",
+    "@testing-library/react": "^16.0.0",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
+    "@vitejs/plugin-react": "^4.3.1",
+    "jsdom": "^24.1.0",
+    "next-router-mock": "^0.9.13",
     "react": "^18.3.1",
-    "@tanstack/react-table": "^8.19.2",
     "tsup": "^8.1.0",
     "typescript": "^5.5.3",
-    "vitest": "^2.0.2",
-    "@tanstack-table-search-params/utils": "workspace:*"
+    "vitest": "^2.0.2"
   },
   "peerDependencies": {
-    "react": ">=16.8",
-    "@tanstack/react-table": ">=8"
+    "@tanstack/react-table": ">=8",
+    "react": ">=16.8"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "exports": {
     ".": {
       "require": "./dist/index",
