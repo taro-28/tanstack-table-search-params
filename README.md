@@ -22,7 +22,7 @@ const table = useReactTable({
 List of supported TanStack table states
 
 - [x] globalFilter
-- [ ] sorting
+- [x] sorting
 - [ ] columnFilters
 - [ ] columnOrder
 - [ ] columnPinning
