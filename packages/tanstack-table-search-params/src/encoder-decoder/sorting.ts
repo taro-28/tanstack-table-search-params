@@ -10,11 +10,11 @@ export const encodeSorting = (
     .join(",");
 };
 
-export const decodeSorting = (sorting: Query[string]): State["sorting"] => {
-  if (typeof sorting !== "string" || sorting === "") return [];
+export const decodeSorting = (queryValue: Query[string]): State["sorting"] => {
+  if (typeof queryValue !== "string" || queryValue === "") return [];
 
   try {
-    return sorting.split(",").map((sort) => {
+    return queryValue.split(",").map((sort) => {
       const [id, order] = sort.split(".");
       if (!id) throw new Error("Invalid sorting");
       if (order !== "asc" && order !== "desc") {
