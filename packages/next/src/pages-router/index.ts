@@ -36,7 +36,7 @@ type Returns<TData extends RowData> = {
 } & OnChanges<TData>;
 
 export const useTableSearchParams = <T extends RowData>(
-  props: Props,
+  props?: Props,
 ): Returns<T> => {
   const router = useRouter();
 
