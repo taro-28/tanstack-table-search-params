@@ -1,13 +1,14 @@
 {
-	"name": "tanstack-table-search-params",
-	"scripts": {
-		"next": "pnpm --filter './packages/next'",
-		"examples/next-pages-router": "pnpm --filter './examples/next-pages-router'"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.8.3"
-	},
-	"dependencies": {
-		"prettier": "^3.3.3"
-	}
+  "name": "tanstack-table-search-params",
+  "scripts": {
+    "next": "pnpm --filter './packages/next'",
+    "examples/next-pages-router": "pnpm --filter './examples/next-pages-router'",
+    "check-write": "biome check --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3"
+  },
+  "dependencies": {
+    "prettier": "^3.3.3"
+  }
 }

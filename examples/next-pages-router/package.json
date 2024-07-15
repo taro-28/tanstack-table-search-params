@@ -1,24 +1,24 @@
 {
-	"name": "@examples/next-pages-router",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev"
-	},
-	"dependencies": {
-		"@faker-js/faker": "^8.4.1",
-		"@tanstack-table-search-params/next": "workspace:*",
-		"@tanstack/react-table": "^8.19.2",
-		"next": "14.2.4",
-		"react": "^18",
-		"react-dom": "^18"
-	},
-	"devDependencies": {
-		"@types/node": "^20",
-		"@types/react": "^18",
-		"@types/react-dom": "^18",
-		"postcss": "^8",
-		"tailwindcss": "^3.4.1",
-		"typescript": "^5"
-	}
+  "name": "@examples/next-pages-router",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@tanstack-table-search-params/next": "workspace:*",
+    "@tanstack/react-table": "^8.19.2",
+    "next": "14.2.4",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
 }
