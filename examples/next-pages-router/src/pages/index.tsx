@@ -43,51 +43,67 @@ export default function Home() {
   });
 
   return (
-    <div>
-      <input
-        onChange={(e) => table.setGlobalFilter(String(e.target.value))}
-        value={table.getState().globalFilter ?? ""}
-      />
-      <table>
-        <thead>
-          <tr>
-            {table.getFlatHeaders().map((header) => (
-              <th key={header.id}>
-                <button
-                  type="button"
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext(),
-                  )}
-                  {(() => {
-                    switch (header.column.getIsSorted()) {
-                      case "asc":
-                        return " ⬆️";
-                      case "desc":
-                        return " ⬇️";
-                      default:
-                        return " ↕️";
-                    }
-                  })()}
-                </button>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+    <div className="flex">
+      <div>
+        <label>
+          Global Filter
+          <input
+            placeholder="Search..."
+            onChange={(e) => table.setGlobalFilter(String(e.target.value))}
+            value={table.getState().globalFilter ?? ""}
+          />
+        </label>
+        <table>
+          <thead>
+            <tr>
+              {table.getFlatHeaders().map((header) => (
+                <th key={header.id}>
+                  <button
+                    type="button"
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
+                    {(() => {
+                      switch (header.column.getIsSorted()) {
+                        case "asc":
+                          return " ⬆️";
+                        case "desc":
+                          return " ⬇️";
+                        default:
+                          return " ↕️";
+                      }
+                    })()}
+                  </button>
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <pre>
+        {JSON.stringify(
+          {
+            globalFilter: table.getState().globalFilter,
+            sorting: table.getState().sorting,
+          },
+          null,
+          2,
+        )}
+      </pre>
     </div>
   );
 }
