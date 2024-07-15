@@ -1,0 +1,50 @@
+{
+  "name": "tanstack-table-search-params",
+  "version": "0.0.1",
+  "description": "React Hook for syncing TanStack Table state with URL search params",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taro-28/tanstack-table-search-params",
+    "directory": "packages/tanstack-table-search-params"
+  },
+  "license": "MIT",
+  "author": "taro",
+  "keywords": [
+    "react",
+    "table",
+    "tanstack table",
+    "search params",
+    "query params"
+  ],
+  "scripts": {
+    "test": "vitest",
+    "build": "tsup"
+  },
+  "dependencies": {
+    "@tanstack-table-search-params/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "react": "^18.3.1",
+    "@tanstack/react-table": "^8.19.2",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8",
+    "@tanstack/react-table": ">=8"
+  },
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "require": "./dist/index",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts"
+}

@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-import { useTableSearchParams } from "@tanstack-table-search-params/core/src";
 import {
   createColumnHelper,
   flexRender,
@@ -10,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useTableSearchParams } from "tanstack-table-search-params";
 
 const createUser = () => ({
   id: faker.string.uuid(),
@@ -33,7 +33,7 @@ export default function Home() {
   ];
 
   const router = useRouter();
-  const stateAndOnChanges = useTableSearchParams({ router });
+  const stateAndOnChanges = useTableSearchParams(router);
 
   const table = useReactTable({
     data,

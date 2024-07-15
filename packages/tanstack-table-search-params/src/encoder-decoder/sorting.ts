@@ -1,4 +1,3 @@
-import invariant from "ts-invariant";
 import type { State } from "..";
 import type { Query } from "../types";
 
@@ -17,7 +16,10 @@ export const decodeSorting = (sorting: Query[string]): State["sorting"] => {
   try {
     return sorting.split(",").map((sort) => {
       const [id, order] = sort.split(".");
-      invariant(order === "asc" || order === "desc");
+      if (!id) throw new Error("Invalid sorting");
+      if (order !== "asc" && order !== "desc") {
+        throw new Error("Invalid sorting");
+      }
       return { id, desc: order === "desc" };
     });
   } catch {

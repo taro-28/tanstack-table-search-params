@@ -1,6 +1,9 @@
+import {
+  typedObjectEntries,
+  typedObjectKeys,
+} from "@tanstack-table-search-params/utils/object";
 import type { RowData, TableOptions, TableState } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { typedObjectEntries, typedObjectKeys } from "../../utils/object";
 import { decoders } from "./encoder-decoder/decoders";
 import { encoders } from "./encoder-decoder/encoders";
 import { onChangeGenerator } from "./onChangeGenerator";
@@ -23,9 +26,7 @@ const onChangeNames = {
   sorting: "onSortingChange",
 } as const satisfies Record<keyof State, keyof OnChanges>;
 
-type Props = {
-  router: Router;
-} & {
+type Options = {
   [key in keyof State]?: {
     encoder: (value: State[key]) => string | undefined;
     decoder: (value: Query[string]) => State[key];
@@ -37,24 +38,24 @@ type Returns<TData extends RowData> = {
 } & OnChanges<TData>;
 
 export const useTableSearchParams = <T extends RowData>(
-  props: Props,
+  router: Router,
+  options?: Options,
 ): Returns<T> => {
-  const router = props.router ?? ({} as Router);
   const state = useMemo(() => {
     const entries = typedObjectKeys(decoders).map((key) => {
-      const decoder = props?.[key]?.decoder ?? decoders[key];
+      const decoder = options?.[key]?.decoder ?? decoders[key];
       return [key, decoder(router.query[key])];
     });
     return Object.fromEntries(entries);
-  }, [router.query, props]);
+  }, [router.query, options]);
 
   const onChanges = useMemo(() => {
     const entries = typedObjectEntries(onChangeNames).map(([key, value]) => {
-      const encoder = props?.[key]?.encoder ?? encoders[key];
+      const encoder = options?.[key]?.encoder ?? encoders[key];
       return [value, onChangeGenerator(key, { router, state, encoder })];
     });
     return Object.fromEntries(entries);
-  }, [router, state, props]);
+  }, [router, state, options]);
 
   return { state, ...onChanges };
 };

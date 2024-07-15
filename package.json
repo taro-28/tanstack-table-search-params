@@ -1,7 +1,8 @@
 {
-  "name": "tanstack-table-search-params",
+  "name": "@tanstack-table-search-params/root",
   "scripts": {
-    "next": "pnpm --filter './packages/next'",
+    "core": "pnpm --filter './packages/tanstack-table-search-params'",
+    "build": "pnpm core build",
     "examples/next-pages-router": "pnpm --filter './examples/next-pages-router'",
     "check-write": "biome check --write ."
   },

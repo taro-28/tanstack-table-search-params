@@ -4,7 +4,7 @@
     "enabled": true
   },
   "files": {
-    "ignore": ["**/*/.next"]
+    "ignore": [".next", "dist"]
   },
   "linter": {
     "rules": {
