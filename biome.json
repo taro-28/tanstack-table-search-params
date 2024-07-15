@@ -13,6 +13,9 @@
         "useNamingConvention": "off",
         "useBlockStatements": "off",
         "noDefaultExport": "off"
+      },
+      "correctness": {
+        "noNodejsModules": "off"
       }
     }
   },

@@ -1,10 +1,10 @@
 import type { Updater } from "@tanstack/react-table";
-import type { useRouter } from "next/router";
 import { type State, paramNames } from ".";
+import type { Router } from "./types";
 
 type Props<K extends keyof State> = {
   state: State;
-  router: Pick<ReturnType<typeof useRouter>, "pathname" | "push" | "query">;
+  router: Router;
   encoder: (value: State[K]) => string | undefined;
 };
 

@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { useTableSearchParams } from "@tanstack-table-search-params/next/src/pages-router";
+import { useTableSearchParams } from "@tanstack-table-search-params/core/src";
 import {
   createColumnHelper,
   flexRender,
@@ -8,6 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const createUser = () => ({
@@ -31,7 +32,8 @@ export default function Home() {
     columnHelper.accessor("age", { header: "Age" }),
   ];
 
-  const stateAndOnChanges = useTableSearchParams();
+  const router = useRouter();
+  const stateAndOnChanges = useTableSearchParams({ router });
 
   const table = useReactTable({
     data,

@@ -1,11 +1,10 @@
 import type { RowData, TableOptions, TableState } from "@tanstack/react-table";
-import { useRouter } from "next/router";
 import { useMemo } from "react";
-import { typedObjectEntries, typedObjectKeys } from "../../../utils/object";
+import { typedObjectEntries, typedObjectKeys } from "../../utils/object";
 import { decoders } from "./decode";
 import { encoders } from "./encode";
 import { onChangeGenerator } from "./onChangeGenerator";
-import type { Query } from "./types";
+import type { Query, Router } from "./types";
 
 export type State = Pick<TableState, "globalFilter" | "sorting">;
 
@@ -25,6 +24,8 @@ const onChangeNames = {
 } as const satisfies Record<keyof State, keyof OnChanges>;
 
 type Props = {
+  router: Router;
+} & {
   [key in keyof State]?: {
     encoder: (value: State[key]) => string | undefined;
     decoder: (value: Query[string]) => State[key];
@@ -36,10 +37,9 @@ type Returns<TData extends RowData> = {
 } & OnChanges<TData>;
 
 export const useTableSearchParams = <T extends RowData>(
-  props?: Props,
+  props: Props,
 ): Returns<T> => {
-  const router = useRouter();
-
+  const router = props.router ?? ({} as Router);
   const state = useMemo(() => {
     const entries = typedObjectKeys(decoders).map((key) => {
       const decoder = props?.[key]?.decoder ?? decoders[key];
