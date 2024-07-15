@@ -4,10 +4,13 @@
     "core": "pnpm --filter './packages/tanstack-table-search-params'",
     "build": "pnpm core build",
     "examples/next-pages-router": "pnpm --filter './examples/next-pages-router'",
-    "check-write": "biome check --write ."
+    "check-write": "biome check --write .",
+    "prettier": "prettier --write .",
+    "knip": "knip"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3"
+    "@biomejs/biome": "1.8.3",
+    "knip": "^5.26.0"
   },
   "dependencies": {
     "prettier": "^3.3.3"
