@@ -1,4 +1,5 @@
-# TanStack Table Search Params 
+# TanStack Table Search Params
+
 React hook to sync TanStack Table state with URL search params.
 
 ## Usage
@@ -15,3 +16,21 @@ const table = useReactTable({
   // ... other options
 });
 ```
+
+## Supported
+
+List of supported TanStack table states
+
+- [x] globalFilter
+- [ ] sorting
+- [ ] columnFilters
+- [ ] columnOrder
+- [ ] columnPinning
+- [ ] columnSizing
+- [ ] columnSizingInfo
+- [ ] columnVisibility
+- [ ] expanded
+- [ ] grouping
+- [ ] pagination
+- [ ] rowPinning
+- [ ] rowSelection
