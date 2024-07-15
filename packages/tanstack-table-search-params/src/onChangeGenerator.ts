@@ -1,25 +1,34 @@
 import type { Updater } from "@tanstack/react-table";
-import { type State, paramNames } from ".";
+import type { State } from ".";
 import type { Router } from "./types";
+import type { Encoder } from "./encoder-decoder/encoders";
 
-type Props<K extends keyof State> = {
-  state: State;
+type Props<KEY extends keyof State> = {
+  paramName: string;
+  stateValue: State[KEY];
   router: Router;
-  encoder: (value: State[K]) => string | undefined;
+  encoder: Encoder<KEY>;
 };
 
 export const onChangeGenerator =
-  (key: keyof State, { router, state, encoder }: Props<typeof key>) =>
-  (updaterOrValue: Readonly<Updater<State[typeof key]>>) => {
-    const next = encoder(
-      typeof updaterOrValue === "function"
-        ? updaterOrValue(state[key])
-        : updaterOrValue,
-    );
+  <KEY extends keyof State>({
+    paramName,
+    router,
+    stateValue,
+    encoder,
+  }: Props<KEY>) =>
+  (updaterOrValue: Readonly<Updater<State[KEY]>>) => {
+    const nextQuery = encoder({
+      stateValue:
+        typeof updaterOrValue === "function"
+          ? updaterOrValue(stateValue)
+          : updaterOrValue,
+      paramName,
+    });
 
-    const { [paramNames[key]]: _, ...excludedQuery } = router.query;
+    const { [paramName]: _, ...excludedQuery } = router.query;
     router.push({
       pathname: router.pathname,
-      query: next ? { ...router.query, [key]: next } : excludedQuery,
+      query: { ...excludedQuery, ...nextQuery },
     });
   };

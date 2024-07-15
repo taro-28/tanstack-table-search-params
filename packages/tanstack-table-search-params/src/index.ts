@@ -4,15 +4,15 @@ import {
 } from "@tanstack-table-search-params/utils/object";
 import type { RowData, TableOptions, TableState } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { decoders } from "./encoder-decoder/decoders";
-import { encoders } from "./encoder-decoder/encoders";
+import { decoders, type Decoder } from "./encoder-decoder/decoders";
+import { encoders, type Encoder } from "./encoder-decoder/encoders";
 import { onChangeGenerator } from "./onChangeGenerator";
-import type { Query, Router } from "./types";
+import type { Router } from "./types";
 
 export type State = Pick<TableState, "globalFilter" | "sorting">;
 
-export type OnChanges<TData extends RowData = unknown> = Pick<
-  TableOptions<TData>,
+export type OnChanges<T_DATA extends RowData = unknown> = Pick<
+  TableOptions<T_DATA>,
   "onGlobalFilterChange" | "onSortingChange"
 >;
 
@@ -27,24 +27,24 @@ const onChangeNames = {
 } as const satisfies Record<keyof State, keyof OnChanges>;
 
 type Options = {
-  [key in keyof State]?: {
-    encoder: (value: State[key]) => string | undefined;
-    decoder: (value: Query[string]) => State[key];
+  [KEY in keyof State]?: {
+    encoder: Encoder<KEY>;
+    decoder: Decoder<KEY>;
   };
 };
 
-type Returns<TData extends RowData> = {
+type Returns<T_DATA extends RowData> = {
   state: State;
-} & OnChanges<TData>;
+} & OnChanges<T_DATA>;
 
-export const useTableSearchParams = <T extends RowData>(
+export const useTableSearchParams = <T_DATA extends RowData>(
   router: Router,
   options?: Options,
-): Returns<T> => {
+): Returns<T_DATA> => {
   const state = useMemo(() => {
     const entries = typedObjectKeys(decoders).map((key) => {
       const decoder = options?.[key]?.decoder ?? decoders[key];
-      return [key, decoder(router.query[key])];
+      return [key, decoder({ query: router.query, paramName: key })];
     });
     return Object.fromEntries(entries);
   }, [router.query, options]);
@@ -52,7 +52,15 @@ export const useTableSearchParams = <T extends RowData>(
   const onChanges = useMemo(() => {
     const entries = typedObjectEntries(onChangeNames).map(([key, value]) => {
       const encoder = options?.[key]?.encoder ?? encoders[key];
-      return [value, onChangeGenerator(key, { router, state, encoder })];
+      return [
+        value,
+        onChangeGenerator({
+          paramName: key,
+          router,
+          stateValue: state[key],
+          encoder,
+        }),
+      ];
     });
     return Object.fromEntries(entries);
   }, [router, state, options]);

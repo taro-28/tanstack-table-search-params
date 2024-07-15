@@ -2,96 +2,116 @@ import { describe, expect, test } from "vitest";
 import { decodeSorting, encodeSorting } from "./sorting";
 
 describe("encodeSorting", () => {
-  test.each<{
-    name: string;
-    sorting: Parameters<typeof encodeSorting>[0];
-    want: ReturnType<typeof encodeSorting>;
-  }>([
+  test.each<
+    {
+      name: string;
+      want: ReturnType<typeof encodeSorting>;
+    } & Parameters<typeof encodeSorting>[0]
+  >([
     {
       name: "empty array",
-      sorting: [],
-      want: undefined,
+      stateValue: [],
+      paramName: "sorting",
+      want: {},
     },
     {
       name: "non-empty array",
-      sorting: [{ id: "foo", desc: true }],
-      want: "foo.desc",
+      stateValue: [{ id: "foo", desc: true }],
+      paramName: "sorting",
+      want: { sorting: "foo.desc" },
     },
     {
       name: "multiple items",
-      sorting: [
+      stateValue: [
         { id: "foo", desc: true },
         { id: "bar", desc: false },
       ],
-      want: "foo.desc,bar.asc",
+      paramName: "sorting",
+      want: { sorting: "foo.desc,bar.asc" },
     },
-  ])("$name", ({ sorting, want }) => {
-    expect(encodeSorting(sorting)).toBe(want);
+  ])("$name", ({ stateValue, paramName, want }) => {
+    expect(encodeSorting({ stateValue, paramName })).toEqual(want);
   });
 });
 
 describe("decodeSorting", () => {
-  test.each<{
-    name: string;
-    queryValue: Parameters<typeof decodeSorting>[0];
-    want: ReturnType<typeof decodeSorting>;
-  }>([
+  test.each<
+    {
+      name: string;
+      want: ReturnType<typeof decodeSorting>;
+    } & Parameters<typeof decodeSorting>[0]
+  >([
     {
       name: "string",
-      queryValue: "foo.desc",
+      query: { sorting: "foo.desc" },
+      paramName: "sorting",
       want: [{ id: "foo", desc: true }],
     },
     {
       name: "string array",
-      queryValue: ["foo.desc"],
+      query: { sorting: ["foo.desc"] },
+      paramName: "sorting",
       want: [],
     },
     {
       name: "undefined",
-      queryValue: undefined,
+      query: {},
+      paramName: "sorting",
       want: [],
     },
     {
       name: "empty string",
-      queryValue: "",
+      query: { sorting: "" },
+      paramName: "sorting",
       want: [],
     },
     {
       name: "invalid string",
-      queryValue: "foo",
+      query: { sorting: "foo" },
+      paramName: "sorting",
       want: [],
     },
     {
       name: "invalid order",
-      queryValue: "foo.bar",
+      query: { sorting: "foo.bar" },
+      paramName: "sorting",
       want: [],
     },
-  ])("$name", ({ queryValue, want }) => {
-    expect(decodeSorting(queryValue)).toEqual(want);
+  ])("$name", ({ query, paramName, want }) => {
+    expect(decodeSorting({ query, paramName })).toEqual(want);
   });
 });
 
 describe("encode and decode sorting", () => {
-  test.each<{
-    name: string;
-    sorting: Parameters<typeof encodeSorting>[0];
-  }>([
+  test.each<
+    {
+      name: string;
+    } & Parameters<typeof encodeSorting>[0]
+  >([
     {
       name: "empty array",
-      sorting: [],
+      stateValue: [],
+      paramName: "sorting",
     },
     {
       name: "non-empty array",
-      sorting: [{ id: "foo", desc: true }],
+      stateValue: [{ id: "foo", desc: true }],
+      paramName: "sorting",
     },
     {
       name: "multiple items",
-      sorting: [
+      stateValue: [
         { id: "foo", desc: true },
         { id: "bar", desc: false },
       ],
+      paramName: "sorting",
     },
-  ])("$name", ({ sorting }) => {
-    expect(decodeSorting(encodeSorting(sorting))).toEqual(sorting);
+  ])("$name", ({ stateValue, paramName }) => {
+    expect(
+      decodeSorting({
+        query: encodeSorting({ stateValue, paramName }),
+        paramName,
+      }),
+    ).toEqual(stateValue);
   });
 });
