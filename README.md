@@ -24,7 +24,7 @@ import { useTableSearchParams } from "tanstack-table-search-params";
 
 // 1. Pass router and get the state and onChanges from the hook
 const router = useRouter();
-const stateAndOnChanges = useTableSearchParams({ router });
+const stateAndOnChanges = useTableSearchParams(router);
 
 const table = useReactTable({
   // 2. Pass the state and onChanges to the table
