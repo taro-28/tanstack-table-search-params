@@ -57,11 +57,10 @@ importers:
         version: 5.5.3
 
   packages/tanstack-table-search-params:
-    dependencies:
+    devDependencies:
       '@tanstack-table-search-params/utils':
         specifier: workspace:*
         version: link:../utils
-    devDependencies:
       '@tanstack/react-table':
         specifier: ^8.19.2
         version: 8.19.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
