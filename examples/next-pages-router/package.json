@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
-    "tanstack-table-search-params": "workspace:*",
+    "tanstack-table-search-params": "^0.0.2",
     "@tanstack/react-table": "^8.19.2",
     "next": "14.2.4",
     "react": "^18",
