@@ -1,5 +1,5 @@
-import type { State } from ".";
-import type { Query } from "./types";
+import type { State } from "..";
+import type { Query } from "../types";
 
 export const encodeGlobalFilter = (
   globalFilter: State["globalFilter"],

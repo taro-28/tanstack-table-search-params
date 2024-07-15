@@ -1,8 +1,8 @@
 import { decodeGlobalFilter } from "./globalFilter";
 
-import type { State } from ".";
+import type { State } from "..";
 import { decodeSorting } from "./sorting";
-import type { Query } from "./types";
+import type { Query } from "../types";
 
 type Decoder = (value: Query[string]) => State[keyof State];
 

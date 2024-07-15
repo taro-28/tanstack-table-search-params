@@ -1,8 +1,8 @@
 import type { RowData, TableOptions, TableState } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { typedObjectEntries, typedObjectKeys } from "../../utils/object";
-import { decoders } from "./decode";
-import { encoders } from "./encode";
+import { decoders } from "./encoder-decoder/decoders";
+import { encoders } from "./encoder-decoder/encoders";
 import { onChangeGenerator } from "./onChangeGenerator";
 import type { Query, Router } from "./types";
 

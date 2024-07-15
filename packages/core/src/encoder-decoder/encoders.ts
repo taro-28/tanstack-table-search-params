@@ -1,4 +1,4 @@
-import type { State } from ".";
+import type { State } from "..";
 import { encodeGlobalFilter } from "./globalFilter";
 import { encodeSorting } from "./sorting";
 

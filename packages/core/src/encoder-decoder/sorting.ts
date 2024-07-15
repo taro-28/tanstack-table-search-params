@@ -1,6 +1,6 @@
 import invariant from "ts-invariant";
-import type { State } from ".";
-import type { Query } from "./types";
+import type { State } from "..";
+import type { Query } from "../types";
 
 export const encodeSorting = (
   sorting: State["sorting"],
