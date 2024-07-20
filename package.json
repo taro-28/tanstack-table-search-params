@@ -6,7 +6,8 @@
   "packageManager": "pnpm@9.5.0",
   "scripts": {
     "tanstack-table-search-params": "pnpm --filter './packages/tanstack-table-search-params'",
-    "build": "pnpm core build",
+    "test": "pnpm tanstack-table-search-params test",
+    "build": "pnpm tanstack-table-search-params build",
     "examples/next-pages-router": "pnpm --filter './examples/next-pages-router'",
     "check-write": "biome check --write .",
     "prettier": "prettier --write .",
