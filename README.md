@@ -46,7 +46,7 @@ List of supported TanStack table states
 - [x] globalFilter
 - [x] sorting
 - [x] pagination
-- [ ] columnFilters
+- [x] columnFilters
 - [ ] columnOrder
 - [ ] columnPinning
 - [ ] columnSizing

@@ -32,6 +32,9 @@ const table = useReactTable({
   data,
   columns,
   getCoreRowModel: getCoreRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
   // ... other options
 });
 ```
@@ -42,7 +45,8 @@ List of supported TanStack table states
 
 - [x] globalFilter
 - [x] sorting
-- [ ] columnFilters
+- [x] pagination
+- [x] columnFilters
 - [ ] columnOrder
 - [ ] columnPinning
 - [ ] columnSizing
@@ -50,9 +54,15 @@ List of supported TanStack table states
 - [ ] columnVisibility
 - [ ] expanded
 - [ ] grouping
-- [ ] pagination
 - [ ] rowPinning
 - [ ] rowSelection
+
+## TODO
+
+- [ ] customize query param name
+- [ ] customize encoder/decoder
+- [ ] initial state
+- [ ] disable specific state
 
 # License
 
