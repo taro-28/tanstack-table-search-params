@@ -51,7 +51,7 @@ export default function Home() {
         <label>
           Global Filter
           <input
-            className="ml-2"
+            className="ml-2 border"
             placeholder="Search..."
             onChange={(e) => table.setGlobalFilter(String(e.target.value))}
             value={table.getState().globalFilter ?? ""}
@@ -81,6 +81,58 @@ export default function Home() {
                       }
                     })()}
                   </button>
+                  <div>
+                    {header.column.id === "age" ? (
+                      <div className="flex space-x-2">
+                        <input
+                          type="number"
+                          value={
+                            (
+                              header.column.getFilterValue() as [number, number]
+                            )?.[0] ?? ""
+                          }
+                          onChange={(e) =>
+                            header.column.setFilterValue(
+                              (old: [number, number]) => [
+                                e.target.value,
+                                old?.[1],
+                              ],
+                            )
+                          }
+                          placeholder="Min"
+                          className="border w-24"
+                        />
+                        <input
+                          type="number"
+                          value={
+                            (
+                              header.column.getFilterValue() as [number, number]
+                            )?.[1] ?? ""
+                          }
+                          onChange={(e) =>
+                            header.column.setFilterValue(
+                              (old: [number, number]) => [
+                                old?.[0],
+                                e.target.value,
+                              ],
+                            )
+                          }
+                          placeholder="Max"
+                          className="border w-24"
+                        />
+                      </div>
+                    ) : (
+                      <input
+                        className="border"
+                        onChange={(e) =>
+                          header.column.setFilterValue(e.target.value)
+                        }
+                        placeholder="Search..."
+                        type="text"
+                        value={(header.column.getFilterValue() ?? "") as string}
+                      />
+                    )}
+                  </div>
                 </th>
               ))}
             </tr>
@@ -173,6 +225,7 @@ export default function Home() {
             globalFilter: table.getState().globalFilter,
             sorting: table.getState().sorting,
             pagination: table.getState().pagination,
+            columnFilters: table.getState().columnFilters,
           },
           null,
           2,
