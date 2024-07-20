@@ -1,9 +1,9 @@
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { describe, expect, test } from "vitest";
 import { useTableSearchParams } from "..";
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { renderHook } from "@testing-library/react";
 
 describe("sorting", () => {
   test("single column", () => {
