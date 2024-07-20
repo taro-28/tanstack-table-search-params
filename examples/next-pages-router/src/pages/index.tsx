@@ -46,11 +46,12 @@ export default function Home() {
   });
 
   return (
-    <div className="flex">
+    <div className="flex m-6">
       <div>
         <label>
           Global Filter
           <input
+            className="ml-2"
             placeholder="Search..."
             onChange={(e) => table.setGlobalFilter(String(e.target.value))}
             value={table.getState().globalFilter ?? ""}
