@@ -54,10 +54,7 @@ export const useTableSearchParams = <T_DATA extends RowData>(
   router: Router,
 ): Returns<T_DATA> => {
   const globalFilterQueryValue = router.query[PARAM_NAMES.GLOBAL_FILTER];
-  const globalFilter = useMemo(
-    () => decodeGlobalFilter(globalFilterQueryValue),
-    [globalFilterQueryValue],
-  );
+  const globalFilter = decodeGlobalFilter(globalFilterQueryValue);
 
   const sortingQueryValue = router.query[PARAM_NAMES.SORTING];
   const sorting = useMemo(
