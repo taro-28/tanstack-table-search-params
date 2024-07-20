@@ -37,8 +37,8 @@ importers:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
       tanstack-table-search-params:
-        specifier: workspace:*
-        version: link:../../packages/tanstack-table-search-params
+        specifier: ^0.0.3
+        version: 0.0.3(@tanstack/react-table@8.19.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -1594,6 +1594,12 @@ packages:
     resolution: {integrity: sha512-ZoyXOdJjISB7/BcLTR6SEsLgKtDStYyYZVLsUtWChO4Ps20CBad7lfJKVDiejocV4ME1hLmyY0WJE3hSDcmQ2A==}
     engines: {node: '>=14.0.0'}
     hasBin: true
+
+  tanstack-table-search-params@0.0.3:
+    resolution: {integrity: sha512-BtG+fsca0PY9gM9lMGujZZikZyQQTzBAKAXfFIys6K3LtpKGvLR8OZBsftC8/3uFWiSX9QzPHD/39yk0D5n9Qg==}
+    peerDependencies:
+      '@tanstack/react-table': '>=8'
+      react: '>=16.8'
 
   thenify-all@1.6.0:
     resolution: {integrity: sha512-RNxQH/qI8/t3thXJDwcstUO4zeqo64+Uy/+sNVRBx4Xn2OX+OZ9oP+iJnNFqplFra2ZUVeKCSa2oVWi3T4uVmA==}
@@ -3224,6 +3230,11 @@ snapshots:
       sucrase: 3.35.0
     transitivePeerDependencies:
       - ts-node
+
+  tanstack-table-search-params@0.0.3(@tanstack/react-table@8.19.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@tanstack/react-table': 8.19.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
 
   thenify-all@1.6.0:
     dependencies:
