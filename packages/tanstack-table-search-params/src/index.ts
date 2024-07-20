@@ -1,20 +1,20 @@
 import {
-  functionalUpdate,
   type RowData,
   type TableOptions,
   type TableState,
+  functionalUpdate,
 } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
-import type { Router } from "./types";
 import {
   decodeGlobalFilter,
   encodeGlobalFilter,
 } from "./encoder-decoder/globalFilter";
-import { decodeSorting, encodeSorting } from "./encoder-decoder/sorting";
 import {
   decodePagination,
   encodePagination,
 } from "./encoder-decoder/pagination";
+import { decodeSorting, encodeSorting } from "./encoder-decoder/sorting";
+import type { Router } from "./types";
 
 export type State = Pick<TableState, "globalFilter" | "sorting" | "pagination">;
 
