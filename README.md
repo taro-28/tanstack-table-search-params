@@ -57,6 +57,13 @@ List of supported TanStack table states
 - [ ] rowPinning
 - [ ] rowSelection
 
+## TODO
+
+- [ ] customize query param name
+- [ ] customize encoder/decoder
+- [ ] initial state
+- [ ] disable specific state
+
 # License
 
 MIT
