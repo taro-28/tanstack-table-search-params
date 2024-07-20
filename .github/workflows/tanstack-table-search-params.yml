@@ -1,0 +1,44 @@
+name: tanstack-table-search-params
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "packages/tanstack-table-search-params/**"
+      - "packages/utils/**"
+      - ".github/workflows/tanstack-table-search-params.yml"
+      - "*"
+      - ".*"
+jobs:
+  type-check:
+    name: Type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          cache: "pnpm"
+      - run: pnpm i
+      - run: pnpm tanstack-table-search-params type-check
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - run: biome ci packages/tanstack-table-search-params
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: type-check
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          cache: "pnpm"
+      - run: pnpm i
+      - run: pnpm tanstack-table-search-params test

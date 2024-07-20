@@ -18,7 +18,8 @@
   ],
   "scripts": {
     "test": "vitest",
-    "build": "tsup"
+    "build": "tsup",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@tanstack-table-search-params/utils": "workspace:*",
@@ -38,9 +39,7 @@
     "@tanstack/react-table": ">=8",
     "react": ">=16.8"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "exports": {
     ".": {
       "require": "./dist/index",
