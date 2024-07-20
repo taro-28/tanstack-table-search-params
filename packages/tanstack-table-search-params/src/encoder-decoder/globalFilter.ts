@@ -1,21 +1,12 @@
-import type { Decoder } from "./decoders";
-import type { Encoder } from "./encoders";
+import type { State } from "..";
+import type { Query } from "../types";
 
-export const encodeGlobalFilter: Encoder<"globalFilter"> = ({
-  stateValue,
-  paramName,
-}) => {
-  const queryValue =
-    typeof stateValue === "string" && stateValue !== ""
-      ? stateValue
-      : undefined;
-  return queryValue === undefined ? {} : { [paramName]: queryValue };
-};
+export const encodeGlobalFilter = (
+  globalFilter: State["globalFilter"],
+): Query[string] =>
+  typeof globalFilter === "string" && globalFilter !== ""
+    ? globalFilter
+    : undefined;
 
-export const decodeGlobalFilter: Decoder<"globalFilter"> = ({
-  query,
-  paramName,
-}) => {
-  const queryValue = query[paramName];
-  return typeof queryValue === "string" ? queryValue : "";
-};
+export const decodeGlobalFilter = (queryValue: Query[string]) =>
+  typeof queryValue === "string" ? queryValue : "";

@@ -20,6 +20,7 @@ describe("sorting", () => {
       });
     });
 
+    // initial state
     expect(result.current.getState().sorting).toEqual([]);
     expect(mockRouter.query).toEqual({});
 
@@ -30,7 +31,6 @@ describe("sorting", () => {
       ),
     );
     rerender();
-
     expect(result.current.getState().sorting).toEqual([
       { id: "id", desc: true },
     ]);
@@ -43,20 +43,18 @@ describe("sorting", () => {
       ),
     );
     rerender();
-
     expect(result.current.getState().sorting).toEqual([
       { id: "id", desc: false },
     ]);
     expect(mockRouter.query).toEqual({ sorting: "id.asc" });
 
-    // sorted by another column
+    // sort by another column
     act(() =>
       result.current.getFlatHeaders()[1]?.column.getToggleSortingHandler()?.(
         {},
       ),
     );
     rerender();
-
     expect(result.current.getState().sorting).toEqual([
       { id: "name", desc: false },
     ]);
@@ -75,7 +73,6 @@ describe("sorting", () => {
       );
     });
     rerender();
-
     expect(result.current.getState().sorting).toEqual([]);
     expect(mockRouter.query).toEqual({});
   });
@@ -94,9 +91,11 @@ describe("sorting", () => {
       });
     });
 
+    // initial state
     expect(result.current.getState().sorting).toEqual([]);
     expect(mockRouter.query).toEqual({});
 
+    // sort by first column and another column
     act(() =>
       result.current.getFlatHeaders()[0]?.column.getToggleSortingHandler()?.(
         {},
@@ -109,33 +108,32 @@ describe("sorting", () => {
       }),
     );
     rerender();
-
     expect(result.current.getState().sorting).toEqual([
       { id: "id", desc: true },
       { id: "name", desc: false },
     ]);
     expect(mockRouter.query).toEqual({ sorting: "id.desc,name.asc" });
 
+    // sort by first column again
     act(() =>
       result.current.getFlatHeaders()[0]?.column.getToggleSortingHandler()?.({
         shiftKey: true,
       }),
     );
     rerender();
-
     expect(result.current.getState().sorting).toEqual([
       { id: "id", desc: false },
       { id: "name", desc: false },
     ]);
     expect(mockRouter.query).toEqual({ sorting: "id.asc,name.asc" });
 
+    // sort by another column again
     act(() =>
       result.current.getFlatHeaders()[0]?.column.getToggleSortingHandler()?.(
         {},
       ),
     );
     rerender();
-
     expect(result.current.getState().sorting).toEqual([
       { id: "id", desc: false },
     ]);

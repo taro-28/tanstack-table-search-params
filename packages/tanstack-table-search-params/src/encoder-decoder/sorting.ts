@@ -1,20 +1,12 @@
-import type { Decoder } from "./decoders";
-import type { Encoder } from "./encoders";
+import type { State } from "..";
+import type { Query } from "../types";
 
-export const encodeSorting: Encoder<"sorting"> = ({
-  stateValue,
-  paramName,
-}) => {
-  if (stateValue.length === 0) return {};
-  return {
-    [paramName]: stateValue
-      .map(({ id, desc }) => `${id}.${desc ? "desc" : "asc"}`)
-      .join(","),
-  };
-};
+export const encodeSorting = (sorting: State["sorting"]): Query[string] =>
+  sorting.length === 0
+    ? undefined
+    : sorting.map(({ id, desc }) => `${id}.${desc ? "desc" : "asc"}`).join(",");
 
-export const decodeSorting: Decoder<"sorting"> = ({ query, paramName }) => {
-  const queryValue = query[paramName];
+export const decodeSorting = (queryValue: Query[string]) => {
   if (typeof queryValue !== "string" || queryValue === "") return [];
 
   try {

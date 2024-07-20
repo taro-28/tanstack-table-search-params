@@ -1,69 +1,145 @@
 import {
-  typedObjectEntries,
-  typedObjectKeys,
-} from "@tanstack-table-search-params/utils/object";
-import type { RowData, TableOptions, TableState } from "@tanstack/react-table";
-import { useMemo } from "react";
-import { decoders, type Decoder } from "./encoder-decoder/decoders";
-import { encoders, type Encoder } from "./encoder-decoder/encoders";
-import { onChangeGenerator } from "./onChangeGenerator";
+  functionalUpdate,
+  type RowData,
+  type TableOptions,
+  type TableState,
+} from "@tanstack/react-table";
+import { useCallback, useMemo } from "react";
 import type { Router } from "./types";
+import {
+  decodeGlobalFilter,
+  encodeGlobalFilter,
+} from "./encoder-decoder/globalFilter";
+import { decodeSorting, encodeSorting } from "./encoder-decoder/sorting";
+import {
+  decodePagination,
+  encodePagination,
+} from "./encoder-decoder/pagination";
 
-export type State = Pick<TableState, "globalFilter" | "sorting">;
+export type State = Pick<TableState, "globalFilter" | "sorting" | "pagination">;
 
-export type OnChanges<T_DATA extends RowData = unknown> = Pick<
-  TableOptions<T_DATA>,
-  "onGlobalFilterChange" | "onSortingChange"
->;
-
-export const paramNames = {
-  globalFilter: "globalFilter",
-  sorting: "sorting",
-} as const satisfies Record<keyof State, keyof State>;
-
-const onChangeNames = {
-  globalFilter: "onGlobalFilterChange",
-  sorting: "onSortingChange",
-} as const satisfies Record<keyof State, keyof OnChanges>;
-
-type Options = {
-  [KEY in keyof State]?: {
-    encoder: Encoder<KEY>;
-    decoder: Decoder<KEY>;
-  };
-};
+const PARAM_NAMES = {
+  GLOBAL_FILTER: "globalFilter",
+  SORTING: "sorting",
+  PAGE_INDEX: "pageIndex",
+  PAGE_SIZE: "pageSize",
+} as const;
 
 type Returns<T_DATA extends RowData> = {
   state: State;
-} & OnChanges<T_DATA>;
+  onGlobalFilterChange: Exclude<
+    TableOptions<T_DATA>["onGlobalFilterChange"],
+    undefined
+  >;
+  onSortingChange: Exclude<TableOptions<T_DATA>["onSortingChange"], undefined>;
+  onPaginationChange: Exclude<
+    TableOptions<T_DATA>["onPaginationChange"],
+    undefined
+  >;
+};
 
 export const useTableSearchParams = <T_DATA extends RowData>(
   router: Router,
-  options?: Options,
 ): Returns<T_DATA> => {
-  const state = useMemo(() => {
-    const entries = typedObjectKeys(decoders).map((key) => {
-      const decoder = options?.[key]?.decoder ?? decoders[key];
-      return [key, decoder({ query: router.query, paramName: key })];
-    });
-    return Object.fromEntries(entries);
-  }, [router.query, options]);
+  const globalFilterQueryValue = router.query[PARAM_NAMES.GLOBAL_FILTER];
+  const globalFilter = useMemo(
+    () => decodeGlobalFilter(globalFilterQueryValue),
+    [globalFilterQueryValue],
+  );
 
-  const onChanges = useMemo(() => {
-    const entries = typedObjectEntries(onChangeNames).map(([key, value]) => {
-      const encoder = options?.[key]?.encoder ?? encoders[key];
-      return [
-        value,
-        onChangeGenerator({
-          paramName: key,
-          router,
-          stateValue: state[key],
-          encoder,
-        }),
-      ];
-    });
-    return Object.fromEntries(entries);
-  }, [router, state, options]);
+  const sortingQueryValue = router.query[PARAM_NAMES.SORTING];
+  const sorting = useMemo(
+    () => decodeSorting(sortingQueryValue),
+    [sortingQueryValue],
+  );
 
-  return { state, ...onChanges };
+  const pageIndexQueryValue = router.query[PARAM_NAMES.PAGE_INDEX];
+  const pageSizeQueryValue = router.query[PARAM_NAMES.PAGE_SIZE];
+  const pagination = useMemo(
+    () =>
+      decodePagination({
+        pageIndex: pageIndexQueryValue,
+        pageSize: pageSizeQueryValue,
+      }),
+    [pageIndexQueryValue, pageSizeQueryValue],
+  );
+
+  const state = useMemo(
+    () => ({ sorting, pagination, globalFilter }),
+    [sorting, pagination, globalFilter],
+  );
+
+  return {
+    state,
+    onGlobalFilterChange: useCallback(
+      async (updater) => {
+        const newGlobalFilter = functionalUpdate(updater, globalFilter);
+        if (newGlobalFilter === globalFilter) {
+          return;
+        }
+
+        const newQueryValue = encodeGlobalFilter(newGlobalFilter);
+
+        const { [PARAM_NAMES.GLOBAL_FILTER]: _, ...excludedQuery } =
+          router.query;
+
+        await router.push({
+          pathname: router.pathname,
+          query:
+            newQueryValue === undefined
+              ? excludedQuery
+              : {
+                  ...excludedQuery,
+                  [PARAM_NAMES.GLOBAL_FILTER]: newQueryValue,
+                },
+        });
+      },
+      [router, globalFilter],
+    ),
+    onSortingChange: useCallback(
+      async (updater) => {
+        const newState = functionalUpdate(updater, sorting);
+        const newQueryValue = encodeSorting(newState);
+
+        const { [PARAM_NAMES.SORTING]: _, ...excludedQuery } = router.query;
+        await router.push({
+          pathname: router.pathname,
+          query:
+            newQueryValue === undefined
+              ? excludedQuery
+              : { ...excludedQuery, [PARAM_NAMES.SORTING]: newQueryValue },
+        });
+      },
+      [router, sorting],
+    ),
+    onPaginationChange: useCallback(
+      async (updater) => {
+        const newPagination = functionalUpdate(updater, pagination);
+        if (
+          newPagination.pageIndex === pagination.pageIndex &&
+          newPagination.pageSize === pagination.pageSize
+        ) {
+          return;
+        }
+
+        const newQueryValues = encodePagination(newPagination);
+
+        const {
+          [PARAM_NAMES.PAGE_INDEX]: _,
+          [PARAM_NAMES.PAGE_SIZE]: __,
+          ...query
+        } = router.query;
+
+        if (newQueryValues.pageIndex) {
+          query[PARAM_NAMES.PAGE_INDEX] = newQueryValues.pageIndex;
+        }
+        if (newQueryValues.pageSize) {
+          query[PARAM_NAMES.PAGE_SIZE] = newQueryValues.pageSize;
+        }
+
+        await router.push({ pathname: router.pathname, query: query });
+      },
+      [router, pagination],
+    ),
+  };
 };

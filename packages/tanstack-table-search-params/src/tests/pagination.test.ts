@@ -4,8 +4,9 @@ import { expect, test } from "vitest";
 import { useTableSearchParams } from "..";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { renderHook } from "@testing-library/react";
+import { defaultPagination } from "../encoder-decoder/pagination";
 
-test("globalFilter", () => {
+test("pagination", () => {
   const { result, rerender } = renderHook(() => {
     const stateAndOnChanges = useTableSearchParams(mockRouter);
     return useReactTable({
@@ -17,18 +18,22 @@ test("globalFilter", () => {
   });
 
   // initial state
-  expect(result.current.getState().globalFilter).toBe("");
+  expect(result.current.getState().pagination).toEqual(defaultPagination);
   expect(mockRouter.query).toEqual({});
 
-  // set
-  act(() => result.current.setGlobalFilter("John"));
+  // set pageIndex
+  act(() => result.current.nextPage());
   rerender();
-  expect(result.current.getState().globalFilter).toBe("John");
-  expect(mockRouter.query).toEqual({ globalFilter: "John" });
+  expect(result.current.getState().pagination).toEqual({
+    pageIndex: 1,
+    pageSize: 10,
+  });
 
-  // reset
-  act(() => result.current.setGlobalFilter(""));
+  // set pageSize
+  act(() => result.current.setPageSize(20));
   rerender();
-  expect(result.current.getState().globalFilter).toBe("");
-  expect(mockRouter.query).toEqual({});
+  expect(result.current.getState().pagination).toEqual({
+    pageIndex: 0,
+    pageSize: 20,
+  });
 });
