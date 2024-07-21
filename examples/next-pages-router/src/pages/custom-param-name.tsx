@@ -10,11 +10,27 @@ import {
 import { useRouter } from "next/router";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
-export default function Basic() {
+export default function CustomParamNames() {
   const data = useUserData();
 
   const router = useRouter();
-  const stateAndOnChanges = useTableSearchParams(router);
+  const stateAndOnChanges = useTableSearchParams(router, {
+    globalFilter: {
+      paramName: "userTable-globalFilter",
+    },
+    sorting: {
+      paramName: (defaultParamName) => `userTable-${defaultParamName}`,
+    },
+    pagination: {
+      paramName: {
+        pageIndex: "userTable-pageIndex",
+        pageSize: "userTable-pageSize",
+      },
+    },
+    columnFilters: {
+      paramName: (defaultParamName) => `userTable-${defaultParamName}`,
+    },
+  });
 
   const table = useReactTable({
     data,
@@ -28,7 +44,7 @@ export default function Basic() {
 
   return (
     <div className="space-y-2 mx-6">
-      <h1 className="text-lg font-semibold">Basic</h1>
+      <h1 className="text-lg font-semibold">Custom query param name</h1>
       <UserTable table={table} />
     </div>
   );

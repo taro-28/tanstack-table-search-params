@@ -10,7 +10,7 @@ React Hook for syncing TanStack Table state with URL search params.
 npm i tanstack-table-search-params
 ```
 
-## Example
+## Basic
 
 ### Next.js(Pages Router)
 
@@ -39,6 +39,83 @@ const table = useReactTable({
 });
 ```
 
+## Advanced
+
+### Custom query param name
+
+Query parameter names can be customized.
+
+- [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/custom-param-name)
+- [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/custom-param-name.tsx)
+
+```tsx
+const stateAndOnChanges = useTableSearchParams(router, {
+  globalFilter: {
+    // Customize query parameter name by passing a string
+    paramName: "userTable-globalFilter",
+  },
+  sorting: {
+    // Add prefix by passing a function
+    paramName: (defaultParamName) => `userTable-${defaultParamName}`,
+  },
+});
+```
+
+### Custom encoder/decoder
+
+Encoder and decoder can be customized.
+
+- [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/custom-encoder-decoder)
+- [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/custom-encoder-decoder.tsx)
+
+```tsx
+const stateAndOnChanges = useTableSearchParams(router, {
+  // Use JSON.stringify/JSON.parse for encoding/decoding
+  globalFilter: {
+    // foo -> { "globalFilter": "foo" }
+    encoder: (globalFilter) => ({
+      globalFilter: JSON.stringify(globalFilter),
+    }),
+    // { "globalFilter": "foo" } -> foo
+    decoder: (query) =>
+      query["globalFilter"]
+        ? JSON.parse(query["globalFilter"] as string)
+        : (query["globalFilter"] ?? ""),
+  },
+  // Encoders/decoders with different query parameter names can also be used.
+  sorting: {
+    // [{ id: "name", desc: true }] -> { "userTable-sorting": "[{ \"id\": \"name\", \"desc\": true }]" }
+    encoder: (sorting) => ({
+      "userTable-sorting": JSON.stringify(sorting),
+    }),
+    // { "userTable-sorting": "[{ \"id\": \"name\", \"desc\": true }]" } -> [{ id: "name", desc: true }]
+    decoder: (query) =>
+      query["userTable-sorting"]
+        ? JSON.parse(query["userTable-sorting"] as string)
+        : query["userTable-sorting"],
+  },
+  // Encoders/decoders with different numbers of query parameters can also be used.
+  columnFilters: {
+    // [{ id: "name", value: "foo" }] -> { "columnFilters.name": "\"foo\"" }
+    encoder: (columnFilters) =>
+      Object.fromEntries(
+        columnFilters.map(({ id, value }) => [
+          `columnFilters.${id}`,
+          JSON.stringify(value),
+        ]),
+      ),
+    // { "columnFilters.name": "\"foo\"" } -> [{ id: "name", value: "foo" }]
+    decoder: (query) =>
+      Object.entries(query)
+        .filter(([key]) => key.startsWith("columnFilters."))
+        .map(([key, value]) => ({
+          id: key.replace("columnFilters.", ""),
+          value: JSON.parse(value as string),
+        })),
+  },
+});
+```
+
 ## Supported
 
 List of supported TanStack table states
@@ -59,11 +136,13 @@ List of supported TanStack table states
 
 ## TODO
 
-- [ ] customize query param name
-- [ ] customize encoder/decoder
 - [ ] initial state
 - [ ] disable specific state
 
 # License
 
 MIT
+
+```
+
+```
