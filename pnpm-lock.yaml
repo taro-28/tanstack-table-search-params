@@ -17,7 +17,7 @@ importers:
         version: 1.8.3
       knip:
         specifier: ^5.26.0
-        version: 5.26.0(@types/node@20.14.10)(typescript@5.5.3)
+        version: 5.26.0(@types/node@20.14.10)(typescript@5.5.4)
 
   examples/next-pages-router:
     dependencies:
@@ -57,7 +57,7 @@ importers:
         version: 3.4.4
       typescript:
         specifier: ^5
-        version: 5.5.3
+        version: 5.5.4
 
   packages/tanstack-table-search-params:
     devDependencies:
@@ -90,10 +90,10 @@ importers:
         version: 18.3.1
       tsup:
         specifier: ^8.1.0
-        version: 8.1.0(postcss@8.4.39)(typescript@5.5.3)
+        version: 8.1.0(postcss@8.4.39)(typescript@5.5.4)
       typescript:
         specifier: ^5.5.3
-        version: 5.5.3
+        version: 5.5.4
       vitest:
         specifier: ^2.0.2
         version: 2.0.2(@types/node@20.14.10)(jsdom@24.1.0)
@@ -102,7 +102,7 @@ importers:
     devDependencies:
       typescript:
         specifier: ^5.5.3
-        version: 5.5.3
+        version: 5.5.4
 
 packages:
 
@@ -207,6 +207,10 @@ packages:
 
   '@babel/runtime@7.24.8':
     resolution: {integrity: sha512-5F7SDGs1T72ZczbRwbGO9lQi0NLjQxzl6i4lJxLxfW9U5UluCSyEJeniWvnhl3/euNiqQVbo8zruhsDfid0esA==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/runtime@7.25.0':
+    resolution: {integrity: sha512-7dRy4DwXwtzBrPbZflqxnvfxLF8kdZXPkhymtDeFoFqE6ldzjQFgYTtYIFARcLEYDrqfBfYcZt1WqFxRoyC9Rw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.24.7':
@@ -1671,8 +1675,8 @@ packages:
       typescript:
         optional: true
 
-  typescript@5.5.3:
-    resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
+  typescript@5.5.4:
+    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -1967,6 +1971,10 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
+  '@babel/runtime@7.25.0':
+    dependencies:
+      regenerator-runtime: 0.14.1
+
   '@babel/template@7.24.7':
     dependencies:
       '@babel/code-frame': 7.24.7
@@ -2242,7 +2250,7 @@ snapshots:
   '@testing-library/dom@10.3.1':
     dependencies:
       '@babel/code-frame': 7.24.7
-      '@babel/runtime': 7.24.8
+      '@babel/runtime': 7.25.0
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0
       chalk: 4.1.2
@@ -2788,7 +2796,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  knip@5.26.0(@types/node@20.14.10)(typescript@5.5.3):
+  knip@5.26.0(@types/node@20.14.10)(typescript@5.5.4):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@snyk/github-codeowners': 1.1.0
@@ -2805,7 +2813,7 @@ snapshots:
       smol-toml: 1.2.2
       strip-json-comments: 5.0.1
       summary: 2.1.0
-      typescript: 5.5.3
+      typescript: 5.5.4
       zod: 3.23.8
       zod-validation-error: 3.3.0(zod@3.23.8)
 
@@ -3279,7 +3287,7 @@ snapshots:
 
   tslib@2.6.3: {}
 
-  tsup@8.1.0(postcss@8.4.39)(typescript@5.5.3):
+  tsup@8.1.0(postcss@8.4.39)(typescript@5.5.4):
     dependencies:
       bundle-require: 4.2.1(esbuild@0.21.5)
       cac: 6.7.14
@@ -3297,12 +3305,12 @@ snapshots:
       tree-kill: 1.2.2
     optionalDependencies:
       postcss: 8.4.39
-      typescript: 5.5.3
+      typescript: 5.5.4
     transitivePeerDependencies:
       - supports-color
       - ts-node
 
-  typescript@5.5.3: {}
+  typescript@5.5.4: {}
 
   undici-types@5.26.5: {}
 
