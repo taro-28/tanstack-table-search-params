@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "build": "next build",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@examples/lib": "workspace:*",
-    "tanstack-table-search-params": "0.1.2",
+    "tanstack-table-search-params": "workspace:*",
     "@tanstack/react-table": "^8.19.2",
     "next": "14.2.4",
     "react": "^18",
