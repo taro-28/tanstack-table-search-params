@@ -4,7 +4,7 @@
     "enabled": true
   },
   "files": {
-    "ignore": [".next", "dist"]
+    "ignore": [".next", "dist", "routeTree.gen.ts"]
   },
   "linter": {
     "rules": {
