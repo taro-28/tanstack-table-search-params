@@ -12,6 +12,10 @@ npm i tanstack-table-search-params
 
 ## Basic
 
+- [Next.js(Pages Router)](#nextjspages-router)
+- [Next.js(App Router)](#nextjsapp-router)
+- [TanStack Router](#tanstack-router)
+
 ### Next.js(Pages Router)
 
 - [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app)
@@ -52,6 +56,45 @@ const push = useRouter().push;
 const query = useSearchParams();
 // 1. Pass push and query and get the state and onChanges from the hook
 const stateAndOnChanges = useTableSearchParams({ push, query });
+
+const table = useReactTable({
+  // 2. Pass the state and onChanges to the table
+  ...stateAndOnChanges,
+  data,
+  columns,
+  getCoreRowModel: getCoreRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
+  // ... other options
+});
+```
+
+### TanStack Router
+
+- [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router)
+
+```tsx
+import { useReactTable } from "tanstack-table";
+import { useTableSearchParams } from "tanstack-table-search-params";
+
+export const Route = createFileRoute("/")({
+  component: Page,
+});
+
+// ...
+
+const navigate = Route.useNavigate();
+const query = Route.useSearch();
+
+const stateAndOnChanges = useTableSearchParams({
+  // 1. Pass push and query and get the state and onChanges from the hook
+  push: (url) => {
+    const searchParams = new URLSearchParams(url.split("?")[1]);
+    navigate({ search: Object.fromEntries(searchParams.entries()) });
+  },
+  query,
+});
 
 const table = useReactTable({
   // 2. Pass the state and onChanges to the table

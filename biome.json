@@ -12,13 +12,17 @@
       "style": {
         "useNamingConvention": "off",
         "useBlockStatements": "off",
-        "noDefaultExport": "off"
+        "noDefaultExport": "off",
+        "noNonNullAssertion": "off"
       },
       "correctness": {
         "noNodejsModules": "off"
       },
       "complexity": {
         "useLiteralKeys": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off"
       }
     }
   },
