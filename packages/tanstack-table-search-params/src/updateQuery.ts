@@ -1,3 +1,4 @@
+import { convertQueryToURLSearchParams } from "./convertQueryToURLSearchParams";
 import type { Query, Router } from "./types";
 
 type Props = {
@@ -28,8 +29,14 @@ export const updateQuery = async ({ oldQuery, newQuery, router }: Props) => {
     Object.entries(newQuery).filter(([, value]) => value !== undefined),
   );
 
-  await router.push({
-    pathname: router.pathname,
-    query: { ...unchangedQuery, ...newQueryExcludedUndefined },
-  });
+  const searchParams = new URLSearchParams(
+    convertQueryToURLSearchParams({
+      ...unchangedQuery,
+      ...newQueryExcludedUndefined,
+    }),
+  ).toString();
+
+  await router.push(
+    `${router.pathname}${searchParams ? `?${searchParams}` : ""}`,
+  );
 };

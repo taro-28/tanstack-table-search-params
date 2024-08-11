@@ -1,3 +1,5 @@
+"use client";
+
 import { UserTable } from "@examples/lib/src/components/UserTable";
 import {
   useUserData,
@@ -10,13 +12,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
-export default function CustomParamNames() {
+export const Table = () => {
   const data = useUserData();
 
-  const router = useRouter();
+  const push = useRouter().push;
+  const query = useSearchParams();
+
+  const router = { push, query };
+
   const stateAndOnChanges = useTableSearchParams(router, {
     globalFilter: {
       paramName: "userTable-globalFilter",
@@ -44,11 +50,5 @@ export default function CustomParamNames() {
     getPaginationRowModel: getPaginationRowModel(),
     ...stateAndOnChanges,
   });
-
-  return (
-    <div className="space-y-2 mx-6">
-      <h1 className="text-lg font-semibold">Custom query param name</h1>
-      <UserTable table={table} />
-    </div>
-  );
-}
+  return <UserTable table={table} />;
+};

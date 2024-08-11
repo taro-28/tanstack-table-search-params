@@ -1,14 +1,13 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
+import mockRouter from "next-router-mock";
 import { afterEach, describe, expect, test } from "vitest";
-import { useTableSearchParams } from "..";
-import { getQuery } from "./getQuery";
-import { testRouter } from "./testRouter";
+import { useTableSearchParams } from "../..";
 
 describe("columnFilters", () => {
   afterEach(() => {
-    window.history.replaceState({}, "", "/");
+    mockRouter.query = {};
   });
   describe.each<{
     name: string;
@@ -90,7 +89,7 @@ describe("columnFilters", () => {
 
     test("single column: string value", () => {
       const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+        const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [{ accessorKey: "id" }, { accessorKey: "name" }],
           data: [
@@ -104,7 +103,7 @@ describe("columnFilters", () => {
 
       // initial state
       expect(result.current.getState().columnFilters).toEqual([]);
-      expect(getQuery()).toEqual({});
+      expect(mockRouter.query).toEqual({});
 
       // set string value for column filter
       act(() => result.current.getFlatHeaders()[1]?.column.setFilterValue("J"));
@@ -112,7 +111,7 @@ describe("columnFilters", () => {
       expect(result.current.getState().columnFilters).toEqual([
         { id: "name", value: "J" },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.columnFilters?.encoder?.([{ id: "name", value: "J" }]) ?? {
           [paramName]: "name.%22J%22",
         },
@@ -123,13 +122,15 @@ describe("columnFilters", () => {
         result.current.getFlatHeaders()[1]?.column.setFilterValue("");
       });
       rerender();
-      expect(getQuery()).toEqual(options?.columnFilters?.encoder?.([]) ?? {});
+      expect(mockRouter.query).toEqual(
+        options?.columnFilters?.encoder?.([]) ?? {},
+      );
       expect(result.current.getState().columnFilters).toEqual([]);
     });
 
     test("single column: array value", () => {
       const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+        const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [
             { accessorKey: "id" },
@@ -149,7 +150,7 @@ describe("columnFilters", () => {
 
       // initial state
       expect(result.current.getState().columnFilters).toEqual([]);
-      expect(getQuery()).toEqual({});
+      expect(mockRouter.query).toEqual({});
 
       // set array value for column filter
       act(() =>
@@ -159,7 +160,7 @@ describe("columnFilters", () => {
       expect(result.current.getState().columnFilters).toEqual([
         { id: "age", value: [30, 40] },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.columnFilters?.encoder?.([{ id: "age", value: [30, 40] }]) ?? {
           [paramName]: "age.%5B30%2C40%5D",
         },
@@ -171,12 +172,14 @@ describe("columnFilters", () => {
       });
       rerender();
       expect(result.current.getState().columnFilters).toEqual([]);
-      expect(getQuery()).toEqual(options?.columnFilters?.encoder?.([]) ?? {});
+      expect(mockRouter.query).toEqual(
+        options?.columnFilters?.encoder?.([]) ?? {},
+      );
     });
 
     test("multiple columns", () => {
       const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+        const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [
             { accessorKey: "id" },
@@ -196,7 +199,7 @@ describe("columnFilters", () => {
 
       // initial state
       expect(result.current.getState().columnFilters).toEqual([]);
-      expect(getQuery()).toEqual({});
+      expect(mockRouter.query).toEqual({});
 
       // set string value for column filter
       act(() => {
@@ -207,7 +210,7 @@ describe("columnFilters", () => {
       expect(result.current.getState().columnFilters).toEqual([
         { id: "name", value: "J" },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.columnFilters?.encoder?.([{ id: "name", value: "J" }]) ?? {
           [paramName]: "name.%22J%22",
         },
@@ -231,7 +234,7 @@ describe("columnFilters", () => {
       expect(result.current.getState().columnFilters).toEqual([
         { id: "age", value: [30, 40] },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.columnFilters?.encoder?.([{ id: "age", value: [30, 40] }]) ?? {
           [paramName]: "age.%5B30%2C40%5D",
         },
@@ -242,7 +245,9 @@ describe("columnFilters", () => {
       });
       rerender();
       expect(result.current.getState().columnFilters).toEqual([]);
-      expect(getQuery()).toEqual(options?.columnFilters?.encoder?.([]) ?? {});
+      expect(mockRouter.query).toEqual(
+        options?.columnFilters?.encoder?.([]) ?? {},
+      );
     });
   });
 });

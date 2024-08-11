@@ -1,14 +1,13 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
+import mockRouter from "next-router-mock";
 import { afterEach, describe, expect, test } from "vitest";
-import { useTableSearchParams } from "..";
-import { getQuery } from "./getQuery";
-import { testRouter } from "./testRouter";
+import { useTableSearchParams } from "../..";
 
 describe("sorting", () => {
   afterEach(() => {
-    window.history.replaceState({}, "", "/");
+    mockRouter.query = {};
   });
   describe.each<{
     name: string;
@@ -90,7 +89,7 @@ describe("sorting", () => {
 
     test("single column", () => {
       const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+        const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [{ accessorKey: "id" }, { accessorKey: "name" }],
           data: [
@@ -104,7 +103,7 @@ describe("sorting", () => {
 
       // initial state
       expect(result.current.getState().sorting).toEqual([]);
-      expect(getQuery()).toEqual({});
+      expect(mockRouter.query).toEqual({});
 
       // sort by first column
       act(() =>
@@ -116,7 +115,7 @@ describe("sorting", () => {
       expect(result.current.getState().sorting).toEqual([
         { id: "id", desc: true },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.sorting?.encoder?.([{ id: "id", desc: true }]) ?? {
           [paramName]: "id.desc",
         },
@@ -132,7 +131,7 @@ describe("sorting", () => {
       expect(result.current.getState().sorting).toEqual([
         { id: "id", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.sorting?.encoder?.([{ id: "id", desc: false }]) ?? {
           [paramName]: "id.asc",
         },
@@ -148,7 +147,7 @@ describe("sorting", () => {
       expect(result.current.getState().sorting).toEqual([
         { id: "name", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.sorting?.encoder?.([{ id: "name", desc: false }]) ?? {
           [paramName]: "name.asc",
         },
@@ -168,12 +167,12 @@ describe("sorting", () => {
       });
       rerender();
       expect(result.current.getState().sorting).toEqual([]);
-      expect(getQuery()).toEqual(options?.sorting?.encoder?.([]) ?? {});
+      expect(mockRouter.query).toEqual(options?.sorting?.encoder?.([]) ?? {});
     });
 
     test("multiple columns", () => {
       const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+        const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [{ accessorKey: "id" }, { accessorKey: "name" }],
           data: [
@@ -187,7 +186,7 @@ describe("sorting", () => {
 
       // initial state
       expect(result.current.getState().sorting).toEqual([]);
-      expect(getQuery()).toEqual({});
+      expect(mockRouter.query).toEqual({});
 
       // sort by first column and another column
       act(() =>
@@ -206,7 +205,7 @@ describe("sorting", () => {
         { id: "id", desc: true },
         { id: "name", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.sorting?.encoder?.([
           { id: "id", desc: true },
           { id: "name", desc: false },
@@ -224,7 +223,7 @@ describe("sorting", () => {
         { id: "id", desc: false },
         { id: "name", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.sorting?.encoder?.([
           { id: "id", desc: false },
           { id: "name", desc: false },
@@ -241,7 +240,7 @@ describe("sorting", () => {
       expect(result.current.getState().sorting).toEqual([
         { id: "id", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.sorting?.encoder?.([{ id: "id", desc: false }]) ?? {
           [paramName]: "id.asc",
         },
