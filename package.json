@@ -6,18 +6,20 @@
   "packageManager": "pnpm@9.7.0",
   "scripts": {
     "tanstack-table-search-params": "pnpm --filter './packages/tanstack-table-search-params'",
-    "test": "pnpm tanstack-table-search-params test",
-    "build": "pnpm tanstack-table-search-params build",
     "examples/next-pages-router": "pnpm --filter './examples/next-pages-router'",
     "examples/next-app-router": "pnpm --filter './examples/next-app-router'",
     "examples/tanstack-router": "pnpm --filter './examples/tanstack'",
     "check-write": "biome check --write .",
     "prettier": "prettier --write .",
-    "knip": "knip"
+    "knip": "knip",
+    "test": "turbo test",
+    "type-check": "turbo type-check",
+    "build": "turbo build"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
-    "knip": "^5.26.0"
+    "knip": "^5.26.0",
+    "turbo": "^2.0.12"
   },
   "dependencies": {
     "prettier": "^3.3.3"

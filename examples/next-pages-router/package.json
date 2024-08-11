@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev"
+    "dev": "next dev",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@examples/lib": "workspace:*",
