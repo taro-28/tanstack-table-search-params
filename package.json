@@ -9,6 +9,7 @@
     "test": "pnpm tanstack-table-search-params test",
     "build": "pnpm tanstack-table-search-params build",
     "examples/next-pages-router": "pnpm --filter './examples/next-pages-router'",
+    "examples/next-app-router": "pnpm --filter './examples/next-app-router'",
     "check-write": "biome check --write .",
     "prettier": "prettier --write .",
     "knip": "knip"

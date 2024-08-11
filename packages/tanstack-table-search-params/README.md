@@ -39,6 +39,33 @@ const table = useReactTable({
 });
 ```
 
+### Next.js(App Router)
+
+- [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-app-router)
+
+```tsx
+import { useReactTable } from "tanstack-table";
+import { useRouter } from "next/router";
+import { useTableSearchParams } from "tanstack-table-search-params";
+
+const push = useRouter().push;
+const query = useSearchParams();
+// 1. Pass push and query and get the state and onChanges from the hook
+const stateAndOnChanges = useTableSearchParams({ push, query });
+
+const table = useReactTable({
+  // 2. Pass the state and onChanges to the table
+  ...stateAndOnChanges,
+  data,
+  columns,
+  getCoreRowModel: getCoreRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
+  // ... other options
+});
+```
+
 ## Advanced
 
 ### Custom query param name
@@ -142,7 +169,3 @@ List of supported TanStack table states
 # License
 
 MIT
-
-```
-
-```

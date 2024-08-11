@@ -1,15 +1,14 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
+import mockRouter from "next-router-mock";
 import { afterEach, describe, expect, test } from "vitest";
-import { useTableSearchParams } from "..";
-import { defaultPagination } from "../encoder-decoder/pagination";
-import { getQuery } from "./getQuery";
-import { testRouter } from "./testRouter";
+import { useTableSearchParams } from "../..";
+import { defaultPagination } from "../../encoder-decoder/pagination";
 
 describe("pagination", () => {
   afterEach(() => {
-    window.history.replaceState({}, "", "/");
+    mockRouter.query = {};
   });
   describe.each<{
     name: string;
@@ -106,7 +105,7 @@ describe("pagination", () => {
 
     test("basic", () => {
       const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+        const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [],
           data: [],
@@ -117,7 +116,7 @@ describe("pagination", () => {
 
       // initial state
       expect(result.current.getState().pagination).toEqual(defaultPagination);
-      expect(getQuery()).toEqual({});
+      expect(mockRouter.query).toEqual({});
 
       // set pageSize
       act(() => result.current.setPageSize(20));
@@ -126,7 +125,7 @@ describe("pagination", () => {
         pageIndex: 0,
         pageSize: 20,
       });
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.pagination?.encoder?.({
           pageIndex: 0,
           pageSize: 20,
@@ -142,7 +141,7 @@ describe("pagination", () => {
         pageIndex: 1,
         pageSize: 20,
       });
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.pagination?.encoder?.({
           pageIndex: 1,
           pageSize: 20,
@@ -164,7 +163,7 @@ describe("pagination", () => {
       act(() => result.current.resetPageSize());
       rerender();
       expect(result.current.getState().pagination).toEqual(defaultPagination);
-      expect(getQuery()).toEqual(
+      expect(mockRouter.query).toEqual(
         options?.pagination?.encoder?.({
           pageIndex: 0,
           pageSize: 10,

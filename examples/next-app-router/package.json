@@ -1,24 +1,27 @@
 {
-  "name": "@examples/next-pages-router",
+  "name": "@examples/next-app-router",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@examples/lib": "workspace:*",
     "tanstack-table-search-params": "0.1.1",
     "@tanstack/react-table": "^8.19.2",
-    "next": "14.2.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "next": "14.2.5"
   },
   "devDependencies": {
+    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "tailwindcss": "^3.4.1"
   }
 }
