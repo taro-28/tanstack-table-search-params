@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@examples/lib": "workspace:*",
-    "tanstack-table-search-params": "workspace:*",
+    "tanstack-table-search-params": "0.1.1",
     "@tanstack/react-table": "^8.19.2",
     "react": "^18",
     "react-dom": "^18",
