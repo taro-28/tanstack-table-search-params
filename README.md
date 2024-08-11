@@ -18,7 +18,7 @@ npm i tanstack-table-search-params
 
 ### Next.js(Pages Router)
 
-- [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app)
+- [demo](https://tanstack-table-search-params-next-pages-router-taro28s-projects.vercel.app/)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router)
 
 ```tsx
@@ -45,6 +45,7 @@ const table = useReactTable({
 
 ### Next.js(App Router)
 
+- [demo](https://tanstack-table-search-params-next-app-router-taro28s-projects.vercel.app/)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-app-router)
 
 ```tsx
@@ -72,6 +73,7 @@ const table = useReactTable({
 
 ### TanStack Router
 
+- [demo](https://tanstack-table-search-params-tanstack-router-taro28s-projects.vercel.app/)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router)
 
 ```tsx
