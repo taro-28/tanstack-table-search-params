@@ -2,7 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "type-check": {
-      "dependsOn": ["^type-check"]
+      "dependsOn": ["^tanstack-table-search-params#build"]
     },
     "build": {
       "dependsOn": ["^build"],
