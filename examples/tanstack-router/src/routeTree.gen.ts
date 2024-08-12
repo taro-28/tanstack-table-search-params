@@ -10,53 +10,53 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as CustomEncoderDecoderImport } from "./routes/custom-encoder-decoder";
-import { Route as CustomParamNameImport } from "./routes/custom-param-name";
-import { Route as IndexImport } from "./routes/index";
+import { Route as rootRoute } from './routes/__root'
+import { Route as CustomParamNameImport } from './routes/custom-param-name'
+import { Route as CustomEncoderDecoderImport } from './routes/custom-encoder-decoder'
+import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
 const CustomParamNameRoute = CustomParamNameImport.update({
-  path: "/custom-param-name",
+  path: '/custom-param-name',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const CustomEncoderDecoderRoute = CustomEncoderDecoderImport.update({
-  path: "/custom-encoder-decoder",
+  path: '/custom-encoder-decoder',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  path: "/",
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/custom-encoder-decoder": {
-      id: "/custom-encoder-decoder";
-      path: "/custom-encoder-decoder";
-      fullPath: "/custom-encoder-decoder";
-      preLoaderRoute: typeof CustomEncoderDecoderImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/custom-param-name": {
-      id: "/custom-param-name";
-      path: "/custom-param-name";
-      fullPath: "/custom-param-name";
-      preLoaderRoute: typeof CustomParamNameImport;
-      parentRoute: typeof rootRoute;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/custom-encoder-decoder': {
+      id: '/custom-encoder-decoder'
+      path: '/custom-encoder-decoder'
+      fullPath: '/custom-encoder-decoder'
+      preLoaderRoute: typeof CustomEncoderDecoderImport
+      parentRoute: typeof rootRoute
+    }
+    '/custom-param-name': {
+      id: '/custom-param-name'
+      path: '/custom-param-name'
+      fullPath: '/custom-param-name'
+      preLoaderRoute: typeof CustomParamNameImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -66,7 +66,7 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   CustomEncoderDecoderRoute,
   CustomParamNameRoute,
-});
+})
 
 /* prettier-ignore-end */
 

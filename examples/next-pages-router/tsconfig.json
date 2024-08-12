@@ -1,21 +1,15 @@
 {
+  "extends": "@tanstack-table-search-params/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "incremental": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "jsx": "preserve",
+    "allowJs": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["src", "*.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
