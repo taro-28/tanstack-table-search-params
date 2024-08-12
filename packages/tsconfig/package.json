@@ -1,0 +1,6 @@
+{
+  "name": "@tanstack-table-search-params/tsconfig",
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  }
+}
