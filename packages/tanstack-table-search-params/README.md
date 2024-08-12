@@ -10,6 +10,8 @@
 
 React Hook for syncing TanStack Table state with URL search params.
 
+https://github.com/user-attachments/assets/1f1b4a65-fdec-4a80-a5d5-783642befaa3
+
 # Usage
 
 ## Installation
