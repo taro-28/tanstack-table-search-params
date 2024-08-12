@@ -1,5 +1,13 @@
 # TanStack Table Search Params
 
+<div>
+
+[![NPM Version](https://img.shields.io/npm/v/tanstack-table-search-params)][1]
+[![NPM Downloads](https://img.shields.io/npm/dm/tanstack-table-search-params)][1]
+[![GitHub Repo stars](https://img.shields.io/github/stars/taro-28/tanstack-table-search-params)][2]
+
+</div>
+
 React Hook for syncing TanStack Table state with URL search params.
 
 # Usage
@@ -89,8 +97,8 @@ export const Route = createFileRoute("/")({
 const navigate = Route.useNavigate();
 const query = Route.useSearch();
 
+// 1. Pass push and query and get the state and onChanges from the hook
 const stateAndOnChanges = useTableSearchParams({
-  // 1. Pass push and query and get the state and onChanges from the hook
   push: (url) => {
     const searchParams = new URLSearchParams(url.split("?")[1]);
     navigate({ search: Object.fromEntries(searchParams.entries()) });
@@ -214,3 +222,6 @@ List of supported TanStack table states
 # License
 
 MIT
+
+[1]: https://www.npmjs.com/package/tanstack-table-search-params
+[2]: https://github.com/taro-28/tanstack-table-search-params
