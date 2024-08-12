@@ -15,7 +15,7 @@ describe("pagination", () => {
       {
         name: "basic",
         pagination: { pageIndex: 2, pageSize: 50 },
-        want: { pageIndex: "2", pageSize: "50" },
+        want: { pageIndex: "3", pageSize: "50" },
       },
       {
         name: "default pageIndex and pageSize",
@@ -30,7 +30,7 @@ describe("pagination", () => {
       {
         name: "default pageSize",
         pagination: { pageIndex: 2, pageSize: defaultPagination.pageSize },
-        want: { pageIndex: "2", pageSize: undefined },
+        want: { pageIndex: "3", pageSize: undefined },
       },
       {
         name: "0 pageIndex and pageSize",
@@ -45,7 +45,7 @@ describe("pagination", () => {
       {
         name: "0 pageSize",
         pagination: { pageIndex: 2, pageSize: 0 },
-        want: { pageIndex: "2", pageSize: "0" },
+        want: { pageIndex: "3", pageSize: "0" },
       },
     ])("$name", ({ pagination, want }) =>
       expect(encodePagination(pagination)).toEqual(want),
@@ -60,7 +60,7 @@ describe("pagination", () => {
       {
         name: "basic",
         queryValues: { pageIndex: "2", pageSize: "25" },
-        want: { pageIndex: 2, pageSize: 25 },
+        want: { pageIndex: 1, pageSize: 25 },
       },
       {
         name: "invalid pageIndex and pageSize",
@@ -75,7 +75,7 @@ describe("pagination", () => {
       {
         name: "invalid pageSize",
         queryValues: { pageIndex: "2", pageSize: "foo" },
-        want: { pageIndex: 2, pageSize: defaultPagination.pageSize },
+        want: { pageIndex: 1, pageSize: defaultPagination.pageSize },
       },
       {
         name: "undefined pageIndex and pageSize",
@@ -85,7 +85,7 @@ describe("pagination", () => {
       {
         name: "undefined pageSize",
         queryValues: { pageIndex: "2", pageSize: undefined },
-        want: { pageIndex: 2, pageSize: defaultPagination.pageSize },
+        want: { pageIndex: 1, pageSize: defaultPagination.pageSize },
       },
       {
         name: "undefined pageIndex",
@@ -105,7 +105,7 @@ describe("pagination", () => {
       {
         name: "empty pageSize",
         queryValues: { pageIndex: "2", pageSize: "" },
-        want: { pageIndex: 2, pageSize: defaultPagination.pageSize },
+        want: { pageIndex: 1, pageSize: defaultPagination.pageSize },
       },
       {
         name: "0 pageIndex and pageSize",
@@ -120,7 +120,7 @@ describe("pagination", () => {
       {
         name: "pageSize is 0",
         queryValues: { pageIndex: "2", pageSize: "0" },
-        want: { pageIndex: 2, pageSize: 0 },
+        want: { pageIndex: 1, pageSize: 0 },
       },
     ])("$name", ({ queryValues, want }) =>
       expect(decodePagination(queryValues)).toEqual(want),

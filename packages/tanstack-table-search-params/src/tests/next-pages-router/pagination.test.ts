@@ -146,7 +146,7 @@ describe("pagination", () => {
           pageIndex: 1,
           pageSize: 20,
         }) ?? {
-          [paramName.pageIndex]: "1",
+          [paramName.pageIndex]: "2",
           [paramName.pageSize]: "20",
         },
       );

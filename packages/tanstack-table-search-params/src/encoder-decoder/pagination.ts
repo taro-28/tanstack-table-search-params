@@ -15,7 +15,7 @@ export const encodePagination = (
   pageIndex:
     pagination.pageIndex === defaultPagination.pageIndex
       ? undefined
-      : pagination.pageIndex.toString(),
+      : (pagination.pageIndex + 1).toString(),
   pageSize:
     pagination.pageSize === defaultPagination.pageSize
       ? undefined
@@ -30,9 +30,9 @@ export const decodePagination = (queryValues: {
   const pageSize = Number(queryValues.pageSize);
   return {
     pageIndex:
-      queryValues.pageIndex === "" || Number.isNaN(pageIndex)
+      queryValues.pageIndex === "" || Number.isNaN(pageIndex) || pageIndex < 1
         ? defaultPagination.pageIndex
-        : pageIndex,
+        : pageIndex - 1,
     pageSize:
       queryValues.pageSize === "" || Number.isNaN(pageSize)
         ? defaultPagination.pageSize
