@@ -5,6 +5,7 @@
 [![NPM Version](https://img.shields.io/npm/v/tanstack-table-search-params)][1]
 [![NPM Downloads](https://img.shields.io/npm/dm/tanstack-table-search-params)][1]
 [![GitHub Repo stars](https://img.shields.io/github/stars/taro-28/tanstack-table-search-params)][2]
+[![Bundlephobia Minzipped size](https://img.shields.io/bundlephobia/minzip/tanstack-table-search-params)][3]
 
 </div>
 
@@ -227,3 +228,4 @@ MIT
 
 [1]: https://www.npmjs.com/package/tanstack-table-search-params
 [2]: https://github.com/taro-28/tanstack-table-search-params
+[3]: https://bundlephobia.com/package/tanstack-table-search-params
