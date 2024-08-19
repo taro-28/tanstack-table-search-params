@@ -22,7 +22,6 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@tanstack-table-search-params/utils": "workspace:*",
     "@tanstack/react-table": "^8.19.2",
     "@testing-library/react": "^16.0.0",
     "@types/node": "^20.14.10",
