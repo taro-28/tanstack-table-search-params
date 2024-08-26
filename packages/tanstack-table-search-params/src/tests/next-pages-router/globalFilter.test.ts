@@ -4,7 +4,7 @@ import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "../..";
-import { encodedEmptyStringGlobalFilterForCustomDefaultValue } from "../../encoder-decoder/globalFilter";
+import { encodedEmptyStringForCustomDefaultValue } from "../../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
 import { defaultDefaultGlobalFilter } from "../../useGlobalFilter";
 
 describe("globalFilter", () => {
@@ -111,7 +111,7 @@ describe("globalFilter", () => {
       expect(mockRouter.query).toEqual(
         options?.globalFilter?.encoder?.("") ?? {
           [paramName]: defaultGlobalFilter
-            ? encodedEmptyStringGlobalFilterForCustomDefaultValue
+            ? encodedEmptyStringForCustomDefaultValue
             : undefined,
         },
       );

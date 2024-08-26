@@ -1,13 +1,28 @@
 import type { State } from "..";
 import type { Query } from "../types";
+import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringForCustomDefaultValue";
 
-export const encodeSorting = (sorting: State["sorting"]): Query[string] =>
-  sorting.length === 0
+export const encodeSorting = (
+  stateValue: State["sorting"],
+  defaultValue: State["sorting"],
+): Query[string] =>
+  JSON.stringify(stateValue) === JSON.stringify(defaultValue)
     ? undefined
-    : sorting.map(({ id, desc }) => `${id}.${desc ? "desc" : "asc"}`).join(",");
+    : stateValue.length > 0
+      ? stateValue
+          .map(({ id, desc }) => `${id}.${desc ? "desc" : "asc"}`)
+          .join(",")
+      : encodedEmptyStringForCustomDefaultValue;
 
-export const decodeSorting = (queryValue: Query[string]) => {
-  if (typeof queryValue !== "string" || queryValue === "") return [];
+export const decodeSorting = (
+  queryValue: Query[string],
+  defaultValue: State["sorting"],
+) => {
+  if (typeof queryValue !== "string") return defaultValue;
+  if (queryValue === "") return defaultValue;
+  if (queryValue === encodedEmptyStringForCustomDefaultValue) {
+    return defaultValue.length > 0 ? [] : defaultValue;
+  }
 
   try {
     return queryValue.split(",").map((sort) => {
@@ -19,6 +34,6 @@ export const decodeSorting = (queryValue: Query[string]) => {
       return { id, desc: order === "desc" };
     });
   } catch {
-    return [];
+    return defaultValue;
   }
 };

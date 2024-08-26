@@ -5,6 +5,8 @@ import { decodeSorting, encodeSorting } from "./encoder-decoder/sorting";
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
 
+export const defaultDefaultSorting = [] as const satisfies State["sorting"];
+
 type Props = {
   router: Router;
   options?: Options["sorting"];
@@ -21,9 +23,11 @@ export const useSorting = ({ router, options }: Props): Returns => {
       ? options?.paramName(PARAM_NAMES.SORTING)
       : options?.paramName) || PARAM_NAMES.SORTING;
 
-  const defaultSorting = useMemo(
-    () => decodeSorting(router.query[paramName]),
-    [router.query[paramName], paramName],
+  const defaultSorting = options?.defaultValue ?? defaultDefaultSorting;
+
+  const uncustomisedSorting = useMemo(
+    () => decodeSorting(router.query[paramName], defaultSorting),
+    [router.query[paramName], paramName, defaultSorting],
   );
 
   // If `router.query` is included in the dependency array,
@@ -40,8 +44,8 @@ export const useSorting = ({ router, options }: Props): Returns => {
         ? stringCustomSorting === ""
           ? []
           : JSON.parse(stringCustomSorting)
-        : defaultSorting,
-    [stringCustomSorting, defaultSorting, isCustomDecoder],
+        : uncustomisedSorting,
+    [stringCustomSorting, uncustomisedSorting, isCustomDecoder],
   );
 
   return {
@@ -53,7 +57,7 @@ export const useSorting = ({ router, options }: Props): Returns => {
           options?.encoder
             ? options.encoder(sorting)
             : {
-                [paramName]: encodeSorting(sorting),
+                [paramName]: encodeSorting(sorting, defaultSorting),
               };
         await updateQuery({
           oldQuery: encoder(sorting),
@@ -61,7 +65,7 @@ export const useSorting = ({ router, options }: Props): Returns => {
           router,
         });
       },
-      [router, sorting, paramName, options?.encoder],
+      [router, sorting, paramName, options?.encoder, defaultSorting],
     ),
   };
 };
