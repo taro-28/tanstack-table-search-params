@@ -8,6 +8,9 @@ import {
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
 
+export const defaultDefaultGlobalFilter =
+  "" as const satisfies State["globalFilter"];
+
 type Props = {
   router: Router;
   options?: Options["globalFilter"];
@@ -24,9 +27,12 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
       ? options?.paramName(PARAM_NAMES.GLOBAL_FILTER)
       : options?.paramName) || PARAM_NAMES.GLOBAL_FILTER;
 
+  const defaultGlobalFilter =
+    options?.defaultValue ?? defaultDefaultGlobalFilter;
+
   const globalFilter = options?.decoder
     ? options?.decoder?.(router.query)
-    : decodeGlobalFilter(router.query[paramName]);
+    : decodeGlobalFilter(router.query[paramName], defaultGlobalFilter);
 
   return {
     globalFilter,
@@ -37,7 +43,10 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
           options?.encoder
             ? options.encoder(globalFilter)
             : {
-                [paramName]: encodeGlobalFilter(globalFilter),
+                [paramName]: encodeGlobalFilter(
+                  globalFilter,
+                  defaultGlobalFilter,
+                ),
               };
         await updateQuery({
           oldQuery: encoder(globalFilter),
@@ -45,7 +54,7 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
           router,
         });
       },
-      [router, globalFilter, paramName, options?.encoder],
+      [router, globalFilter, paramName, options?.encoder, defaultGlobalFilter],
     ),
   };
 };
