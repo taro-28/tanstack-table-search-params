@@ -4,7 +4,8 @@ import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "../..";
-import { defaultPagination } from "../../encoder-decoder/pagination";
+import { defaultDefaultPagination } from "../../usePagination";
+import { testData, testDataColumns } from "../testData";
 
 describe("pagination", () => {
   afterEach(() => {
@@ -50,10 +51,10 @@ describe("pagination", () => {
           decoder: (query) => ({
             pageIndex: query["pageIndex"]
               ? JSON.parse(query["pageIndex"] as string)
-              : defaultPagination.pageIndex,
+              : defaultDefaultPagination.pageIndex,
             pageSize: query["pageSize"]
               ? JSON.parse(query["pageSize"] as string)
-              : defaultPagination.pageSize,
+              : defaultDefaultPagination.pageSize,
           }),
         },
       },
@@ -69,10 +70,10 @@ describe("pagination", () => {
           decoder: (query) => ({
             pageIndex: query["userTable-pageIndex"]
               ? JSON.parse(query["userTable-pageIndex"] as string)
-              : defaultPagination.pageIndex,
+              : defaultDefaultPagination.pageIndex,
             pageSize: query["userTable-pageSize"]
               ? JSON.parse(query["userTable-pageSize"] as string)
-              : defaultPagination.pageSize,
+              : defaultDefaultPagination.pageSize,
           }),
         },
       },
@@ -87,7 +88,18 @@ describe("pagination", () => {
           decoder: (query) =>
             query["pagination"]
               ? JSON.parse(query["pagination"] as string)
-              : defaultPagination,
+              : defaultDefaultPagination,
+        },
+      },
+    },
+    {
+      name: "with options: custom default value",
+      options: {
+        pagination: {
+          defaultValue: {
+            pageIndex: 3,
+            pageSize: 25,
+          },
         },
       },
     },
@@ -107,30 +119,35 @@ describe("pagination", () => {
       const { result, rerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
-          columns: [],
-          data: [],
+          columns: testDataColumns,
+          data: testData,
           getCoreRowModel: getCoreRowModel(),
           ...stateAndOnChanges,
         });
       });
 
+      const defaultPagination =
+        options?.pagination?.defaultValue ?? defaultDefaultPagination;
+
       // initial state
       expect(result.current.getState().pagination).toEqual(defaultPagination);
       expect(mockRouter.query).toEqual({});
 
+      const updatedPageSize = 20;
+
       // set pageSize
-      act(() => result.current.setPageSize(20));
+      act(() => result.current.setPageSize(updatedPageSize));
       rerender();
       expect(result.current.getState().pagination).toEqual({
-        pageIndex: 0,
-        pageSize: 20,
+        pageIndex: defaultPagination.pageIndex,
+        pageSize: updatedPageSize,
       });
       expect(mockRouter.query).toEqual(
         options?.pagination?.encoder?.({
-          pageIndex: 0,
-          pageSize: 20,
+          pageIndex: defaultPagination.pageIndex,
+          pageSize: updatedPageSize,
         }) ?? {
-          [paramName.pageSize]: "20",
+          [paramName.pageSize]: `${updatedPageSize}`,
         },
       );
 
@@ -138,16 +155,16 @@ describe("pagination", () => {
       act(() => result.current.nextPage());
       rerender();
       expect(result.current.getState().pagination).toEqual({
-        pageIndex: 1,
-        pageSize: 20,
+        pageIndex: defaultPagination.pageIndex + 1,
+        pageSize: updatedPageSize,
       });
       expect(mockRouter.query).toEqual(
         options?.pagination?.encoder?.({
-          pageIndex: 1,
-          pageSize: 20,
+          pageIndex: defaultPagination.pageIndex + 1,
+          pageSize: updatedPageSize,
         }) ?? {
-          [paramName.pageIndex]: "2",
-          [paramName.pageSize]: "20",
+          [paramName.pageIndex]: `${defaultPagination.pageIndex + 2}`,
+          [paramName.pageSize]: `${updatedPageSize}`,
         },
       );
 
@@ -156,18 +173,38 @@ describe("pagination", () => {
       rerender();
       expect(result.current.getState().pagination).toEqual({
         pageIndex: 0,
-        pageSize: 20,
+        pageSize: updatedPageSize,
       });
+      expect(mockRouter.query).toEqual(
+        options?.pagination?.encoder?.({
+          pageIndex: 0,
+          pageSize: updatedPageSize,
+        }) ?? {
+          [paramName.pageIndex]: options?.pagination?.defaultValue
+            ? "1"
+            : undefined,
+          [paramName.pageSize]: `${updatedPageSize}`,
+        },
+      );
 
       // reset pageSize
       act(() => result.current.resetPageSize());
       rerender();
-      expect(result.current.getState().pagination).toEqual(defaultPagination);
+      expect(result.current.getState().pagination).toEqual({
+        pageIndex: 0,
+        pageSize: 10,
+      });
       expect(mockRouter.query).toEqual(
         options?.pagination?.encoder?.({
           pageIndex: 0,
           pageSize: 10,
-        }) ?? {},
+        }) ??
+          (options?.pagination?.defaultValue
+            ? {
+                [paramName.pageIndex]: "1",
+                [paramName.pageSize]: "10",
+              }
+            : {}),
       );
     });
   });

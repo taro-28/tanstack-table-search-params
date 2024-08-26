@@ -193,6 +193,9 @@ importers:
 
   packages/tanstack-table-search-params:
     devDependencies:
+      '@faker-js/faker':
+        specifier: ^8.4.1
+        version: 8.4.1
       '@tanstack-table-search-params/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig

@@ -43,6 +43,7 @@ export type Options = {
       : string | ((key: KEY) => string);
     encoder?: (value: State[KEY]) => Query;
     decoder?: (query: Query) => State[KEY];
+    defaultValue?: State[KEY];
   };
 };
 
