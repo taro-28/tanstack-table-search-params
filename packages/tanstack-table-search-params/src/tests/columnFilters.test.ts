@@ -3,9 +3,9 @@ import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "..";
+import { defaultDefaultColumnFilters } from "../useColumnFilters";
 import { getQuery } from "./getQuery";
 import { testRouter } from "./testRouter";
-import { defaultDefaultColumnFilters } from "../useColumnFilters";
 
 describe("columnFilters", () => {
   afterEach(() => {
