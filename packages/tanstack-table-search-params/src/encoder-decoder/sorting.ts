@@ -5,14 +5,20 @@ import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringFor
 export const encodeSorting = (
   stateValue: State["sorting"],
   defaultValue: State["sorting"],
-): Query[string] =>
-  JSON.stringify(stateValue) === JSON.stringify(defaultValue)
-    ? undefined
-    : stateValue.length > 0
-      ? stateValue
-          .map(({ id, desc }) => `${id}.${desc ? "desc" : "asc"}`)
-          .join(",")
-      : encodedEmptyStringForCustomDefaultValue;
+): Query[string] => {
+  if (JSON.stringify(stateValue) === JSON.stringify(defaultValue)) {
+    return undefined;
+  }
+
+  // return encoded empty string if stateValue is empty with custom default value
+  if (stateValue.length === 0) {
+    return encodedEmptyStringForCustomDefaultValue;
+  }
+
+  return stateValue
+    .map(({ id, desc }) => `${id}.${desc ? "desc" : "asc"}`)
+    .join(",");
+};
 
 export const decodeSorting = (
   queryValue: Query[string],
@@ -21,7 +27,7 @@ export const decodeSorting = (
   if (typeof queryValue !== "string") return defaultValue;
   if (queryValue === "") return defaultValue;
   if (queryValue === encodedEmptyStringForCustomDefaultValue) {
-    return defaultValue.length > 0 ? [] : defaultValue;
+    return [];
   }
 
   try {
