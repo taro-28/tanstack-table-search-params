@@ -1,22 +1,31 @@
 import type { State } from "..";
 import type { Query } from "../types";
+import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringForCustomDefaultValue";
 
 export const encodeColumnFilters = (
-  columnFilters: State["columnFilters"],
+  stateValue: State["columnFilters"],
+  defaultValue: State["columnFilters"],
 ): Query[string] =>
-  columnFilters.length === 0
+  JSON.stringify(stateValue) === JSON.stringify(defaultValue)
     ? undefined
-    : columnFilters
-        .map(
-          ({ id, value }) =>
-            `${id}.${encodeURIComponent(JSON.stringify(value))}`,
-        )
-        .join(",");
+    : stateValue.length > 0
+      ? stateValue
+          .map(
+            ({ id, value }) =>
+              `${id}.${encodeURIComponent(JSON.stringify(value))}`,
+          )
+          .join(",")
+      : encodedEmptyStringForCustomDefaultValue;
 
 export const decodeColumnFilters = (
   queryValue: Query[string],
+  defaultValue: State["columnFilters"],
 ): State["columnFilters"] => {
-  if (typeof queryValue !== "string" || queryValue === "") return [];
+  if (typeof queryValue !== "string") return defaultValue;
+  if (queryValue === "") return defaultValue;
+  if (queryValue === encodedEmptyStringForCustomDefaultValue) {
+    return defaultValue.length > 0 ? [] : defaultValue;
+  }
 
   try {
     return queryValue
@@ -26,20 +35,16 @@ export const decodeColumnFilters = (
         if (!id) throw new Error("Invalid columnFilters");
         if (stringValue === undefined) throw new Error("Invalid columnFilters");
 
-        try {
-          return {
-            id,
-            value:
-              stringValue === "undefined"
-                ? undefined
-                : JSON.parse(decodeURIComponent(stringValue)),
-          };
-        } catch {
-          return null;
-        }
+        return {
+          id,
+          value:
+            stringValue === "undefined"
+              ? undefined
+              : JSON.parse(decodeURIComponent(stringValue)),
+        };
       })
       .filter((x) => x !== null);
   } catch {
-    return [];
+    return defaultValue;
   }
 };

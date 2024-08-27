@@ -5,6 +5,7 @@ import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "..";
 import { getQuery } from "./getQuery";
 import { testRouter } from "./testRouter";
+import { defaultDefaultColumnFilters } from "../useColumnFilters";
 
 describe("columnFilters", () => {
   afterEach(() => {
@@ -82,11 +83,22 @@ describe("columnFilters", () => {
         },
       },
     },
+    {
+      name: "with options: custom default value",
+      options: {
+        columnFilters: {
+          defaultValue: [{ id: "custom", value: "default" }],
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.columnFilters?.paramName === "function"
         ? options.columnFilters.paramName("columnFilters")
         : options?.columnFilters?.paramName || "columnFilters";
+
+    const defaultColumnFilters =
+      options?.columnFilters?.defaultValue ?? defaultDefaultColumnFilters;
 
     test("single column: string value", () => {
       const { result, rerender } = renderHook(() => {
@@ -103,18 +115,24 @@ describe("columnFilters", () => {
       });
 
       // initial state
-      expect(result.current.getState().columnFilters).toEqual([]);
+      expect(result.current.getState().columnFilters).toEqual(
+        defaultColumnFilters,
+      );
       expect(getQuery()).toEqual({});
 
       // set string value for column filter
       act(() => result.current.getFlatHeaders()[1]?.column.setFilterValue("J"));
       rerender();
       expect(result.current.getState().columnFilters).toEqual([
+        ...defaultColumnFilters,
         { id: "name", value: "J" },
       ]);
       expect(getQuery()).toEqual(
         options?.columnFilters?.encoder?.([{ id: "name", value: "J" }]) ?? {
-          [paramName]: "name.%22J%22",
+          [paramName]:
+            defaultColumnFilters.length === 0
+              ? "name.%22J%22"
+              : "custom.%22default%22,name.%22J%22",
         },
       );
 
@@ -124,7 +142,9 @@ describe("columnFilters", () => {
       });
       rerender();
       expect(getQuery()).toEqual(options?.columnFilters?.encoder?.([]) ?? {});
-      expect(result.current.getState().columnFilters).toEqual([]);
+      expect(result.current.getState().columnFilters).toEqual(
+        defaultColumnFilters,
+      );
     });
 
     test("single column: array value", () => {
@@ -148,7 +168,9 @@ describe("columnFilters", () => {
       });
 
       // initial state
-      expect(result.current.getState().columnFilters).toEqual([]);
+      expect(result.current.getState().columnFilters).toEqual(
+        defaultColumnFilters,
+      );
       expect(getQuery()).toEqual({});
 
       // set array value for column filter
@@ -157,11 +179,15 @@ describe("columnFilters", () => {
       );
       rerender();
       expect(result.current.getState().columnFilters).toEqual([
+        ...defaultColumnFilters,
         { id: "age", value: [30, 40] },
       ]);
       expect(getQuery()).toEqual(
         options?.columnFilters?.encoder?.([{ id: "age", value: [30, 40] }]) ?? {
-          [paramName]: "age.%5B30%2C40%5D",
+          [paramName]:
+            defaultColumnFilters.length === 0
+              ? "age.%5B30%2C40%5D"
+              : "custom.%22default%22,age.%5B30%2C40%5D",
         },
       );
 
@@ -170,7 +196,9 @@ describe("columnFilters", () => {
         result.current.getFlatHeaders()[2]?.column.setFilterValue([]);
       });
       rerender();
-      expect(result.current.getState().columnFilters).toEqual([]);
+      expect(result.current.getState().columnFilters).toEqual(
+        defaultColumnFilters,
+      );
       expect(getQuery()).toEqual(options?.columnFilters?.encoder?.([]) ?? {});
     });
 
@@ -195,7 +223,9 @@ describe("columnFilters", () => {
       });
 
       // initial state
-      expect(result.current.getState().columnFilters).toEqual([]);
+      expect(result.current.getState().columnFilters).toEqual(
+        defaultColumnFilters,
+      );
       expect(getQuery()).toEqual({});
 
       // set string value for column filter
@@ -205,11 +235,15 @@ describe("columnFilters", () => {
       rerender();
 
       expect(result.current.getState().columnFilters).toEqual([
+        ...defaultColumnFilters,
         { id: "name", value: "J" },
       ]);
       expect(getQuery()).toEqual(
         options?.columnFilters?.encoder?.([{ id: "name", value: "J" }]) ?? {
-          [paramName]: "name.%22J%22",
+          [paramName]:
+            defaultColumnFilters.length === 0
+              ? "name.%22J%22"
+              : "custom.%22default%22,name.%22J%22",
         },
       );
 
@@ -219,6 +253,7 @@ describe("columnFilters", () => {
       });
       rerender();
       expect(result.current.getState().columnFilters).toEqual([
+        ...defaultColumnFilters,
         { id: "name", value: "J" },
         { id: "age", value: [30, 40] },
       ]);
@@ -229,11 +264,15 @@ describe("columnFilters", () => {
       });
       rerender();
       expect(result.current.getState().columnFilters).toEqual([
+        ...defaultColumnFilters,
         { id: "age", value: [30, 40] },
       ]);
       expect(getQuery()).toEqual(
         options?.columnFilters?.encoder?.([{ id: "age", value: [30, 40] }]) ?? {
-          [paramName]: "age.%5B30%2C40%5D",
+          [paramName]:
+            defaultColumnFilters.length === 0
+              ? "age.%5B30%2C40%5D"
+              : "custom.%22default%22,age.%5B30%2C40%5D",
         },
       );
 
@@ -241,7 +280,9 @@ describe("columnFilters", () => {
         result.current.getFlatHeaders()[2]?.column.setFilterValue([]);
       });
       rerender();
-      expect(result.current.getState().columnFilters).toEqual([]);
+      expect(result.current.getState().columnFilters).toEqual(
+        defaultColumnFilters,
+      );
       expect(getQuery()).toEqual(options?.columnFilters?.encoder?.([]) ?? {});
     });
   });
