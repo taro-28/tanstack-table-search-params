@@ -5,17 +5,22 @@ import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringFor
 export const encodeColumnFilters = (
   stateValue: State["columnFilters"],
   defaultValue: State["columnFilters"],
-): Query[string] =>
-  JSON.stringify(stateValue) === JSON.stringify(defaultValue)
-    ? undefined
-    : stateValue.length > 0
-      ? stateValue
-          .map(
-            ({ id, value }) =>
-              `${id}.${encodeURIComponent(JSON.stringify(value))}`,
-          )
-          .join(",")
-      : encodedEmptyStringForCustomDefaultValue;
+): Query[string] => {
+  if (JSON.stringify(stateValue) === JSON.stringify(defaultValue)) {
+    return undefined;
+  }
+
+  // return encoded empty string if stateValue is empty with custom default value
+  if (stateValue.length === 0) {
+    return encodedEmptyStringForCustomDefaultValue;
+  }
+
+  return stateValue
+    .map(
+      ({ id, value }) => `${id}.${encodeURIComponent(JSON.stringify(value))}`,
+    )
+    .join(",");
+};
 
 export const decodeColumnFilters = (
   queryValue: Query[string],
@@ -24,7 +29,7 @@ export const decodeColumnFilters = (
   if (typeof queryValue !== "string") return defaultValue;
   if (queryValue === "") return defaultValue;
   if (queryValue === encodedEmptyStringForCustomDefaultValue) {
-    return defaultValue.length > 0 ? [] : defaultValue;
+    return [];
   }
 
   try {
