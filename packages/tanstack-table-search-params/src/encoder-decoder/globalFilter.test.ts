@@ -7,184 +7,156 @@ const customDefaultValue = "default";
 
 describe("globalFilter", () => {
   describe("encode", () =>
-    test.each<{
+    describe.each<{
       name: string;
-      globalFilter: Parameters<typeof encodeGlobalFilter>[0];
       defaultValue: Parameters<typeof encodeGlobalFilter>[1];
-      want: ReturnType<typeof encodeGlobalFilter>;
     }>([
       {
-        name: "valid",
-        globalFilter: "foo",
+        name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
-        want: "foo",
       },
       {
-        name: "empty(default value)",
-        globalFilter: "",
-        defaultValue: defaultDefaultGlobalFilter,
-        want: undefined,
-      },
-      {
-        name: "encodedEmptyStringForCustomDefaultValue",
-        globalFilter: encodedEmptyStringForCustomDefaultValue,
-        defaultValue: defaultDefaultGlobalFilter,
-        want: encodedEmptyStringForCustomDefaultValue,
-      },
-      {
-        name: "with custom default value: valid",
-        globalFilter: "foo",
+        name: "with custom default value",
         defaultValue: customDefaultValue,
-        want: "foo",
       },
-      {
-        name: "with custom default value: empty",
-        globalFilter: "",
-        defaultValue: customDefaultValue,
-        want: encodedEmptyStringForCustomDefaultValue,
-      },
-      {
-        name: "with custom default value: default value",
-        globalFilter: customDefaultValue,
-        defaultValue: customDefaultValue,
-        want: undefined,
-      },
-      {
-        name: "with custom default value: encodedEmptyStringForCustomDefaultValue",
-        globalFilter: encodedEmptyStringForCustomDefaultValue,
-        defaultValue: customDefaultValue,
-        want: encodedEmptyStringForCustomDefaultValue,
-      },
-    ])("$name", ({ globalFilter, want, defaultValue }) =>
-      expect(encodeGlobalFilter(globalFilter, defaultValue)).toEqual(want),
+    ])("default value: $name", ({ defaultValue }) =>
+      test.each<{
+        name: string;
+        stateValue: Parameters<typeof encodeGlobalFilter>[0];
+        want: ReturnType<typeof encodeGlobalFilter>;
+      }>([
+        {
+          name: "default value",
+          stateValue: defaultValue,
+          want: undefined,
+        },
+        {
+          name: "empty string",
+          stateValue: "",
+          want:
+            defaultValue === ""
+              ? undefined
+              : encodedEmptyStringForCustomDefaultValue,
+        },
+        {
+          name: "encodedEmptyStringForCustomDefaultValue",
+          stateValue: encodedEmptyStringForCustomDefaultValue,
+          want: encodedEmptyStringForCustomDefaultValue,
+        },
+        {
+          name: "valid",
+          stateValue: "foo",
+          want: "foo",
+        },
+        {
+          name: "not string",
+          stateValue: 1,
+          want: defaultValue,
+        },
+      ])("$name", ({ stateValue, want }) =>
+        expect(encodeGlobalFilter(stateValue, defaultValue)).toEqual(want),
+      ),
     ));
 
   describe("decode", () =>
-    test.each<{
+    describe.each<{
       name: string;
-      queryValue: Parameters<typeof decodeGlobalFilter>[0];
       defaultValue: Parameters<typeof decodeGlobalFilter>[1];
-      want: ReturnType<typeof decodeGlobalFilter>;
     }>([
       {
-        name: "string",
-        queryValue: "foo",
+        name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
-        want: "foo",
       },
       {
-        name: "empty(default value)",
-        queryValue: "",
-        defaultValue: defaultDefaultGlobalFilter,
-        want: "",
-      },
-      {
-        name: "string array",
-        queryValue: ["foo"],
-        defaultValue: defaultDefaultGlobalFilter,
-        want: "",
-      },
-      {
-        name: "undefined",
-        queryValue: undefined,
-        defaultValue: defaultDefaultGlobalFilter,
-        want: "",
-      },
-      {
-        name: "encodedEmptyStringForCustomDefaultValue",
-        queryValue: encodedEmptyStringForCustomDefaultValue,
-        defaultValue: defaultDefaultGlobalFilter,
-        want: encodedEmptyStringForCustomDefaultValue,
-      },
-      {
-        name: "with custom default value: string",
-        queryValue: "foo",
+        name: "with custom default value",
         defaultValue: customDefaultValue,
-        want: "foo",
       },
-      {
-        name: "with custom default value: empty",
-        queryValue: "",
-        defaultValue: customDefaultValue,
-        want: "",
-      },
-      {
-        name: "with custom default value: default value",
-        queryValue: customDefaultValue,
-        defaultValue: customDefaultValue,
-        want: customDefaultValue,
-      },
-      {
-        name: "with custom default value: string array",
-        queryValue: ["foo"],
-        defaultValue: customDefaultValue,
-        want: customDefaultValue,
-      },
-      {
-        name: "with custom default value: undefined",
-        queryValue: undefined,
-        defaultValue: customDefaultValue,
-        want: customDefaultValue,
-      },
-      {
-        name: "with custom default value: encodedEmptyStringForCustomDefaultValue",
-        queryValue: encodedEmptyStringForCustomDefaultValue,
-        defaultValue: customDefaultValue,
-        want: "",
-      },
-    ])("$name", ({ queryValue, want, defaultValue }) =>
-      expect(decodeGlobalFilter(queryValue, defaultValue)).toBe(want),
+    ])("default value: $name", ({ defaultValue }) =>
+      test.each<{
+        name: string;
+        queryValue: Parameters<typeof decodeGlobalFilter>[0];
+        want: ReturnType<typeof decodeGlobalFilter>;
+      }>([
+        {
+          name: "default value",
+          queryValue: defaultValue,
+          want: defaultValue,
+        },
+        {
+          name: "empty string",
+          queryValue: "",
+          want: "",
+        },
+        {
+          name: "encodedEmptyStringForCustomDefaultValue",
+          queryValue: encodedEmptyStringForCustomDefaultValue,
+          want:
+            defaultValue === "" ? encodedEmptyStringForCustomDefaultValue : "",
+        },
+        {
+          name: "string",
+          queryValue: "foo",
+          want: "foo",
+        },
+        {
+          name: "string array",
+          queryValue: ["foo"],
+          want: defaultValue,
+        },
+        {
+          name: "undefined",
+          queryValue: undefined,
+          want: defaultValue,
+        },
+      ])("$name", ({ queryValue, want }) =>
+        expect(decodeGlobalFilter(queryValue, defaultValue)).toBe(want),
+      ),
     ));
 
   describe("encode and decode", () =>
-    test.each<{
+    describe.each<{
       name: string;
-      globalFilter: Parameters<typeof encodeGlobalFilter>[0];
       defaultValue: Parameters<typeof encodeGlobalFilter>[1];
-      wantDecoded?: ReturnType<typeof decodeGlobalFilter>;
     }>([
       {
-        name: "empty string(default value)",
-        globalFilter: "",
+        name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
       },
       {
-        name: "non-empty string",
-        globalFilter: "foo",
-        defaultValue: defaultDefaultGlobalFilter,
-      },
-      {
-        name: "encodedEmptyStringForCustomDefaultValue",
-        globalFilter: encodedEmptyStringForCustomDefaultValue,
-        defaultValue: defaultDefaultGlobalFilter,
-      },
-      {
-        name: "with custom default value: empty string",
-        globalFilter: "",
+        name: "with custom default value",
         defaultValue: customDefaultValue,
       },
-      {
-        name: "with custom default value: non-empty string",
-        globalFilter: "foo",
-        defaultValue: customDefaultValue,
-      },
-      {
-        name: "with custom default value: default value",
-        globalFilter: customDefaultValue,
-        defaultValue: customDefaultValue,
-      },
-      {
-        name: "with custom default value: encodedEmptyStringForCustomDefaultValue",
-        globalFilter: encodedEmptyStringForCustomDefaultValue,
-        defaultValue: customDefaultValue,
-        wantDecoded: "",
-      },
-    ])("$name", ({ globalFilter, defaultValue, wantDecoded }) =>
-      expect(
-        decodeGlobalFilter(
-          encodeGlobalFilter(globalFilter, defaultValue),
-          defaultValue,
-        ),
-      ).toBe(wantDecoded ?? globalFilter),
+    ])("default value: $name", ({ defaultValue }) =>
+      test.each<{
+        name: string;
+        globalFilter: Parameters<typeof encodeGlobalFilter>[0];
+        wantDecoded?: ReturnType<typeof decodeGlobalFilter>;
+      }>([
+        {
+          name: "default value",
+          globalFilter: defaultValue,
+        },
+        {
+          name: "empty string",
+          globalFilter: "",
+        },
+        {
+          name: "non-empty string",
+          globalFilter: "foo",
+        },
+        {
+          name: "encodedEmptyStringForCustomDefaultValue",
+          globalFilter: encodedEmptyStringForCustomDefaultValue,
+          wantDecoded:
+            defaultValue === "" ? encodedEmptyStringForCustomDefaultValue : "",
+        },
+      ])("$name", ({ globalFilter, wantDecoded }) =>
+        expect(
+          decodeGlobalFilter(
+            encodeGlobalFilter(globalFilter, defaultValue),
+            defaultValue,
+          ),
+        ).toBe(wantDecoded ?? globalFilter),
+      ),
     ));
 });

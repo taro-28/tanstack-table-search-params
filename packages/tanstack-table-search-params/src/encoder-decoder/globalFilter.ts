@@ -6,12 +6,14 @@ export const encodeGlobalFilter = (
   stateValue: State["globalFilter"],
   defaultValue: State["globalFilter"],
 ): Query[string] => {
-  if (typeof stateValue !== "string") {
-    return undefined;
-  }
   if (stateValue === defaultValue) {
     return undefined;
   }
+  if (typeof stateValue !== "string") {
+    return defaultValue;
+  }
+
+  // return encoded empty string if stateValue is empty with custom default value
   if (stateValue === "") {
     return encodedEmptyStringForCustomDefaultValue;
   }
