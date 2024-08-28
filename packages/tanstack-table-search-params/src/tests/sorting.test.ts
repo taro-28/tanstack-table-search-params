@@ -98,6 +98,9 @@ describe("sorting", () => {
         ? options.sorting.paramName("sorting")
         : options?.sorting?.paramName || "sorting";
 
+    const defaultSorting =
+      options?.sorting?.defaultValue ?? defaultDefaultSorting;
+
     test("single column", () => {
       const { result, rerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(testRouter, options);
@@ -111,9 +114,6 @@ describe("sorting", () => {
           ...stateAndOnChanges,
         });
       });
-
-      const defaultSorting =
-        options?.sorting?.defaultValue ?? defaultDefaultSorting;
 
       // initial state
       expect(result.current.getState().sorting).toEqual(defaultSorting);
@@ -204,9 +204,6 @@ describe("sorting", () => {
           ...stateAndOnChanges,
         });
       });
-
-      const defaultSorting =
-        options?.sorting?.defaultValue ?? defaultDefaultSorting;
 
       // initial state
       expect(result.current.getState().sorting).toEqual(defaultSorting);
