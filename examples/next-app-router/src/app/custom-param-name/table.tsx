@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
 export const Table = () => {
@@ -20,26 +20,28 @@ export const Table = () => {
 
   const push = useRouter().push;
   const query = useSearchParams();
+  const pathname = usePathname();
 
-  const router = { push, query };
-
-  const stateAndOnChanges = useTableSearchParams(router, {
-    globalFilter: {
-      paramName: "userTable-globalFilter",
-    },
-    sorting: {
-      paramName: (defaultParamName) => `userTable-${defaultParamName}`,
-    },
-    pagination: {
-      paramName: {
-        pageIndex: "userTable-pageIndex",
-        pageSize: "userTable-pageSize",
+  const stateAndOnChanges = useTableSearchParams(
+    { push, query, pathname },
+    {
+      globalFilter: {
+        paramName: "userTable-globalFilter",
+      },
+      sorting: {
+        paramName: (defaultParamName) => `userTable-${defaultParamName}`,
+      },
+      pagination: {
+        paramName: {
+          pageIndex: "userTable-pageIndex",
+          pageSize: "userTable-pageSize",
+        },
+      },
+      columnFilters: {
+        paramName: (defaultParamName) => `userTable-${defaultParamName}`,
       },
     },
-    columnFilters: {
-      paramName: (defaultParamName) => `userTable-${defaultParamName}`,
-    },
-  });
+  );
 
   const table = useReactTable({
     data,

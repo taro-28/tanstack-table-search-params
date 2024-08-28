@@ -4,8 +4,7 @@ import { renderHook } from "@testing-library/react";
 import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "..";
 import { defaultDefaultColumnFilters } from "../useColumnFilters";
-import { getQuery } from "./getQuery";
-import { testRouter } from "./testRouter";
+import { useTestRouter } from "./testRouter";
 
 describe("columnFilters", () => {
   afterEach(() => {
@@ -101,8 +100,14 @@ describe("columnFilters", () => {
       options?.columnFilters?.defaultValue ?? defaultDefaultColumnFilters;
 
     test("single column: string value", () => {
-      const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+      const { result: routerResult, rerender: routerRerender } = renderHook(
+        () => useTestRouter(),
+      );
+      const { result, rerender: resultRerender } = renderHook(() => {
+        const stateAndOnChanges = useTableSearchParams(
+          routerResult.current,
+          options,
+        );
         return useReactTable({
           columns: [{ accessorKey: "id" }, { accessorKey: "name" }],
           data: [
@@ -113,12 +118,16 @@ describe("columnFilters", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        routerRerender();
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
       );
-      expect(getQuery()).toEqual({});
+      expect(routerResult.current.query).toEqual({});
 
       // set string value for column filter
       act(() => result.current.getFlatHeaders()[1]?.column.setFilterValue("J"));
@@ -127,7 +136,7 @@ describe("columnFilters", () => {
         ...defaultColumnFilters,
         { id: "name", value: "J" },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.columnFilters?.encoder?.([{ id: "name", value: "J" }]) ?? {
           [paramName]:
             defaultColumnFilters.length === 0
@@ -141,15 +150,23 @@ describe("columnFilters", () => {
         result.current.getFlatHeaders()[1]?.column.setFilterValue("");
       });
       rerender();
-      expect(getQuery()).toEqual(options?.columnFilters?.encoder?.([]) ?? {});
+      expect(routerResult.current.query).toEqual(
+        options?.columnFilters?.encoder?.([]) ?? {},
+      );
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
       );
     });
 
     test("single column: array value", () => {
-      const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+      const { result: routerResult, rerender: routerRerender } = renderHook(
+        () => useTestRouter(),
+      );
+      const { result, rerender: resultRerender } = renderHook(() => {
+        const stateAndOnChanges = useTableSearchParams(
+          routerResult.current,
+          options,
+        );
         return useReactTable({
           columns: [
             { accessorKey: "id" },
@@ -166,12 +183,16 @@ describe("columnFilters", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        routerRerender();
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
       );
-      expect(getQuery()).toEqual({});
+      expect(routerResult.current.query).toEqual({});
 
       // set array value for column filter
       act(() =>
@@ -182,7 +203,7 @@ describe("columnFilters", () => {
         ...defaultColumnFilters,
         { id: "age", value: [30, 40] },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.columnFilters?.encoder?.([{ id: "age", value: [30, 40] }]) ?? {
           [paramName]:
             defaultColumnFilters.length === 0
@@ -199,12 +220,20 @@ describe("columnFilters", () => {
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
       );
-      expect(getQuery()).toEqual(options?.columnFilters?.encoder?.([]) ?? {});
+      expect(routerResult.current.query).toEqual(
+        options?.columnFilters?.encoder?.([]) ?? {},
+      );
     });
 
     test("multiple columns", () => {
-      const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+      const { result: routerResult, rerender: routerRerender } = renderHook(
+        () => useTestRouter(),
+      );
+      const { result, rerender: resultRerender } = renderHook(() => {
+        const stateAndOnChanges = useTableSearchParams(
+          routerResult.current,
+          options,
+        );
         return useReactTable({
           columns: [
             { accessorKey: "id" },
@@ -221,12 +250,16 @@ describe("columnFilters", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        routerRerender();
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
       );
-      expect(getQuery()).toEqual({});
+      expect(routerResult.current.query).toEqual({});
 
       // set string value for column filter
       act(() => {
@@ -238,7 +271,7 @@ describe("columnFilters", () => {
         ...defaultColumnFilters,
         { id: "name", value: "J" },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.columnFilters?.encoder?.([{ id: "name", value: "J" }]) ?? {
           [paramName]:
             defaultColumnFilters.length === 0
@@ -267,7 +300,7 @@ describe("columnFilters", () => {
         ...defaultColumnFilters,
         { id: "age", value: [30, 40] },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.columnFilters?.encoder?.([{ id: "age", value: [30, 40] }]) ?? {
           [paramName]:
             defaultColumnFilters.length === 0
@@ -283,7 +316,9 @@ describe("columnFilters", () => {
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
       );
-      expect(getQuery()).toEqual(options?.columnFilters?.encoder?.([]) ?? {});
+      expect(routerResult.current.query).toEqual(
+        options?.columnFilters?.encoder?.([]) ?? {},
+      );
     });
   });
 });

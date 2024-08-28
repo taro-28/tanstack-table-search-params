@@ -4,9 +4,8 @@ import { renderHook } from "@testing-library/react";
 import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "..";
 import { defaultDefaultPagination } from "../usePagination";
-import { getQuery } from "./getQuery";
 import { testData, testDataColumns } from "./testData";
-import { testRouter } from "./testRouter";
+import { useTestRouter } from "./testRouter";
 
 describe("pagination", () => {
   afterEach(() => {
@@ -117,8 +116,14 @@ describe("pagination", () => {
           };
 
     test("basic", () => {
-      const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+      const { result: routerResult, rerender: routerRerender } = renderHook(
+        () => useTestRouter(),
+      );
+      const { result, rerender: resultRerender } = renderHook(() => {
+        const stateAndOnChanges = useTableSearchParams(
+          routerResult.current,
+          options,
+        );
         return useReactTable({
           columns: testDataColumns,
           data: testData,
@@ -126,13 +131,17 @@ describe("pagination", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        routerRerender();
+        resultRerender();
+      };
 
       const defaultPagination =
         options?.pagination?.defaultValue ?? defaultDefaultPagination;
 
       // initial state
       expect(result.current.getState().pagination).toEqual(defaultPagination);
-      expect(getQuery()).toEqual({});
+      expect(routerResult.current.query).toEqual({});
 
       const updatedPageSize = 20;
 
@@ -143,7 +152,7 @@ describe("pagination", () => {
         pageIndex: defaultPagination.pageIndex,
         pageSize: updatedPageSize,
       });
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.pagination?.encoder?.({
           pageIndex: defaultPagination.pageIndex,
           pageSize: updatedPageSize,
@@ -159,7 +168,7 @@ describe("pagination", () => {
         pageIndex: defaultPagination.pageIndex + 1,
         pageSize: updatedPageSize,
       });
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.pagination?.encoder?.({
           pageIndex: defaultPagination.pageIndex + 1,
           pageSize: updatedPageSize,
@@ -176,7 +185,7 @@ describe("pagination", () => {
         pageIndex: 0,
         pageSize: updatedPageSize,
       });
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.pagination?.encoder?.({
           pageIndex: 0,
           pageSize: updatedPageSize,
@@ -195,7 +204,7 @@ describe("pagination", () => {
         pageIndex: 0,
         pageSize: 10,
       });
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.pagination?.encoder?.({
           pageIndex: 0,
           pageSize: 10,

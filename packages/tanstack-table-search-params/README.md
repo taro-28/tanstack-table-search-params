@@ -60,13 +60,14 @@ const table = useReactTable({
 
 ```tsx
 import { useReactTable } from "tanstack-table";
-import { useRouter } from "next/router";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
 const push = useRouter().push;
 const query = useSearchParams();
+const pathname = usePathname();
 // 1. Pass push and query and get the state and onChanges from the hook
-const stateAndOnChanges = useTableSearchParams({ push, query });
+const stateAndOnChanges = useTableSearchParams({ push, query, pathname });
 
 const table = useReactTable({
   // 2. Pass the state and onChanges to the table
@@ -105,6 +106,7 @@ const stateAndOnChanges = useTableSearchParams({
     navigate({ search: Object.fromEntries(searchParams.entries()) });
   },
   query,
+  pathname: Route.path,
 });
 
 const table = useReactTable({

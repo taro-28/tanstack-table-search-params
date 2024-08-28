@@ -4,7 +4,6 @@ import type { Query, Router } from "./types";
 import { useColumnFilters } from "./useColumnFilters";
 import { useGlobalFilter } from "./useGlobalFilter";
 import { usePagination } from "./usePagination";
-import { useRouter } from "./useRouter";
 import { useSorting } from "./useSorting";
 
 export type State = Pick<
@@ -52,24 +51,21 @@ export const useTableSearchParams = (
     push,
     pathname,
     query,
-  }: Pick<Router, "push"> & {
-    pathname?: string;
-    query?: Router["query"] | URLSearchParams;
+  }: Pick<Router, "push" | "pathname"> & {
+    query: Router["query"] | URLSearchParams;
   },
   options?: Options,
 ): Returns => {
-  const internalRouter = useRouter();
   const router = useMemo(
     () => ({
       push,
-      pathname: pathname ?? internalRouter.pathname,
-      query: query
-        ? query instanceof URLSearchParams
+      pathname,
+      query:
+        query instanceof URLSearchParams
           ? Object.fromEntries(query.entries())
-          : query
-        : internalRouter.query,
+          : query,
     }),
-    [push, pathname, query, internalRouter.pathname, internalRouter.query],
+    [push, pathname, query],
   );
 
   const { globalFilter, onGlobalFilterChange } = useGlobalFilter({
