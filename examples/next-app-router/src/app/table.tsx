@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
 export const BasicTable = () => {
@@ -20,9 +20,9 @@ export const BasicTable = () => {
 
   const push = useRouter().push;
   const query = useSearchParams();
+  const pathname = usePathname();
 
-  const router = { push, query };
-  const stateAndOnChanges = useTableSearchParams(router);
+  const stateAndOnChanges = useTableSearchParams({ push, query, pathname });
 
   const table = useReactTable({
     data,

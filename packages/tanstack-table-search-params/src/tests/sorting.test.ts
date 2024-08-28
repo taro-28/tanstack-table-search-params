@@ -5,8 +5,7 @@ import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "..";
 import { encodedEmptyStringForCustomDefaultValue } from "../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
 import { defaultDefaultSorting } from "../useSorting";
-import { getQuery } from "./getQuery";
-import { testRouter } from "./testRouter";
+import { useTestRouter } from "./testRouter";
 
 describe("sorting", () => {
   afterEach(() => {
@@ -102,8 +101,14 @@ describe("sorting", () => {
       options?.sorting?.defaultValue ?? defaultDefaultSorting;
 
     test("single column", () => {
-      const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+      const { result: routerResult, rerender: routerRerender } = renderHook(
+        () => useTestRouter(),
+      );
+      const { result, rerender: resultRerender } = renderHook(() => {
+        const stateAndOnChanges = useTableSearchParams(
+          routerResult.current,
+          options,
+        );
         return useReactTable({
           columns: [{ accessorKey: "id" }, { accessorKey: "name" }],
           data: [
@@ -114,10 +119,14 @@ describe("sorting", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        routerRerender();
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().sorting).toEqual(defaultSorting);
-      expect(getQuery()).toEqual({});
+      expect(routerResult.current.query).toEqual({});
 
       // sort by first column
       act(() =>
@@ -129,7 +138,7 @@ describe("sorting", () => {
       expect(result.current.getState().sorting).toEqual([
         { id: "id", desc: true },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.sorting?.encoder?.([{ id: "id", desc: true }]) ?? {
           [paramName]: "id.desc",
         },
@@ -145,7 +154,7 @@ describe("sorting", () => {
       expect(result.current.getState().sorting).toEqual([
         { id: "id", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.sorting?.encoder?.([{ id: "id", desc: false }]) ?? {
           [paramName]: "id.asc",
         },
@@ -161,7 +170,7 @@ describe("sorting", () => {
       expect(result.current.getState().sorting).toEqual([
         { id: "name", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.sorting?.encoder?.([{ id: "name", desc: false }]) ?? {
           [paramName]: "name.asc",
         },
@@ -181,7 +190,7 @@ describe("sorting", () => {
       });
       rerender();
       expect(result.current.getState().sorting).toEqual([]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.sorting?.encoder?.([]) ?? {
           [paramName]:
             defaultSorting.length > 0
@@ -192,8 +201,14 @@ describe("sorting", () => {
     });
 
     test("multiple columns", () => {
-      const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+      const { result: routerResult, rerender: routerRerender } = renderHook(
+        () => useTestRouter(),
+      );
+      const { result, rerender: resultRerender } = renderHook(() => {
+        const stateAndOnChanges = useTableSearchParams(
+          routerResult.current,
+          options,
+        );
         return useReactTable({
           columns: [{ accessorKey: "id" }, { accessorKey: "name" }],
           data: [
@@ -204,10 +219,14 @@ describe("sorting", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        routerRerender();
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().sorting).toEqual(defaultSorting);
-      expect(getQuery()).toEqual({});
+      expect(routerResult.current.query).toEqual({});
 
       // sort by first column and another column
       act(() =>
@@ -226,7 +245,7 @@ describe("sorting", () => {
         { id: "id", desc: true },
         { id: "name", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.sorting?.encoder?.([
           { id: "id", desc: true },
           { id: "name", desc: false },
@@ -244,7 +263,7 @@ describe("sorting", () => {
         { id: "id", desc: false },
         { id: "name", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.sorting?.encoder?.([
           { id: "id", desc: false },
           { id: "name", desc: false },
@@ -261,7 +280,7 @@ describe("sorting", () => {
       expect(result.current.getState().sorting).toEqual([
         { id: "id", desc: false },
       ]);
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.sorting?.encoder?.([{ id: "id", desc: false }]) ?? {
           [paramName]: "id.asc",
         },

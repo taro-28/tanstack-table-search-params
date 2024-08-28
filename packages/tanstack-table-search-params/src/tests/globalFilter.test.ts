@@ -5,8 +5,7 @@ import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "..";
 import { encodedEmptyStringForCustomDefaultValue } from "../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
 import { defaultDefaultGlobalFilter } from "../useGlobalFilter";
-import { getQuery } from "./getQuery";
-import { testRouter } from "./testRouter";
+import { useTestRouter } from "./testRouter";
 
 describe("globalFilter", () => {
   afterEach(() => {
@@ -78,8 +77,14 @@ describe("globalFilter", () => {
         : options?.globalFilter?.paramName || "globalFilter";
 
     test("basic", () => {
-      const { result, rerender } = renderHook(() => {
-        const stateAndOnChanges = useTableSearchParams(testRouter, options);
+      const { result: routerResult, rerender: routerRerender } = renderHook(
+        () => useTestRouter(),
+      );
+      const { result, rerender: resultRerender } = renderHook(() => {
+        const stateAndOnChanges = useTableSearchParams(
+          routerResult.current,
+          options,
+        );
         return useReactTable({
           columns: [],
           data: [],
@@ -87,19 +92,23 @@ describe("globalFilter", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        routerRerender();
+        resultRerender();
+      };
 
       const defaultGlobalFilter =
         options?.globalFilter?.defaultValue ?? defaultDefaultGlobalFilter;
 
       // initial state
       expect(result.current.getState().globalFilter).toBe(defaultGlobalFilter);
-      expect(getQuery()).toEqual({});
+      expect(routerResult.current.query).toEqual({});
 
       // set
       act(() => result.current.setGlobalFilter("John"));
       rerender();
       expect(result.current.getState().globalFilter).toBe("John");
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.globalFilter?.encoder?.("John") ?? {
           [paramName]: "John",
         },
@@ -110,7 +119,7 @@ describe("globalFilter", () => {
       rerender();
 
       expect(result.current.getState().globalFilter).toBe("");
-      expect(getQuery()).toEqual(
+      expect(routerResult.current.query).toEqual(
         options?.globalFilter?.encoder?.("") ?? {
           [paramName]: defaultGlobalFilter
             ? encodedEmptyStringForCustomDefaultValue

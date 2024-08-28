@@ -30,6 +30,7 @@ function Page() {
         navigate({ search: Object.fromEntries(searchParams.entries()) });
       },
       query,
+      pathname: Route.path,
     },
     {
       globalFilter: { defaultValue: "a" },
