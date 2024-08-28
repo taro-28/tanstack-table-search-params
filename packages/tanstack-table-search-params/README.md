@@ -124,6 +124,10 @@ const table = useReactTable({
 
 ## Advanced
 
+- [Custom query param name](#custom-query-param-name)
+- [Custom encoder/decoder](#custom-encoderdecoder)
+- [Custom default value](#custom-default-value)
+
 ### Custom query param name
 
 Query parameter names can be customized.
@@ -199,6 +203,38 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
+### Custom default value
+
+Default values can be customized.
+
+"default value" means the value that is used as value of `state` when the query parameter is not present.
+
+- [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/custom-default-value)
+- [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/custom-default-value.tsx)
+
+```tsx
+const stateAndOnChanges = useTableSearchParams(router, {
+  sorting: {
+    // Sort by name in descending order when query parameter is not present
+    defaultValue: [{ id: "name", desc: true }],
+  },
+});
+```
+
+If you want to set initial values for query parameters, either transition with the query parameter or add the query parameter after the transition, depending on the router you are using.
+
+```tsx
+// Transition with the query parameter
+<Link href={{ pathname: "/users", query: { globalFilter: "foo" } }}>
+  Users
+</Link>;
+
+// Add the query parameter after the transition
+useEffect(() => {
+  router.replace({ query: { globalFilter: "foo" } });
+}, [router.replace]);
+```
+
 ## Supported
 
 List of supported TanStack table states
@@ -219,7 +255,6 @@ List of supported TanStack table states
 
 ## TODO
 
-- [ ] initial state
 - [ ] disable specific state
 
 # License
