@@ -4,6 +4,8 @@ import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "../..";
+import { encodedEmptyStringForCustomDefaultValue } from "../../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
+import { defaultDefaultGlobalFilter } from "../../useGlobalFilter";
 
 describe("globalFilter", () => {
   afterEach(() => {
@@ -60,6 +62,14 @@ describe("globalFilter", () => {
         },
       },
     },
+    {
+      name: "with options: custom default value",
+      options: {
+        globalFilter: {
+          defaultValue: "default",
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.globalFilter?.paramName === "function"
@@ -77,8 +87,11 @@ describe("globalFilter", () => {
         });
       });
 
+      const defaultGlobalFilter =
+        options?.globalFilter?.defaultValue ?? defaultDefaultGlobalFilter;
+
       // initial state
-      expect(result.current.getState().globalFilter).toBe("");
+      expect(result.current.getState().globalFilter).toBe(defaultGlobalFilter);
       expect(mockRouter.query).toEqual({});
 
       // set
@@ -96,7 +109,11 @@ describe("globalFilter", () => {
       rerender();
       expect(result.current.getState().globalFilter).toBe("");
       expect(mockRouter.query).toEqual(
-        options?.globalFilter?.encoder?.("") ?? {},
+        options?.globalFilter?.encoder?.("") ?? {
+          [paramName]: defaultGlobalFilter
+            ? encodedEmptyStringForCustomDefaultValue
+            : undefined,
+        },
       );
     });
   });

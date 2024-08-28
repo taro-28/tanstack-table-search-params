@@ -1,6 +1,30 @@
 import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
+type Menu = {
+  title: string;
+  to: string;
+};
+
+const menus = [
+  {
+    title: "Basic",
+    to: "/",
+  },
+  {
+    title: "Custom query param name",
+    to: "/custom-param-name",
+  },
+  {
+    title: "Custom encoder/decoder",
+    to: "/custom-encoder-decoder",
+  },
+  {
+    title: "Custom default value",
+    to: "/custom-default-value",
+  },
+] as const satisfies Menu[];
+
 export const Route = createRootRoute({
   component: RootComponent,
 });
@@ -15,27 +39,13 @@ function RootComponent() {
           </Link>
           <nav>
             <ul className="flex items-center">
-              <li>
-                <Link to="/" className="hover:text-gray-500 p-2">
-                  Basic
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/custom-param-name"
-                  className="hover:text-gray-500 p-2"
-                >
-                  Custom query param name
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/custom-encoder-decoder"
-                  className="hover:text-gray-500 p-2"
-                >
-                  Custom encoder/decoder
-                </Link>
-              </li>
+              {menus.map((menu) => (
+                <li key={menu.to}>
+                  <Link to={menu.to} className="hover:text-gray-500 p-2">
+                    {menu.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
         </header>

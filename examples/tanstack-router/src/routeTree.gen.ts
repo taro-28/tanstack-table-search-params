@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as CustomParamNameImport } from './routes/custom-param-name'
 import { Route as CustomEncoderDecoderImport } from './routes/custom-encoder-decoder'
+import { Route as CustomDefaultValueImport } from './routes/custom-default-value'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
@@ -24,6 +25,11 @@ const CustomParamNameRoute = CustomParamNameImport.update({
 
 const CustomEncoderDecoderRoute = CustomEncoderDecoderImport.update({
   path: '/custom-encoder-decoder',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CustomDefaultValueRoute = CustomDefaultValueImport.update({
+  path: '/custom-default-value',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -41,6 +47,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/custom-default-value': {
+      id: '/custom-default-value'
+      path: '/custom-default-value'
+      fullPath: '/custom-default-value'
+      preLoaderRoute: typeof CustomDefaultValueImport
       parentRoute: typeof rootRoute
     }
     '/custom-encoder-decoder': {
@@ -64,6 +77,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
+  CustomDefaultValueRoute,
   CustomEncoderDecoderRoute,
   CustomParamNameRoute,
 })
@@ -77,12 +91,16 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/custom-default-value",
         "/custom-encoder-decoder",
         "/custom-param-name"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/custom-default-value": {
+      "filePath": "custom-default-value.tsx"
     },
     "/custom-encoder-decoder": {
       "filePath": "custom-encoder-decoder.tsx"

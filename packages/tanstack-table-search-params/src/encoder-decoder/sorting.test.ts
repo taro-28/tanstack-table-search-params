@@ -1,96 +1,172 @@
 import { describe, expect, test } from "vitest";
+import { defaultDefaultSorting } from "../useSorting";
+import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringForCustomDefaultValue";
 import { decodeSorting, encodeSorting } from "./sorting";
+
+const customDefaultValue = [
+  {
+    id: "custom",
+    desc: true,
+  },
+];
 
 describe("sorting", () => {
   describe("encode", () =>
-    test.each<{
+    describe.each<{
       name: string;
-      sorting: Parameters<typeof encodeSorting>[0];
-      want: ReturnType<typeof encodeSorting>;
+      defaultValue: Parameters<typeof encodeSorting>[1];
     }>([
       {
-        name: "empty array",
-        sorting: [],
-        want: undefined,
+        name: "default default value",
+        defaultValue: defaultDefaultSorting,
       },
       {
-        name: "non-empty array",
-        sorting: [{ id: "foo", desc: true }],
-        want: "foo.desc",
+        name: "with custom default value",
+        defaultValue: customDefaultValue,
       },
-      {
-        name: "multiple items",
-        sorting: [
-          { id: "foo", desc: true },
-          { id: "bar", desc: false },
-        ],
-        want: "foo.desc,bar.asc",
-      },
-    ])("$name", ({ sorting, want }) =>
-      expect(encodeSorting(sorting)).toEqual(want),
+    ])("default value: $name", ({ defaultValue }) =>
+      test.each<{
+        name: string;
+        stateValue: Parameters<typeof encodeSorting>[0];
+        want: ReturnType<typeof encodeSorting>;
+      }>([
+        {
+          name: "default value",
+          stateValue: defaultValue,
+          want: undefined,
+        },
+        {
+          name: "empty array",
+          stateValue: [],
+          want:
+            JSON.stringify(defaultValue) ===
+            JSON.stringify(defaultDefaultSorting)
+              ? undefined
+              : encodedEmptyStringForCustomDefaultValue,
+        },
+        {
+          name: "non-empty array",
+          stateValue: [{ id: "foo", desc: true }],
+          want: "foo.desc",
+        },
+        {
+          name: "multiple items",
+          stateValue: [
+            { id: "foo", desc: true },
+            { id: "bar", desc: false },
+          ],
+          want: "foo.desc,bar.asc",
+        },
+      ])("$name", ({ stateValue, want }) =>
+        expect(encodeSorting(stateValue, defaultValue)).toEqual(want),
+      ),
     ));
 
   describe("decode", () =>
-    test.each<{
+    describe.each<{
       name: string;
-      queryValue: Parameters<typeof decodeSorting>[0];
-      want: ReturnType<typeof decodeSorting>;
+      defaultValue: Parameters<typeof decodeSorting>[1];
     }>([
       {
-        name: "string",
-        queryValue: "foo.desc",
-        want: [{ id: "foo", desc: true }],
+        name: "default default value",
+        defaultValue: defaultDefaultSorting,
       },
       {
-        name: "string array",
-        queryValue: ["foo.desc"],
-        want: [],
+        name: "with custom default value",
+        defaultValue: customDefaultValue,
       },
-      {
-        name: "undefined",
-        queryValue: undefined,
-        want: [],
-      },
-      {
-        name: "empty string",
-        queryValue: "",
-        want: [],
-      },
-      {
-        name: "invalid string",
-        queryValue: "foo",
-        want: [],
-      },
-      {
-        name: "invalid order",
-        queryValue: "foo.bar",
-        want: [],
-      },
-    ])("$name", ({ queryValue, want }) =>
-      expect(decodeSorting(queryValue)).toEqual(want),
+    ])("default value: $name", ({ defaultValue }) =>
+      test.each<{
+        name: string;
+        queryValue: Parameters<typeof decodeSorting>[0];
+        want: ReturnType<typeof decodeSorting>;
+      }>([
+        {
+          name: "default value",
+          queryValue: encodeSorting(defaultValue, defaultValue),
+          want: defaultValue,
+        },
+        {
+          name: "empty string",
+          queryValue: "",
+          want: defaultValue,
+        },
+        {
+          name: "encodedEmptyStringForCustomDefaultValue",
+          queryValue: encodedEmptyStringForCustomDefaultValue,
+          want: [],
+        },
+        {
+          name: "string",
+          queryValue: "foo.desc",
+          want: [{ id: "foo", desc: true }],
+        },
+        {
+          name: "string array",
+          queryValue: ["foo.desc"],
+          want: defaultValue,
+        },
+        {
+          name: "undefined",
+          queryValue: undefined,
+          want: defaultValue,
+        },
+        {
+          name: "invalid string",
+          queryValue: "foo",
+          want: defaultValue,
+        },
+        {
+          name: "invalid order",
+          queryValue: "foo.bar",
+          want: defaultValue,
+        },
+      ])("$name", ({ queryValue, want }) =>
+        expect(decodeSorting(queryValue, defaultValue)).toEqual(want),
+      ),
     ));
 
   describe("encode and decode", () =>
-    test.each<{
+    describe.each<{
       name: string;
-      sorting: Parameters<typeof encodeSorting>[0];
+      defaultValue: Parameters<typeof encodeSorting>[1];
     }>([
       {
-        name: "empty array",
-        sorting: [],
+        name: "default default value",
+        defaultValue: defaultDefaultSorting,
       },
       {
-        name: "non-empty array",
-        sorting: [{ id: "foo", desc: true }],
+        name: "with custom default value",
+        defaultValue: customDefaultValue,
       },
-      {
-        name: "multiple items",
-        sorting: [
-          { id: "foo", desc: true },
-          { id: "bar", desc: false },
-        ],
-      },
-    ])("$name", ({ sorting }) => {
-      expect(decodeSorting(encodeSorting(sorting))).toEqual(sorting);
-    }));
+    ])("default value: $name", ({ defaultValue }) =>
+      test.each<{
+        name: string;
+        stateValue: Parameters<typeof encodeSorting>[0];
+      }>([
+        {
+          name: "default value",
+          stateValue: defaultValue,
+        },
+        {
+          name: "empty array",
+          stateValue: [],
+        },
+        {
+          name: "non-empty array",
+          stateValue: [{ id: "foo", desc: true }],
+        },
+        {
+          name: "multiple items",
+          stateValue: [
+            { id: "foo", desc: true },
+            { id: "bar", desc: false },
+          ],
+        },
+      ])("$name", ({ stateValue }) => {
+        expect(
+          decodeSorting(encodeSorting(stateValue, defaultValue), defaultValue),
+        ).toEqual(stateValue);
+      }),
+    ));
 });

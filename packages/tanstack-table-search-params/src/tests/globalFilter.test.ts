@@ -3,6 +3,8 @@ import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "..";
+import { encodedEmptyStringForCustomDefaultValue } from "../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
+import { defaultDefaultGlobalFilter } from "../useGlobalFilter";
 import { getQuery } from "./getQuery";
 import { testRouter } from "./testRouter";
 
@@ -61,6 +63,14 @@ describe("globalFilter", () => {
         },
       },
     },
+    {
+      name: "with options: custom default value",
+      options: {
+        globalFilter: {
+          defaultValue: "default",
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.globalFilter?.paramName === "function"
@@ -78,8 +88,11 @@ describe("globalFilter", () => {
         });
       });
 
+      const defaultGlobalFilter =
+        options?.globalFilter?.defaultValue ?? defaultDefaultGlobalFilter;
+
       // initial state
-      expect(result.current.getState().globalFilter).toBe("");
+      expect(result.current.getState().globalFilter).toBe(defaultGlobalFilter);
       expect(getQuery()).toEqual({});
 
       // set
@@ -95,8 +108,15 @@ describe("globalFilter", () => {
       // reset
       act(() => result.current.setGlobalFilter(""));
       rerender();
+
       expect(result.current.getState().globalFilter).toBe("");
-      expect(getQuery()).toEqual(options?.globalFilter?.encoder?.("") ?? {});
+      expect(getQuery()).toEqual(
+        options?.globalFilter?.encoder?.("") ?? {
+          [paramName]: defaultGlobalFilter
+            ? encodedEmptyStringForCustomDefaultValue
+            : undefined,
+        },
+      );
     });
   });
 });

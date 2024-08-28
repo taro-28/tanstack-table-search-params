@@ -8,6 +8,11 @@ import {
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
 
+export const defaultDefaultPagination = {
+  pageIndex: 0,
+  pageSize: 10,
+} as const satisfies State["pagination"];
+
 type Props = {
   router: Router;
   options?: Options["pagination"];
@@ -19,27 +24,49 @@ type Returns = {
 };
 
 export const usePagination = ({ router, options }: Props): Returns => {
-  const paramName = (typeof options?.paramName === "function"
-    ? options?.paramName({
+  const paramName = useMemo(
+    () =>
+      (typeof options?.paramName === "function"
+        ? options?.paramName({
+            pageIndex: PARAM_NAMES.PAGE_INDEX,
+            pageSize: PARAM_NAMES.PAGE_SIZE,
+          })
+        : options?.paramName) || {
         pageIndex: PARAM_NAMES.PAGE_INDEX,
         pageSize: PARAM_NAMES.PAGE_SIZE,
-      })
-    : options?.paramName) || {
-    pageIndex: PARAM_NAMES.PAGE_INDEX,
-    pageSize: PARAM_NAMES.PAGE_SIZE,
-  };
+      },
+    [options?.paramName],
+  );
 
   const defaultPagination = useMemo(
+    () => ({
+      pageIndex:
+        options?.defaultValue?.pageIndex ?? defaultDefaultPagination.pageIndex,
+      pageSize:
+        options?.defaultValue?.pageSize ?? defaultDefaultPagination.pageSize,
+    }),
+    [options?.defaultValue?.pageIndex, options?.defaultValue?.pageSize],
+  );
+
+  const uncustomisedPagination = useMemo(
     () =>
-      decodePagination({
-        pageIndex: router.query[paramName.pageIndex],
-        pageSize: router.query[paramName.pageSize],
-      }),
+      decodePagination(
+        {
+          pageIndex: router.query[paramName.pageIndex],
+          pageSize: router.query[paramName.pageSize],
+        },
+        {
+          pageIndex: defaultPagination.pageIndex,
+          pageSize: defaultPagination.pageSize,
+        },
+      ),
     [
       router.query[paramName.pageIndex],
       router.query[paramName.pageSize],
       paramName.pageIndex,
       paramName.pageSize,
+      defaultPagination.pageIndex,
+      defaultPagination.pageSize,
     ],
   );
 
@@ -57,8 +84,16 @@ export const usePagination = ({ router, options }: Props): Returns => {
         ? stringCustomPagination === ""
           ? []
           : JSON.parse(stringCustomPagination)
-        : defaultPagination,
-    [stringCustomPagination, defaultPagination, isCustomDecoder],
+        : {
+            pageIndex: uncustomisedPagination.pageIndex,
+            pageSize: uncustomisedPagination.pageSize,
+          },
+    [
+      stringCustomPagination,
+      isCustomDecoder,
+      uncustomisedPagination.pageIndex,
+      uncustomisedPagination.pageSize,
+    ],
   );
 
   return {
@@ -68,7 +103,10 @@ export const usePagination = ({ router, options }: Props): Returns => {
         const newPagination = functionalUpdate(updater, pagination);
         const encoder = (pagination: State["pagination"]) => {
           if (options?.encoder) return options.encoder(pagination);
-          const encoded = encodePagination(pagination);
+          const encoded = encodePagination(pagination, {
+            pageIndex: defaultPagination.pageIndex,
+            pageSize: defaultPagination.pageSize,
+          });
           return {
             [paramName.pageIndex]: encoded.pageIndex,
             [paramName.pageSize]: encoded.pageSize,
@@ -80,7 +118,14 @@ export const usePagination = ({ router, options }: Props): Returns => {
           router,
         });
       },
-      [router, pagination, paramName, options?.encoder],
+      [
+        router,
+        pagination,
+        paramName,
+        options?.encoder,
+        defaultPagination.pageIndex,
+        defaultPagination.pageSize,
+      ],
     ),
   };
 };

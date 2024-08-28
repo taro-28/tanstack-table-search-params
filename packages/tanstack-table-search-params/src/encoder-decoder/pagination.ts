@@ -1,41 +1,41 @@
 import type { State } from "..";
 import type { Query } from "../types";
 
-export const defaultPagination = {
-  pageIndex: 0,
-  pageSize: 10,
-} as const;
-
 export const encodePagination = (
-  pagination: State["pagination"],
+  stateValue: State["pagination"],
+  defaultValue: State["pagination"],
 ): {
   pageIndex: Query[string];
   pageSize: Query[string];
 } => ({
   pageIndex:
-    pagination.pageIndex === defaultPagination.pageIndex
+    stateValue.pageIndex === defaultValue.pageIndex
       ? undefined
-      : (pagination.pageIndex + 1).toString(),
+      : (stateValue.pageIndex + 1).toString(),
   pageSize:
-    pagination.pageSize === defaultPagination.pageSize
+    stateValue.pageSize === defaultValue.pageSize
       ? undefined
-      : pagination.pageSize.toString(),
+      : stateValue.pageSize.toString(),
 });
 
-export const decodePagination = (queryValues: {
-  pageIndex: Query[string];
-  pageSize: Query[string];
-}) => {
+export const decodePagination = (
+  queryValues: {
+    pageIndex: Query[string];
+    pageSize: Query[string];
+  },
+  defaultValue: State["pagination"],
+) => {
   const pageIndex = Number(queryValues.pageIndex);
   const pageSize = Number(queryValues.pageSize);
+
   return {
     pageIndex:
       queryValues.pageIndex === "" || Number.isNaN(pageIndex) || pageIndex < 1
-        ? defaultPagination.pageIndex
+        ? defaultValue.pageIndex
         : pageIndex - 1,
     pageSize:
       queryValues.pageSize === "" || Number.isNaN(pageSize)
-        ? defaultPagination.pageSize
+        ? defaultValue.pageSize
         : pageSize,
   };
 };

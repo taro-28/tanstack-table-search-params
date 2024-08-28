@@ -8,6 +8,9 @@ import {
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
 
+export const defaultDefaultColumnFilters =
+  [] as const satisfies State["sorting"];
+
 type Props = {
   router: Router;
   options?: Options["columnFilters"];
@@ -24,9 +27,12 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
       ? options?.paramName(PARAM_NAMES.COLUMN_FILTERS)
       : options?.paramName) || PARAM_NAMES.COLUMN_FILTERS;
 
-  const defaultColumnFilters = useMemo(
-    () => decodeColumnFilters(router.query[paramName]),
-    [router.query[paramName], paramName],
+  const defaultColumnFilters =
+    options?.defaultValue ?? defaultDefaultColumnFilters;
+
+  const uncustomisedColumnFilters = useMemo(
+    () => decodeColumnFilters(router.query[paramName], defaultColumnFilters),
+    [router.query[paramName], paramName, defaultColumnFilters],
   );
 
   // If `router.query` is included in the dependency array,
@@ -43,8 +49,8 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
         ? stringCustomColumnFilters === ""
           ? []
           : JSON.parse(stringCustomColumnFilters)
-        : defaultColumnFilters,
-    [stringCustomColumnFilters, defaultColumnFilters, isCustomDecoder],
+        : uncustomisedColumnFilters,
+    [stringCustomColumnFilters, uncustomisedColumnFilters, isCustomDecoder],
   );
 
   return {
@@ -56,7 +62,10 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
           options?.encoder
             ? options.encoder(columnFilters)
             : {
-                [paramName]: encodeColumnFilters(columnFilters),
+                [paramName]: encodeColumnFilters(
+                  columnFilters,
+                  defaultColumnFilters,
+                ),
               };
         await updateQuery({
           oldQuery: encoder(columnFilters),
@@ -64,7 +73,13 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
           router,
         });
       },
-      [router, columnFilters, paramName, options?.encoder],
+      [
+        router,
+        columnFilters,
+        paramName,
+        options?.encoder,
+        defaultColumnFilters,
+      ],
     ),
   };
 };

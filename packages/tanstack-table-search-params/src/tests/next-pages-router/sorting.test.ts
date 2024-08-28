@@ -4,6 +4,8 @@ import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, describe, expect, test } from "vitest";
 import { useTableSearchParams } from "../..";
+import { encodedEmptyStringForCustomDefaultValue } from "../../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
+import { defaultDefaultSorting } from "../../useSorting";
 
 describe("sorting", () => {
   afterEach(() => {
@@ -81,11 +83,22 @@ describe("sorting", () => {
         },
       },
     },
+    {
+      name: "with options: custom default value",
+      options: {
+        sorting: {
+          defaultValue: [{ id: "custom", desc: true }],
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.sorting?.paramName === "function"
         ? options.sorting.paramName("sorting")
         : options?.sorting?.paramName || "sorting";
+
+    const defaultSorting =
+      options?.sorting?.defaultValue ?? defaultDefaultSorting;
 
     test("single column", () => {
       const { result, rerender } = renderHook(() => {
@@ -102,7 +115,7 @@ describe("sorting", () => {
       });
 
       // initial state
-      expect(result.current.getState().sorting).toEqual([]);
+      expect(result.current.getState().sorting).toEqual(defaultSorting);
       expect(mockRouter.query).toEqual({});
 
       // sort by first column
@@ -167,7 +180,14 @@ describe("sorting", () => {
       });
       rerender();
       expect(result.current.getState().sorting).toEqual([]);
-      expect(mockRouter.query).toEqual(options?.sorting?.encoder?.([]) ?? {});
+      expect(mockRouter.query).toEqual(
+        options?.sorting?.encoder?.([]) ?? {
+          [paramName]:
+            defaultSorting.length > 0
+              ? encodedEmptyStringForCustomDefaultValue
+              : undefined,
+        },
+      );
     });
 
     test("multiple columns", () => {
@@ -185,7 +205,7 @@ describe("sorting", () => {
       });
 
       // initial state
-      expect(result.current.getState().sorting).toEqual([]);
+      expect(result.current.getState().sorting).toEqual(defaultSorting);
       expect(mockRouter.query).toEqual({});
 
       // sort by first column and another column

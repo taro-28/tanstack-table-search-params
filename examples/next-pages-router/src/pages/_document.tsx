@@ -1,6 +1,30 @@
 import { Head, Html, Main, NextScript } from "next/document";
 import Link from "next/link";
 
+type Menu = {
+  title: string;
+  href: string;
+};
+
+const menus = [
+  {
+    title: "Basic",
+    href: "/",
+  },
+  {
+    title: "Custom query param name",
+    href: "/custom-param-name",
+  },
+  {
+    title: "Custom encoder/decoder",
+    href: "/custom-encoder-decoder",
+  },
+  {
+    title: "Custom default value",
+    href: "/custom-default-value",
+  },
+] as const satisfies Menu[];
+
 export default function Document() {
   return (
     <Html lang="en">
@@ -12,27 +36,13 @@ export default function Document() {
           </Link>
           <nav>
             <ul className="flex items-center">
-              <li>
-                <Link href="/" className="hover:text-gray-500 p-2">
-                  Basic
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/custom-param-name"
-                  className="hover:text-gray-500 p-2"
-                >
-                  Custom query param name
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/custom-encoder-decoder"
-                  className="hover:text-gray-500 p-2"
-                >
-                  Custom encoder/decoder
-                </Link>
-              </li>
+              {menus.map((menu) => (
+                <li key={menu.href}>
+                  <Link href={menu.href} className="hover:text-gray-500 p-2">
+                    {menu.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
         </header>
