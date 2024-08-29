@@ -5,6 +5,7 @@ import { useColumnFilters } from "./useColumnFilters";
 import { useGlobalFilter } from "./useGlobalFilter";
 import { usePagination } from "./usePagination";
 import { useSorting } from "./useSorting";
+import type { ExtractSpecificStateOptions } from "./utils";
 
 export type State = Pick<
   TableState,
@@ -28,8 +29,9 @@ export type Returns = {
 };
 
 export type Options = {
-  [KEY in keyof State]?: {
-    paramName?: KEY extends "pagination"
+  defaultValues?: Partial<State>;
+  paramNames?: {
+    [KEY in keyof State]?: KEY extends "pagination"
       ?
           | {
               pageIndex: string;
@@ -40,11 +42,28 @@ export type Options = {
               pageSize: string;
             }) => { pageIndex: string; pageSize: string })
       : string | ((key: KEY) => string);
-    encoder?: (value: State[KEY]) => Query;
-    decoder?: (query: Query) => State[KEY];
-    defaultValue?: State[KEY];
+  };
+  encoders?: {
+    [KEY in keyof State]?: (value: State[KEY]) => Query;
+  };
+  decoders?: {
+    [KEY in keyof State]?: (query: Query) => State[KEY];
   };
 };
+
+const extractSpecificStateOptions = <KEY extends keyof State>({
+  options,
+  key,
+}: {
+  options: Options | undefined;
+  key: KEY;
+}): ExtractSpecificStateOptions<KEY> =>
+  Object.fromEntries(
+    Object.entries(options ?? {}).map(([k, v]) => [
+      k.replace(/s$/, ""),
+      v?.[key],
+    ]),
+  );
 
 export const useTableSearchParams = (
   {
@@ -70,19 +89,19 @@ export const useTableSearchParams = (
 
   const { globalFilter, onGlobalFilterChange } = useGlobalFilter({
     router,
-    options: options?.globalFilter,
+    options: extractSpecificStateOptions({ options, key: "globalFilter" }),
   });
   const { sorting, onSortingChange } = useSorting({
     router,
-    options: options?.sorting,
+    options: extractSpecificStateOptions({ options, key: "sorting" }),
   });
   const { pagination, onPaginationChange } = usePagination({
     router,
-    options: options?.pagination,
+    options: extractSpecificStateOptions({ options, key: "pagination" }),
   });
   const { columnFilters, onColumnFiltersChange } = useColumnFilters({
     router,
-    options: options?.columnFilters,
+    options: extractSpecificStateOptions({ options, key: "columnFilters" }),
   });
 
   const state = useMemo(

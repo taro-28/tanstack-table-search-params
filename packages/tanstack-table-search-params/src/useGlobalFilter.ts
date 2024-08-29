@@ -1,19 +1,20 @@
 import { type OnChangeFn, functionalUpdate } from "@tanstack/react-table";
 import { useCallback } from "react";
-import { type Options, PARAM_NAMES, type State } from ".";
+import { PARAM_NAMES, type State } from ".";
 import {
   decodeGlobalFilter,
   encodeGlobalFilter,
 } from "./encoder-decoder/globalFilter";
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
+import type { ExtractSpecificStateOptions } from "./utils";
 
 export const defaultDefaultGlobalFilter =
   "" as const satisfies State["globalFilter"];
 
 type Props = {
   router: Router;
-  options?: Options["globalFilter"];
+  options?: ExtractSpecificStateOptions<"globalFilter"> | undefined;
 };
 
 type Returns = {
@@ -22,7 +23,7 @@ type Returns = {
 };
 
 export const useGlobalFilter = ({ router, options }: Props): Returns => {
-  const paramName =
+  const paramNames =
     (typeof options?.paramName === "function"
       ? options?.paramName(PARAM_NAMES.GLOBAL_FILTER)
       : options?.paramName) || PARAM_NAMES.GLOBAL_FILTER;
@@ -32,7 +33,7 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
 
   const globalFilter = options?.decoder
     ? options?.decoder?.(router.query)
-    : decodeGlobalFilter(router.query[paramName], defaultGlobalFilter);
+    : decodeGlobalFilter(router.query[paramNames], defaultGlobalFilter);
 
   return {
     globalFilter,
@@ -43,7 +44,7 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
           options?.encoder
             ? options.encoder(globalFilter)
             : {
-                [paramName]: encodeGlobalFilter(
+                [paramNames]: encodeGlobalFilter(
                   globalFilter,
                   defaultGlobalFilter,
                 ),
@@ -54,7 +55,7 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
           router,
         });
       },
-      [router, globalFilter, paramName, options?.encoder, defaultGlobalFilter],
+      [router, globalFilter, paramNames, options?.encoder, defaultGlobalFilter],
     ),
   };
 };

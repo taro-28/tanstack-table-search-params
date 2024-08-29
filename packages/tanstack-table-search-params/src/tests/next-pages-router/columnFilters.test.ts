@@ -20,27 +20,29 @@ describe("columnFilters", () => {
     {
       name: "with options: string param name",
       options: {
-        columnFilters: {
-          paramName: "COLUMN_FILTERS",
+        paramNames: {
+          columnFilters: "COLUMN_FILTERS",
         },
       },
     },
     {
       name: "with options: function param name",
       options: {
-        columnFilters: {
-          paramName: (key) => `userTable-${key}`,
+        paramNames: {
+          columnFilters: (key) => `userTable-${key}`,
         },
       },
     },
     {
       name: "with options: default param name encoder/decoder",
       options: {
-        columnFilters: {
-          encoder: (columnFilters) => ({
+        encoders: {
+          columnFilters: (columnFilters) => ({
             columnFilters: JSON.stringify(columnFilters),
           }),
-          decoder: (query) =>
+        },
+        decoders: {
+          columnFilters: (query) =>
             query["columnFilters"]
               ? JSON.parse(query["columnFilters"] as string)
               : query["columnFilters"],
@@ -50,11 +52,13 @@ describe("columnFilters", () => {
     {
       name: "with options: custom param name encoder/decoder",
       options: {
-        columnFilters: {
-          encoder: (columnFilters) => ({
+        encoders: {
+          columnFilters: (columnFilters) => ({
             "userTable-columnFilters": JSON.stringify(columnFilters),
           }),
-          decoder: (query) =>
+        },
+        decoders: {
+          columnFilters: (query) =>
             query["userTable-columnFilters"]
               ? JSON.parse(query["userTable-columnFilters"] as string)
               : query["userTable-columnFilters"],
@@ -64,15 +68,17 @@ describe("columnFilters", () => {
     {
       name: "with options: custom number of params encoder/decoder",
       options: {
-        columnFilters: {
-          encoder: (columnFilters) =>
+        encoders: {
+          columnFilters: (columnFilters) =>
             Object.fromEntries(
               columnFilters.map(({ id, value }) => [
                 `columnFilters.${id}`,
                 JSON.stringify(value),
               ]),
             ),
-          decoder: (query) =>
+        },
+        decoders: {
+          columnFilters: (query) =>
             Object.entries(query)
               .filter(([key]) => key.startsWith("columnFilters."))
               .map(([key, value]) => ({
@@ -85,19 +91,19 @@ describe("columnFilters", () => {
     {
       name: "with options: custom default value",
       options: {
-        columnFilters: {
-          defaultValue: [{ id: "custom", value: "default" }],
+        defaultValues: {
+          columnFilters: [{ id: "custom", value: "default" }],
         },
       },
     },
   ])("%s", ({ options }) => {
     const paramName =
-      typeof options?.columnFilters?.paramName === "function"
-        ? options.columnFilters.paramName("columnFilters")
-        : options?.columnFilters?.paramName || "columnFilters";
+      typeof options?.paramNames?.columnFilters === "function"
+        ? options?.paramNames?.columnFilters("columnFilters")
+        : options?.paramNames?.columnFilters || "columnFilters";
 
     const defaultColumnFilters =
-      options?.columnFilters?.defaultValue ?? defaultDefaultColumnFilters;
+      options?.defaultValues?.columnFilters ?? defaultDefaultColumnFilters;
 
     test("single column: string value", () => {
       const { result, rerender } = renderHook(() => {
@@ -127,7 +133,7 @@ describe("columnFilters", () => {
         { id: "name", value: "J" },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.columnFilters?.encoder?.([{ id: "name", value: "J" }]) ?? {
+        options?.encoders?.columnFilters?.([{ id: "name", value: "J" }]) ?? {
           [paramName]:
             defaultColumnFilters.length === 0
               ? "name.%22J%22"
@@ -141,7 +147,7 @@ describe("columnFilters", () => {
       });
       rerender();
       expect(mockRouter.query).toEqual(
-        options?.columnFilters?.encoder?.([]) ?? {},
+        options?.encoders?.columnFilters?.([]) ?? {},
       );
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
@@ -184,7 +190,9 @@ describe("columnFilters", () => {
         { id: "age", value: [30, 40] },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.columnFilters?.encoder?.([{ id: "age", value: [30, 40] }]) ?? {
+        options?.encoders?.columnFilters?.([
+          { id: "age", value: [30, 40] },
+        ]) ?? {
           [paramName]:
             defaultColumnFilters.length === 0
               ? "age.%5B30%2C40%5D"
@@ -201,7 +209,7 @@ describe("columnFilters", () => {
         defaultColumnFilters,
       );
       expect(mockRouter.query).toEqual(
-        options?.columnFilters?.encoder?.([]) ?? {},
+        options?.encoders?.columnFilters?.([]) ?? {},
       );
     });
 
@@ -242,7 +250,7 @@ describe("columnFilters", () => {
         { id: "name", value: "J" },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.columnFilters?.encoder?.([{ id: "name", value: "J" }]) ?? {
+        options?.encoders?.columnFilters?.([{ id: "name", value: "J" }]) ?? {
           [paramName]:
             defaultColumnFilters.length === 0
               ? "name.%22J%22"
@@ -271,7 +279,9 @@ describe("columnFilters", () => {
         { id: "age", value: [30, 40] },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.columnFilters?.encoder?.([{ id: "age", value: [30, 40] }]) ?? {
+        options?.encoders?.columnFilters?.([
+          { id: "age", value: [30, 40] },
+        ]) ?? {
           [paramName]:
             defaultColumnFilters.length === 0
               ? "age.%5B30%2C40%5D"
@@ -287,7 +297,7 @@ describe("columnFilters", () => {
         defaultColumnFilters,
       );
       expect(mockRouter.query).toEqual(
-        options?.columnFilters?.encoder?.([]) ?? {},
+        options?.encoders?.columnFilters?.([]) ?? {},
       );
     });
   });

@@ -1,12 +1,13 @@
 import { type OnChangeFn, functionalUpdate } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
-import { type Options, PARAM_NAMES, type State } from ".";
+import { PARAM_NAMES, type State } from ".";
 import {
   decodePagination,
   encodePagination,
 } from "./encoder-decoder/pagination";
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
+import type { ExtractSpecificStateOptions } from "./utils";
 
 export const defaultDefaultPagination = {
   pageIndex: 0,
@@ -15,7 +16,7 @@ export const defaultDefaultPagination = {
 
 type Props = {
   router: Router;
-  options?: Options["pagination"];
+  options?: ExtractSpecificStateOptions<"pagination">;
 };
 
 type Returns = {

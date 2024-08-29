@@ -1,19 +1,20 @@
 import { type OnChangeFn, functionalUpdate } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
-import { type Options, PARAM_NAMES, type State } from ".";
+import { PARAM_NAMES, type State } from ".";
 import {
   decodeColumnFilters,
   encodeColumnFilters,
 } from "./encoder-decoder/columnFilters";
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
+import type { ExtractSpecificStateOptions } from "./utils";
 
 export const defaultDefaultColumnFilters =
   [] as const satisfies State["sorting"];
 
 type Props = {
   router: Router;
-  options?: Options["columnFilters"];
+  options?: ExtractSpecificStateOptions<"columnFilters">;
 };
 
 type Returns = {
