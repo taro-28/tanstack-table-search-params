@@ -136,13 +136,11 @@ Query parameter names can be customized.
 
 ```tsx
 const stateAndOnChanges = useTableSearchParams(router, {
-  globalFilter: {
+  paramNames: {
     // Customize query parameter name by passing a string
-    paramName: "userTable-globalFilter",
-  },
-  sorting: {
+    globalFilter: "userTable-globalFilter",
     // Add prefix by passing a function
-    paramName: (defaultParamName) => `userTable-${defaultParamName}`,
+    sorting: (defaultParamName) => `userTable-${defaultParamName}`,
   },
 });
 ```
@@ -158,9 +156,9 @@ Default values can be customized.
 
 ```tsx
 const stateAndOnChanges = useTableSearchParams(router, {
-  sorting: {
+  defaultValues: {
     // Sort by name in descending order when query parameter is not present
-    defaultValue: [{ id: "name", desc: true }],
+    sorting: [{ id: "name", desc: true }],
   },
 });
 ```
@@ -189,41 +187,57 @@ Encoder and decoder can be customized.
 ```tsx
 const stateAndOnChanges = useTableSearchParams(router, {
   // Use JSON.stringify/JSON.parse for encoding/decoding
-  globalFilter: {
+  encoders: {
     // foo -> { "globalFilter": "foo" }
-    encoder: (globalFilter) => ({
+    globalFilter: (globalFilter) => ({
       globalFilter: JSON.stringify(globalFilter),
     }),
+  },
+  decoders: {
     // { "globalFilter": "foo" } -> foo
-    decoder: (query) =>
+    globalFilter: (query) =>
       query["globalFilter"]
         ? JSON.parse(query["globalFilter"] as string)
         : (query["globalFilter"] ?? ""),
   },
+});
+
+// ...
+
+const stateAndOnChanges = useTableSearchParams(router, {
   // Encoders/decoders with different query parameter names can also be used.
-  sorting: {
+  encoders: {
     // [{ id: "name", desc: true }] -> { "userTable-sorting": "[{ \"id\": \"name\", \"desc\": true }]" }
-    encoder: (sorting) => ({
+    sorting: (sorting) => ({
       "userTable-sorting": JSON.stringify(sorting),
     }),
+  },
+  decoders: {
     // { "userTable-sorting": "[{ \"id\": \"name\", \"desc\": true }]" } -> [{ id: "name", desc: true }]
-    decoder: (query) =>
+    sorting: (query) =>
       query["userTable-sorting"]
         ? JSON.parse(query["userTable-sorting"] as string)
         : query["userTable-sorting"],
   },
+});
+
+// ...
+
+const stateAndOnChanges = useTableSearchParams(router, {
   // Encoders/decoders with different numbers of query parameters can also be used.
-  columnFilters: {
+  encoders: {
     // [{ id: "name", value: "foo" }] -> { "columnFilters.name": "\"foo\"" }
-    encoder: (columnFilters) =>
+    columnFilters: (columnFilters) =>
       Object.fromEntries(
         columnFilters.map(({ id, value }) => [
           `columnFilters.${id}`,
           JSON.stringify(value),
         ]),
       ),
+  },
+  decoders: {
     // { "columnFilters.name": "\"foo\"" } -> [{ id: "name", value: "foo" }]
-    decoder: (query) =>
+    columnFilters: (query) =>
       Object.entries(query)
         .filter(([key]) => key.startsWith("columnFilters."))
         .map(([key, value]) => ({
