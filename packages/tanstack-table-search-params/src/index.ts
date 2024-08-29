@@ -19,7 +19,7 @@ export const PARAM_NAMES = {
   COLUMN_FILTERS: "columnFilters",
 } as const;
 
-type Returns = {
+export type Returns = {
   state: State;
   onGlobalFilterChange: OnChangeFn<State["globalFilter"]>;
   onSortingChange: OnChangeFn<State["sorting"]>;
