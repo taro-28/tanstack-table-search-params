@@ -21,27 +21,29 @@ describe("sorting", () => {
     {
       name: "with options: string param name",
       options: {
-        sorting: {
-          paramName: "SORTING",
+        paramNames: {
+          sorting: "SORTING",
         },
       },
     },
     {
       name: "with options: function param name",
       options: {
-        sorting: {
-          paramName: (key) => `userTable-${key}`,
+        paramNames: {
+          sorting: (key) => `userTable-${key}`,
         },
       },
     },
     {
       name: "with options: default param name encoder/decoder",
       options: {
-        sorting: {
-          encoder: (sorting) => ({
+        encoders: {
+          sorting: (sorting) => ({
             sorting: JSON.stringify(sorting),
           }),
-          decoder: (query) =>
+        },
+        decoders: {
+          sorting: (query) =>
             query["sorting"]
               ? JSON.parse(query["sorting"] as string)
               : query["sorting"],
@@ -51,11 +53,13 @@ describe("sorting", () => {
     {
       name: "with options: custom param name encoder/decoder",
       options: {
-        sorting: {
-          encoder: (sorting) => ({
+        encoders: {
+          sorting: (sorting) => ({
             "userTable-sorting": JSON.stringify(sorting),
           }),
-          decoder: (query) =>
+        },
+        decoders: {
+          sorting: (query) =>
             query["userTable-sorting"]
               ? JSON.parse(query["userTable-sorting"] as string)
               : query["userTable-sorting"],
@@ -65,15 +69,17 @@ describe("sorting", () => {
     {
       name: "with options: custom number of params encoder/decoder",
       options: {
-        sorting: {
-          encoder: (sorting) =>
+        encoders: {
+          sorting: (sorting) =>
             Object.fromEntries(
               sorting.map(({ id, desc }) => [
                 `sorting.${id}`,
                 desc ? "desc" : "asc",
               ]),
             ),
-          decoder: (query) =>
+        },
+        decoders: {
+          sorting: (query) =>
             Object.entries(query)
               .filter(([key]) => key.startsWith("sorting."))
               .map(([key, desc]) => ({
@@ -86,19 +92,19 @@ describe("sorting", () => {
     {
       name: "with options: custom default value",
       options: {
-        sorting: {
-          defaultValue: [{ id: "custom", desc: true }],
+        defaultValues: {
+          sorting: [{ id: "custom", desc: true }],
         },
       },
     },
   ])("%s", ({ options }) => {
     const paramName =
-      typeof options?.sorting?.paramName === "function"
-        ? options.sorting.paramName("sorting")
-        : options?.sorting?.paramName || "sorting";
+      typeof options?.paramNames?.sorting === "function"
+        ? options.paramNames.sorting("sorting")
+        : options?.paramNames?.sorting || "sorting";
 
     const defaultSorting =
-      options?.sorting?.defaultValue ?? defaultDefaultSorting;
+      options?.defaultValues?.sorting ?? defaultDefaultSorting;
 
     test("single column", () => {
       const { result, rerender } = renderHook(() => {
@@ -129,7 +135,7 @@ describe("sorting", () => {
         { id: "id", desc: true },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.sorting?.encoder?.([{ id: "id", desc: true }]) ?? {
+        options?.encoders?.sorting?.([{ id: "id", desc: true }]) ?? {
           [paramName]: "id.desc",
         },
       );
@@ -145,7 +151,7 @@ describe("sorting", () => {
         { id: "id", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.sorting?.encoder?.([{ id: "id", desc: false }]) ?? {
+        options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
           [paramName]: "id.asc",
         },
       );
@@ -161,7 +167,7 @@ describe("sorting", () => {
         { id: "name", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.sorting?.encoder?.([{ id: "name", desc: false }]) ?? {
+        options?.encoders?.sorting?.([{ id: "name", desc: false }]) ?? {
           [paramName]: "name.asc",
         },
       );
@@ -181,7 +187,7 @@ describe("sorting", () => {
       rerender();
       expect(result.current.getState().sorting).toEqual([]);
       expect(mockRouter.query).toEqual(
-        options?.sorting?.encoder?.([]) ?? {
+        options?.encoders?.sorting?.([]) ?? {
           [paramName]:
             defaultSorting.length > 0
               ? encodedEmptyStringForCustomDefaultValue
@@ -226,7 +232,7 @@ describe("sorting", () => {
         { id: "name", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.sorting?.encoder?.([
+        options?.encoders?.sorting?.([
           { id: "id", desc: true },
           { id: "name", desc: false },
         ]) ?? { [paramName]: "id.desc,name.asc" },
@@ -244,7 +250,7 @@ describe("sorting", () => {
         { id: "name", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.sorting?.encoder?.([
+        options?.encoders?.sorting?.([
           { id: "id", desc: false },
           { id: "name", desc: false },
         ]) ?? { [paramName]: "id.asc,name.asc" },
@@ -261,7 +267,7 @@ describe("sorting", () => {
         { id: "id", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.sorting?.encoder?.([{ id: "id", desc: false }]) ?? {
+        options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
           [paramName]: "id.asc",
         },
       );

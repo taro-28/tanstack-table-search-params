@@ -21,27 +21,29 @@ describe("globalFilter", () => {
     {
       name: "with options: string param name",
       options: {
-        globalFilter: {
-          paramName: "GLOBAL_FILTER",
+        paramNames: {
+          globalFilter: "GLOBAL_FILTER",
         },
       },
     },
     {
       name: "with options: function param name",
       options: {
-        globalFilter: {
-          paramName: (key) => `userTable-${key}`,
+        paramNames: {
+          globalFilter: (key) => `userTable-${key}`,
         },
       },
     },
     {
       name: "with options: default param name encoder/decoder",
       options: {
-        globalFilter: {
-          encoder: (globalFilter) => ({
+        encoders: {
+          globalFilter: (globalFilter) => ({
             globalFilter: JSON.stringify(globalFilter),
           }),
-          decoder: (query) =>
+        },
+        decoders: {
+          globalFilter: (query) =>
             query["globalFilter"]
               ? JSON.parse(query["globalFilter"] as string)
               : query["globalFilter"] ?? "",
@@ -51,11 +53,13 @@ describe("globalFilter", () => {
     {
       name: "with options: custom param name encoder/decoder",
       options: {
-        globalFilter: {
-          encoder: (globalFilter) => ({
+        encoders: {
+          globalFilter: (globalFilter) => ({
             "userTable-globalFilter": JSON.stringify(globalFilter),
           }),
-          decoder: (query) =>
+        },
+        decoders: {
+          globalFilter: (query) =>
             query["userTable-globalFilter"]
               ? JSON.parse(query["userTable-globalFilter"] as string)
               : query["userTable-globalFilter"] ?? "",
@@ -65,16 +69,16 @@ describe("globalFilter", () => {
     {
       name: "with options: custom default value",
       options: {
-        globalFilter: {
-          defaultValue: "default",
+        defaultValues: {
+          globalFilter: "default",
         },
       },
     },
   ])("%s", ({ options }) => {
     const paramName =
-      typeof options?.globalFilter?.paramName === "function"
-        ? options.globalFilter.paramName("globalFilter")
-        : options?.globalFilter?.paramName || "globalFilter";
+      typeof options?.paramNames?.globalFilter === "function"
+        ? options?.paramNames?.globalFilter("globalFilter")
+        : options?.paramNames?.globalFilter || "globalFilter";
 
     test("basic", () => {
       const { result, rerender } = renderHook(() => {
@@ -88,7 +92,7 @@ describe("globalFilter", () => {
       });
 
       const defaultGlobalFilter =
-        options?.globalFilter?.defaultValue ?? defaultDefaultGlobalFilter;
+        options?.defaultValues?.globalFilter ?? defaultDefaultGlobalFilter;
 
       // initial state
       expect(result.current.getState().globalFilter).toBe(defaultGlobalFilter);
@@ -99,7 +103,7 @@ describe("globalFilter", () => {
       rerender();
       expect(result.current.getState().globalFilter).toBe("John");
       expect(mockRouter.query).toEqual(
-        options?.globalFilter?.encoder?.("John") ?? {
+        options?.encoders?.globalFilter?.("John") ?? {
           [paramName]: "John",
         },
       );
@@ -109,7 +113,7 @@ describe("globalFilter", () => {
       rerender();
       expect(result.current.getState().globalFilter).toBe("");
       expect(mockRouter.query).toEqual(
-        options?.globalFilter?.encoder?.("") ?? {
+        options?.encoders?.globalFilter?.("") ?? {
           [paramName]: defaultGlobalFilter
             ? encodedEmptyStringForCustomDefaultValue
             : undefined,
