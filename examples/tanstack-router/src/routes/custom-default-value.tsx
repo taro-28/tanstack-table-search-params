@@ -33,10 +33,12 @@ function Page() {
       pathname: Route.path,
     },
     {
-      globalFilter: { defaultValue: "a" },
-      sorting: { defaultValue: [{ id: "name", desc: true }] },
-      pagination: { defaultValue: { pageIndex: 2, pageSize: 20 } },
-      columnFilters: { defaultValue: [{ id: "name", value: "b" }] },
+      defaultValues: {
+        globalFilter: "a",
+        sorting: [{ id: "name", desc: true }],
+        pagination: { pageIndex: 2, pageSize: 20 },
+        columnFilters: [{ id: "name", value: "b" }],
+      },
     },
   );
 

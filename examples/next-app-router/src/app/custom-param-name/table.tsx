@@ -25,20 +25,14 @@ export const Table = () => {
   const stateAndOnChanges = useTableSearchParams(
     { push, query, pathname },
     {
-      globalFilter: {
-        paramName: "userTable-globalFilter",
-      },
-      sorting: {
-        paramName: (defaultParamName) => `userTable-${defaultParamName}`,
-      },
-      pagination: {
-        paramName: {
+      paramNames: {
+        globalFilter: "userTable-globalFilter",
+        sorting: (defaultParamName) => `userTable-${defaultParamName}`,
+        pagination: {
           pageIndex: "userTable-pageIndex",
           pageSize: "userTable-pageSize",
         },
-      },
-      columnFilters: {
-        paramName: (defaultParamName) => `userTable-${defaultParamName}`,
+        columnFilters: (defaultParamName) => `userTable-${defaultParamName}`,
       },
     },
   );
