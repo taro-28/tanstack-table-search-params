@@ -7,8 +7,8 @@ import {
 } from "./encoder-decoder/globalFilter";
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
-import type { ExtractSpecificStateOptions } from "./utils";
 import { useDebounce } from "./useDebounce";
+import type { ExtractSpecificStateOptions } from "./utils";
 
 export const defaultDefaultGlobalFilter =
   "" as const satisfies State["globalFilter"];

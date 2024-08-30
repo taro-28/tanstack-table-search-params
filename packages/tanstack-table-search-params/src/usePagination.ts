@@ -7,8 +7,8 @@ import {
 } from "./encoder-decoder/pagination";
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
-import type { ExtractSpecificStateOptions } from "./utils";
 import { useDebounce } from "./useDebounce";
+import type { ExtractSpecificStateOptions } from "./utils";
 
 export const defaultDefaultPagination = {
   pageIndex: 0,

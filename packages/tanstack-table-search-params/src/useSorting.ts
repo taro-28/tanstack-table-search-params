@@ -4,8 +4,8 @@ import { PARAM_NAMES, type State } from ".";
 import { decodeSorting, encodeSorting } from "./encoder-decoder/sorting";
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
-import type { ExtractSpecificStateOptions } from "./utils";
 import { useDebounce } from "./useDebounce";
+import type { ExtractSpecificStateOptions } from "./utils";
 
 export const defaultDefaultSorting = [] as const satisfies State["sorting"];
 
