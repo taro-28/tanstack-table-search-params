@@ -21,7 +21,7 @@ First, install the package.
 npm i tanstack-table-search-params
 ```
 
-For example, if you are using Next.js　(Pages Router), you can use the hook like this.
+For example, if you are using Next.js (Pages Router), you can use the hook like this.
 
 ```tsx
 import { useReactTable } from "tanstack-table";
