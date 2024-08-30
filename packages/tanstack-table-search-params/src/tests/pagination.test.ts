@@ -1,13 +1,16 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
 import { defaultDefaultPagination } from "../usePagination";
 import { testData, testDataColumns } from "./testData";
 import { useTestRouter } from "./testRouter";
 
 describe("pagination", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
   afterEach(() => {
     window.history.replaceState({}, "", "/");
   });
@@ -109,6 +112,14 @@ describe("pagination", () => {
         },
       },
     },
+    {
+      name: "with options: debounce milliseconds",
+      options: {
+        debounceMilliseconds: {
+          pagination: 1,
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.pagination === "function"
@@ -138,6 +149,9 @@ describe("pagination", () => {
         });
       });
       const rerender = () => {
+        if (options?.debounceMilliseconds?.pagination) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.pagination);
+        }
         routerRerender();
         resultRerender();
       };

@@ -2,11 +2,14 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
 import { defaultDefaultColumnFilters } from "../../useColumnFilters";
 
 describe("columnFilters", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
   afterEach(() => {
     mockRouter.query = {};
   });
@@ -96,6 +99,14 @@ describe("columnFilters", () => {
         },
       },
     },
+    {
+      name: "with options: custom debounce milliseconds",
+      options: {
+        debounceMilliseconds: {
+          columnFilters: 1,
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.columnFilters === "function"
@@ -106,7 +117,7 @@ describe("columnFilters", () => {
       options?.defaultValues?.columnFilters ?? defaultDefaultColumnFilters;
 
     test("single column: string value", () => {
-      const { result, rerender } = renderHook(() => {
+      const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [{ accessorKey: "id" }, { accessorKey: "name" }],
@@ -118,6 +129,12 @@ describe("columnFilters", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        if (options?.debounceMilliseconds?.columnFilters) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.columnFilters);
+        }
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().columnFilters).toEqual(
@@ -155,7 +172,7 @@ describe("columnFilters", () => {
     });
 
     test("single column: array value", () => {
-      const { result, rerender } = renderHook(() => {
+      const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [
@@ -173,6 +190,12 @@ describe("columnFilters", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        if (options?.debounceMilliseconds?.columnFilters) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.columnFilters);
+        }
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().columnFilters).toEqual(
@@ -214,7 +237,7 @@ describe("columnFilters", () => {
     });
 
     test("multiple columns", () => {
-      const { result, rerender } = renderHook(() => {
+      const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [
@@ -232,6 +255,12 @@ describe("columnFilters", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        if (options?.debounceMilliseconds?.columnFilters) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.columnFilters);
+        }
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().columnFilters).toEqual(

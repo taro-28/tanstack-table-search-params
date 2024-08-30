@@ -23,6 +23,10 @@ const menus = [
     title: "Custom default value",
     to: "/custom-default-value",
   },
+  {
+    title: "Debounce",
+    to: "/debounce",
+  },
 ] as const satisfies Menu[];
 
 export const Route = createRootRoute({

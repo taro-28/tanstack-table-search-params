@@ -1,13 +1,16 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
 import { encodedEmptyStringForCustomDefaultValue } from "../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
 import { defaultDefaultSorting } from "../useSorting";
 import { useTestRouter } from "./testRouter";
 
 describe("sorting", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
   afterEach(() => {
     window.history.replaceState({}, "", "/");
   });
@@ -97,6 +100,14 @@ describe("sorting", () => {
         },
       },
     },
+    {
+      name: "with options: debounce milliseconds",
+      options: {
+        debounceMilliseconds: {
+          sorting: 1,
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.sorting === "function"
@@ -126,6 +137,9 @@ describe("sorting", () => {
         });
       });
       const rerender = () => {
+        if (options?.debounceMilliseconds?.sorting) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.sorting);
+        }
         routerRerender();
         resultRerender();
       };
@@ -226,6 +240,9 @@ describe("sorting", () => {
         });
       });
       const rerender = () => {
+        if (options?.debounceMilliseconds?.sorting) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.sorting);
+        }
         routerRerender();
         resultRerender();
       };

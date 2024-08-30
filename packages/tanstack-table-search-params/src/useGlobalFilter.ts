@@ -7,6 +7,7 @@ import {
 } from "./encoder-decoder/globalFilter";
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
+import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
 
 export const defaultDefaultGlobalFilter =
@@ -35,27 +36,52 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
     ? options?.decoder?.(router.query)
     : decodeGlobalFilter(router.query[paramNames], defaultGlobalFilter);
 
+  const updateGlobalFilterQuery = useCallback(
+    async (newGlobalFilter: State["globalFilter"]) => {
+      const encoder = (globalFilter: State["globalFilter"]) =>
+        options?.encoder
+          ? options.encoder(globalFilter)
+          : {
+              [paramNames]: encodeGlobalFilter(
+                globalFilter,
+                defaultGlobalFilter,
+              ),
+            };
+      await updateQuery({
+        oldQuery: encoder(globalFilter),
+        newQuery: encoder(newGlobalFilter),
+        router,
+      });
+    },
+    [router, paramNames, options?.encoder, defaultGlobalFilter, globalFilter],
+  );
+
+  const [debouncedGlobalFilter, setDebouncedGlobalFilter] = useDebounce({
+    stateValue: globalFilter,
+    updateQuery: updateGlobalFilterQuery,
+    milliseconds: options?.debounceMilliseconds,
+  });
+
   return {
-    globalFilter,
+    globalFilter:
+      options?.debounceMilliseconds === undefined
+        ? globalFilter
+        : debouncedGlobalFilter,
     onGlobalFilterChange: useCallback(
       async (updater) => {
         const newGlobalFilter = functionalUpdate(updater, globalFilter);
-        const encoder = (globalFilter: State["globalFilter"]) =>
-          options?.encoder
-            ? options.encoder(globalFilter)
-            : {
-                [paramNames]: encodeGlobalFilter(
-                  globalFilter,
-                  defaultGlobalFilter,
-                ),
-              };
-        await updateQuery({
-          oldQuery: encoder(globalFilter),
-          newQuery: encoder(newGlobalFilter),
-          router,
-        });
+        if (options?.debounceMilliseconds !== undefined) {
+          setDebouncedGlobalFilter(newGlobalFilter);
+          return;
+        }
+        await updateGlobalFilterQuery(newGlobalFilter);
       },
-      [router, globalFilter, paramNames, options?.encoder, defaultGlobalFilter],
+      [
+        globalFilter,
+        options?.debounceMilliseconds,
+        updateGlobalFilterQuery,
+        setDebouncedGlobalFilter,
+      ],
     ),
   };
 };

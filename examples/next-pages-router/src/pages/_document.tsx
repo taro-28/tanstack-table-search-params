@@ -16,12 +16,16 @@ const menus = [
     href: "/custom-param-name",
   },
   {
+    title: "Custom default value",
+    href: "/custom-default-value",
+  },
+  {
     title: "Custom encoder/decoder",
     href: "/custom-encoder-decoder",
   },
   {
-    title: "Custom default value",
-    href: "/custom-default-value",
+    title: "Debounce",
+    href: "/debounce",
   },
 ] as const satisfies Menu[];
 

@@ -2,12 +2,15 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
 import { defaultDefaultPagination } from "../../usePagination";
 import { testData, testDataColumns } from "../testData";
 
 describe("pagination", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
   afterEach(() => {
     mockRouter.query = {};
   });
@@ -109,6 +112,14 @@ describe("pagination", () => {
         },
       },
     },
+    {
+      name: "with options: debounce milliseconds",
+      options: {
+        debounceMilliseconds: {
+          pagination: 1,
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.pagination === "function"
@@ -122,7 +133,7 @@ describe("pagination", () => {
           };
 
     test("basic", () => {
-      const { result, rerender } = renderHook(() => {
+      const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: testDataColumns,
@@ -131,6 +142,12 @@ describe("pagination", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        if (options?.debounceMilliseconds?.pagination) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.pagination);
+        }
+        resultRerender();
+      };
 
       const defaultPagination =
         options?.defaultValues?.pagination ?? defaultDefaultPagination;

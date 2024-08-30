@@ -24,6 +24,10 @@ const menus = [
     title: "Custom default value",
     href: "/custom-default-value",
   },
+  {
+    title: "Debounce",
+    href: "/debounce",
+  },
 ] as const satisfies Menu[];
 
 export default function RootLayout({
