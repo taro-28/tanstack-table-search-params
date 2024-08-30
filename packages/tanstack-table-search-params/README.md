@@ -121,7 +121,7 @@ const table = useReactTable({
 });
 ```
 
-## Customization
+## Options
 
 - [Custom query param name](#custom-query-param-name)
 - [Custom encoder/decoder](#custom-encoderdecoder)
@@ -244,6 +244,22 @@ const stateAndOnChanges = useTableSearchParams(router, {
           id: key.replace("columnFilters.", ""),
           value: JSON.parse(value as string),
         })),
+  },
+});
+```
+
+### Debounce
+
+You can debounce the reflection of state changes in the query parameters.
+
+- [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/debounce)
+- [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/debounce.tsx)
+
+```tsx
+const stateAndOnChanges = useTableSearchParams(router, {
+  debounceMilliseconds: {
+    // Debounce globalFilter by 500 milliseconds
+    globalFilter: 500,
   },
 });
 ```
