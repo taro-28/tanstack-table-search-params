@@ -1,12 +1,15 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
 import { defaultDefaultColumnFilters } from "../useColumnFilters";
 import { useTestRouter } from "./testRouter";
 
 describe("columnFilters", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
   afterEach(() => {
     window.history.replaceState({}, "", "/");
   });
@@ -96,6 +99,14 @@ describe("columnFilters", () => {
         },
       },
     },
+    {
+      name: "with options: debounce milliseconds",
+      options: {
+        debounceMilliseconds: {
+          columnFilters: 1,
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.columnFilters === "function"
@@ -125,6 +136,9 @@ describe("columnFilters", () => {
         });
       });
       const rerender = () => {
+        if (options?.debounceMilliseconds?.columnFilters) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.columnFilters);
+        }
         routerRerender();
         resultRerender();
       };
@@ -190,6 +204,9 @@ describe("columnFilters", () => {
         });
       });
       const rerender = () => {
+        if (options?.debounceMilliseconds?.columnFilters) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.columnFilters);
+        }
         routerRerender();
         resultRerender();
       };
@@ -259,6 +276,9 @@ describe("columnFilters", () => {
         });
       });
       const rerender = () => {
+        if (options?.debounceMilliseconds?.columnFilters) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.columnFilters);
+        }
         routerRerender();
         resultRerender();
       };

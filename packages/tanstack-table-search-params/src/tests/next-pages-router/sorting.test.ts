@@ -2,12 +2,15 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
 import { encodedEmptyStringForCustomDefaultValue } from "../../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
 import { defaultDefaultSorting } from "../../useSorting";
 
 describe("sorting", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
   afterEach(() => {
     mockRouter.query = {};
   });
@@ -97,6 +100,14 @@ describe("sorting", () => {
         },
       },
     },
+    {
+      name: "with options: debounce milliseconds",
+      options: {
+        debounceMilliseconds: {
+          sorting: 1,
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.sorting === "function"
@@ -107,7 +118,7 @@ describe("sorting", () => {
       options?.defaultValues?.sorting ?? defaultDefaultSorting;
 
     test("single column", () => {
-      const { result, rerender } = renderHook(() => {
+      const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [{ accessorKey: "id" }, { accessorKey: "name" }],
@@ -119,6 +130,12 @@ describe("sorting", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        if (options?.debounceMilliseconds?.sorting) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.sorting);
+        }
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().sorting).toEqual(defaultSorting);
@@ -197,7 +214,7 @@ describe("sorting", () => {
     });
 
     test("multiple columns", () => {
-      const { result, rerender } = renderHook(() => {
+      const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [{ accessorKey: "id" }, { accessorKey: "name" }],
@@ -209,6 +226,12 @@ describe("sorting", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        if (options?.debounceMilliseconds?.sorting) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.sorting);
+        }
+        resultRerender();
+      };
 
       // initial state
       expect(result.current.getState().sorting).toEqual(defaultSorting);

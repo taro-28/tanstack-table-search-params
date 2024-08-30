@@ -2,12 +2,15 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
 import { encodedEmptyStringForCustomDefaultValue } from "../../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
 import { defaultDefaultGlobalFilter } from "../../useGlobalFilter";
 
 describe("globalFilter", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
   afterEach(() => {
     mockRouter.query = {};
   });
@@ -81,7 +84,7 @@ describe("globalFilter", () => {
         : options?.paramNames?.globalFilter || "globalFilter";
 
     test("basic", () => {
-      const { result, rerender } = renderHook(() => {
+      const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
         return useReactTable({
           columns: [],
@@ -90,6 +93,12 @@ describe("globalFilter", () => {
           ...stateAndOnChanges,
         });
       });
+      const rerender = () => {
+        if (options?.debounceMilliseconds?.globalFilter) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.globalFilter);
+        }
+        resultRerender();
+      };
 
       const defaultGlobalFilter =
         options?.defaultValues?.globalFilter ?? defaultDefaultGlobalFilter;

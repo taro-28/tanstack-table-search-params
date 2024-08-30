@@ -5,6 +5,7 @@ import { decodeSorting, encodeSorting } from "./encoder-decoder/sorting";
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
 import type { ExtractSpecificStateOptions } from "./utils";
+import { useDebounce } from "./useDebounce";
 
 export const defaultDefaultSorting = [] as const satisfies State["sorting"];
 
@@ -49,24 +50,47 @@ export const useSorting = ({ router, options }: Props): Returns => {
     [stringCustomSorting, uncustomisedSorting, isCustomDecoder],
   );
 
+  const updateSortingQuery = useCallback(
+    async (newSorting: State["sorting"]) => {
+      const encoder = (sorting: State["sorting"]) =>
+        options?.encoder
+          ? options.encoder(sorting)
+          : {
+              [paramName]: encodeSorting(sorting, defaultSorting),
+            };
+      await updateQuery({
+        oldQuery: encoder(sorting),
+        newQuery: encoder(newSorting),
+        router,
+      });
+    },
+    [router, paramName, options?.encoder, defaultSorting, sorting],
+  );
+
+  const [debouncedSorting, setDebouncedSorting] = useDebounce({
+    stateValue: sorting,
+    updateQuery: updateSortingQuery,
+    milliseconds: options?.debounceMilliseconds,
+  });
+
   return {
-    sorting,
+    sorting:
+      options?.debounceMilliseconds === undefined ? sorting : debouncedSorting,
     onSortingChange: useCallback(
       async (updater) => {
         const newSorting = functionalUpdate(updater, sorting);
-        const encoder = (sorting: State["sorting"]) =>
-          options?.encoder
-            ? options.encoder(sorting)
-            : {
-                [paramName]: encodeSorting(sorting, defaultSorting),
-              };
-        await updateQuery({
-          oldQuery: encoder(sorting),
-          newQuery: encoder(newSorting),
-          router,
-        });
+        if (options?.debounceMilliseconds !== undefined) {
+          setDebouncedSorting(newSorting);
+          return;
+        }
+        await updateSortingQuery(newSorting);
       },
-      [router, sorting, paramName, options?.encoder, defaultSorting],
+      [
+        sorting,
+        options?.debounceMilliseconds,
+        updateSortingQuery,
+        setDebouncedSorting,
+      ],
     ),
   };
 };

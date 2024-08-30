@@ -1,13 +1,16 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
 import { encodedEmptyStringForCustomDefaultValue } from "../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
 import { defaultDefaultGlobalFilter } from "../useGlobalFilter";
 import { useTestRouter } from "./testRouter";
 
 describe("globalFilter", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
   afterEach(() => {
     window.history.replaceState({}, "", "/");
   });
@@ -74,6 +77,14 @@ describe("globalFilter", () => {
         },
       },
     },
+    {
+      name: "with options: debounce milliseconds",
+      options: {
+        debounceMilliseconds: {
+          globalFilter: 1,
+        },
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.globalFilter === "function"
@@ -97,6 +108,9 @@ describe("globalFilter", () => {
         });
       });
       const rerender = () => {
+        if (options?.debounceMilliseconds?.globalFilter) {
+          vi.advanceTimersByTime(options?.debounceMilliseconds?.globalFilter);
+        }
         routerRerender();
         resultRerender();
       };

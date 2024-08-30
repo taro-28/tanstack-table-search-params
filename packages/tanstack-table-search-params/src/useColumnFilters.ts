@@ -8,6 +8,7 @@ import {
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
 import type { ExtractSpecificStateOptions } from "./utils";
+import { useDebounce } from "./useDebounce";
 
 export const defaultDefaultColumnFilters =
   [] as const satisfies State["sorting"];
@@ -54,32 +55,51 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
     [stringCustomColumnFilters, uncustomisedColumnFilters, isCustomDecoder],
   );
 
+  const updateColumnFiltersQuery = useCallback(
+    async (newColumnFilters: State["columnFilters"]) => {
+      const encoder = (columnFilters: State["columnFilters"]) =>
+        options?.encoder
+          ? options.encoder(columnFilters)
+          : {
+              [paramName]: encodeColumnFilters(
+                columnFilters,
+                defaultColumnFilters,
+              ),
+            };
+      await updateQuery({
+        oldQuery: encoder(columnFilters),
+        newQuery: encoder(newColumnFilters),
+        router,
+      });
+    },
+    [router, paramName, options?.encoder, defaultColumnFilters, columnFilters],
+  );
+
+  const [debouncedColumnFilters, setDebouncedColumnFilters] = useDebounce({
+    stateValue: columnFilters,
+    updateQuery: updateColumnFiltersQuery,
+    milliseconds: options?.debounceMilliseconds,
+  });
+
   return {
-    columnFilters,
+    columnFilters:
+      options?.debounceMilliseconds === undefined
+        ? columnFilters
+        : debouncedColumnFilters,
     onColumnFiltersChange: useCallback(
       async (updater) => {
         const newColumnFilters = functionalUpdate(updater, columnFilters);
-        const encoder = (columnFilters: State["columnFilters"]) =>
-          options?.encoder
-            ? options.encoder(columnFilters)
-            : {
-                [paramName]: encodeColumnFilters(
-                  columnFilters,
-                  defaultColumnFilters,
-                ),
-              };
-        await updateQuery({
-          oldQuery: encoder(columnFilters),
-          newQuery: encoder(newColumnFilters),
-          router,
-        });
+        if (options?.debounceMilliseconds !== undefined) {
+          setDebouncedColumnFilters(newColumnFilters);
+          return;
+        }
+        await updateColumnFiltersQuery(newColumnFilters);
       },
       [
-        router,
         columnFilters,
-        paramName,
-        options?.encoder,
-        defaultColumnFilters,
+        updateColumnFiltersQuery,
+        options?.debounceMilliseconds,
+        setDebouncedColumnFilters,
       ],
     ),
   };

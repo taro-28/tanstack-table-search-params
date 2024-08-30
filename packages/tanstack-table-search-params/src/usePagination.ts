@@ -8,6 +8,7 @@ import {
 import type { Router } from "./types";
 import { updateQuery } from "./updateQuery";
 import type { ExtractSpecificStateOptions } from "./utils";
+import { useDebounce } from "./useDebounce";
 
 export const defaultDefaultPagination = {
   pageIndex: 0,
@@ -97,35 +98,60 @@ export const usePagination = ({ router, options }: Props): Returns => {
     ],
   );
 
+  const updatePaginationQuery = useCallback(
+    async (newPagination: State["pagination"]) => {
+      const encoder = (pagination: State["pagination"]) => {
+        if (options?.encoder) return options.encoder(pagination);
+        const encoded = encodePagination(pagination, {
+          pageIndex: defaultPagination.pageIndex,
+          pageSize: defaultPagination.pageSize,
+        });
+        return {
+          [paramName.pageIndex]: encoded.pageIndex,
+          [paramName.pageSize]: encoded.pageSize,
+        };
+      };
+      await updateQuery({
+        oldQuery: encoder(pagination),
+        newQuery: encoder(newPagination),
+        router,
+      });
+    },
+    [
+      router,
+      pagination,
+      paramName,
+      options?.encoder,
+      defaultPagination.pageIndex,
+      defaultPagination.pageSize,
+    ],
+  );
+
+  const [debouncedPagination, setDebouncedPagination] = useDebounce({
+    stateValue: pagination,
+    updateQuery: updatePaginationQuery,
+    milliseconds: options?.debounceMilliseconds,
+  });
+
   return {
-    pagination,
+    pagination:
+      options?.debounceMilliseconds === undefined
+        ? pagination
+        : debouncedPagination,
     onPaginationChange: useCallback(
       async (updater) => {
         const newPagination = functionalUpdate(updater, pagination);
-        const encoder = (pagination: State["pagination"]) => {
-          if (options?.encoder) return options.encoder(pagination);
-          const encoded = encodePagination(pagination, {
-            pageIndex: defaultPagination.pageIndex,
-            pageSize: defaultPagination.pageSize,
-          });
-          return {
-            [paramName.pageIndex]: encoded.pageIndex,
-            [paramName.pageSize]: encoded.pageSize,
-          };
-        };
-        await updateQuery({
-          oldQuery: encoder(pagination),
-          newQuery: encoder(newPagination),
-          router,
-        });
+        if (options?.debounceMilliseconds !== undefined) {
+          setDebouncedPagination(newPagination);
+          return;
+        }
+        await updatePaginationQuery(newPagination);
       },
       [
-        router,
         pagination,
-        paramName,
-        options?.encoder,
-        defaultPagination.pageIndex,
-        defaultPagination.pageSize,
+        updatePaginationQuery,
+        options?.debounceMilliseconds,
+        setDebouncedPagination,
       ],
     ),
   };
