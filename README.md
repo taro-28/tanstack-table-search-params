@@ -13,104 +13,32 @@ React Hook for syncing [TanStack Table](https://github.com/TanStack/table) state
 
 https://github.com/user-attachments/assets/1f1b4a65-fdec-4a80-a5d5-783642befaa3
 
-# Usage
+# Quick Start
 
-## Installation
+First, install the package.
 
 ```bash
 npm i tanstack-table-search-params
 ```
 
-## Basic
-
-- [Next.js(Pages Router)](#nextjspages-router)
-- [Next.js(App Router)](#nextjsapp-router)
-- [TanStack Router](#tanstack-router)
-
-### Next.js(Pages Router)
-
-- [demo](https://tanstack-table-search-params-next-pages-router-taro28s-projects.vercel.app/)
-- [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router)
+For example, if you are using Next.js　(Pages Router), you can use the hook like this.
 
 ```tsx
 import { useReactTable } from "tanstack-table";
 import { useRouter } from "next/router";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
-// 1. Pass router and get the state and onChanges from the hook
 const router = useRouter();
-const stateAndOnChanges = useTableSearchParams(router);
 
-const table = useReactTable({
-  // 2. Pass the state and onChanges to the table
-  ...stateAndOnChanges,
-  data,
-  columns,
-  getCoreRowModel: getCoreRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-  // ... other options
-});
-```
-
-### Next.js(App Router)
-
-- [demo](https://tanstack-table-search-params-next-app-router-taro28s-projects.vercel.app/)
-- [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-app-router)
-
-```tsx
-import { useReactTable } from "tanstack-table";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useTableSearchParams } from "tanstack-table-search-params";
-
-const push = useRouter().push;
-const query = useSearchParams();
-const pathname = usePathname();
-// 1. Pass push and query and get the state and onChanges from the hook
-const stateAndOnChanges = useTableSearchParams({ push, query, pathname });
-
-const table = useReactTable({
-  // 2. Pass the state and onChanges to the table
-  ...stateAndOnChanges,
-  data,
-  columns,
-  getCoreRowModel: getCoreRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-  // ... other options
-});
-```
-
-### TanStack Router
-
-- [demo](https://tanstack-table-search-params-tanstack-router-taro28s-projects.vercel.app/)
-- [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router)
-
-```tsx
-import { useReactTable } from "tanstack-table";
-import { useTableSearchParams } from "tanstack-table-search-params";
-
-export const Route = createFileRoute("/")({
-  component: Page,
-});
-
-// ...
-
-const navigate = Route.useNavigate();
-const query = Route.useSearch();
-
-// 1. Pass push and query and get the state and onChanges from the hook
+// Get state and onChanges
 const stateAndOnChanges = useTableSearchParams({
-  push: (url) => {
-    const searchParams = new URLSearchParams(url.split("?")[1]);
-    navigate({ search: Object.fromEntries(searchParams.entries()) });
-  },
-  query,
-  pathname: Route.path,
+  query: router.query,
+  push: router.push,
+  pathname: router.pathname,
 });
 
 const table = useReactTable({
-  // 2. Pass the state and onChanges to the table
+  // Set state and onChanges
   ...stateAndOnChanges,
   data,
   columns,
@@ -121,15 +49,33 @@ const table = useReactTable({
 });
 ```
 
-## Options
+Here is the [demo](https://tanstack-table-search-params-next-pages-router-taro28s-projects.vercel.app/).
+
+Of course, you can use it with other routers.
+
+Please refer to the examples below:
+
+- [Next.js(Pages Router)](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/index.tsx)
+- [Next.js(App Router)](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-app-router/src/app/table.tsx)
+- [TanStack Router](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router/src/routes/index.tsx)
+
+# How it works
+
+The `useTableSearchParams` hook primarily does the following two things:
+
+- Decodes the `query` (React state of the query parameters) and returns it as the `state` of Tanstack Table.
+- Encodes the `state` as query parameters and returns the `push` function as a function such as `onChangeGlobalFilter`.
+
+# Options
 
 - [Custom query param name](#custom-query-param-name)
 - [Custom encoder/decoder](#custom-encoderdecoder)
 - [Custom default value](#custom-default-value)
+- [Debounce](#debounce)
 
-### Custom query param name
+## Custom query param name
 
-Query parameter names can be customized.
+You can customize a query parameter name.
 
 - [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/custom-param-name)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/custom-param-name.tsx)
@@ -145,11 +91,11 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
-### Custom default value
+## Custom default value
 
-Default values can be customized.
+You can customize the default value of a query parameter.
 
-"default value" means the value that is used as value of `state` when the query parameter is not present.
+The "default value" is the value that is used as the `state` when the query parameter is not present.
 
 - [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/custom-default-value)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/custom-default-value.tsx)
@@ -177,9 +123,9 @@ useEffect(() => {
 }, [router.replace]);
 ```
 
-### Custom encoder/decoder
+## Custom encoder/decoder
 
-Encoder and decoder can be customized.
+You can customize the encoder/decoder for the query parameter.
 
 - [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/custom-encoder-decoder)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/custom-encoder-decoder.tsx)
@@ -248,7 +194,7 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
-### Debounce
+## Debounce
 
 You can debounce the reflection of state changes in the query parameters.
 
@@ -264,7 +210,7 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
-## Supported
+# Supported
 
 List of supported TanStack table states
 
@@ -282,11 +228,17 @@ List of supported TanStack table states
 - [ ] rowPinning
 - [ ] rowSelection
 
-## Roadmap
+# Roadmap
 
-- [ ] support other table states
-- [ ] disable specific state
-- [ ] add examples for other routers
+- [ ] Support other table states
+- [ ] Disable specific state
+- [ ] Add `onChangeXxxQuery` option
+
+# TODO
+
+- [ ] Add examples for other routers
+- [ ] Add e2e tests
+- [ ] Add JSDoc
 
 # License
 
