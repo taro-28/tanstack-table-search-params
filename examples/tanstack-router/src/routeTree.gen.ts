@@ -11,12 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as DebounceImport } from './routes/debounce'
 import { Route as CustomParamNameImport } from './routes/custom-param-name'
 import { Route as CustomEncoderDecoderImport } from './routes/custom-encoder-decoder'
 import { Route as CustomDefaultValueImport } from './routes/custom-default-value'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const DebounceRoute = DebounceImport.update({
+  path: '/debounce',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const CustomParamNameRoute = CustomParamNameImport.update({
   path: '/custom-param-name',
@@ -70,6 +76,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CustomParamNameImport
       parentRoute: typeof rootRoute
     }
+    '/debounce': {
+      id: '/debounce'
+      path: '/debounce'
+      fullPath: '/debounce'
+      preLoaderRoute: typeof DebounceImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -80,6 +93,7 @@ export const routeTree = rootRoute.addChildren({
   CustomDefaultValueRoute,
   CustomEncoderDecoderRoute,
   CustomParamNameRoute,
+  DebounceRoute,
 })
 
 /* prettier-ignore-end */
@@ -93,7 +107,8 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/custom-default-value",
         "/custom-encoder-decoder",
-        "/custom-param-name"
+        "/custom-param-name",
+        "/debounce"
       ]
     },
     "/": {
@@ -107,6 +122,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/custom-param-name": {
       "filePath": "custom-param-name.tsx"
+    },
+    "/debounce": {
+      "filePath": "debounce.tsx"
     }
   }
 }
