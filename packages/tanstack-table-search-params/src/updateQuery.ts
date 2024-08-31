@@ -36,7 +36,7 @@ export const updateQuery = async ({ oldQuery, newQuery, router }: Props) => {
     }),
   ).toString();
 
-  await router.push(
+  await router.navigate(
     `${router.pathname}${searchParams ? `?${searchParams}` : ""}`,
   );
 };

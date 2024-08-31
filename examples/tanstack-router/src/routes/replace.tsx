@@ -3,6 +3,7 @@ import {
   useUserData,
   userColumns,
 } from "@examples/lib/src/components/userData";
+import { createFileRoute } from "@tanstack/react-router";
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -10,17 +11,28 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useRouter } from "next/router";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
-export default function Basic() {
+export const Route = createFileRoute("/replace")({
+  component: Page,
+});
+
+function Page() {
   const data = useUserData();
 
-  const router = useRouter();
+  const navigate = Route.useNavigate();
+  const query = Route.useSearch();
+
   const stateAndOnChanges = useTableSearchParams({
-    pathname: router.pathname,
-    query: router.query,
-    push: router.push,
+    push: (url) => {
+      const searchParams = new URLSearchParams(url.split("?")[1]);
+      navigate({
+        search: Object.fromEntries(searchParams.entries()),
+        replace: true,
+      });
+    },
+    query,
+    pathname: Route.path,
   });
 
   const table = useReactTable({
@@ -35,7 +47,7 @@ export default function Basic() {
 
   return (
     <div className="space-y-2 mx-6">
-      <h1 className="text-lg font-semibold">Basic</h1>
+      <h1 className="text-lg font-semibold">Debounce</h1>
       <UserTable table={table} />
     </div>
   );

@@ -28,6 +28,10 @@ const menus = [
     title: "Debounce",
     href: "/debounce",
   },
+  {
+    title: "Replace(instead of push)",
+    href: "/replace",
+  },
 ] as const satisfies Menu[];
 
 export default function RootLayout({

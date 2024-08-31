@@ -27,6 +27,10 @@ const menus = [
     title: "Debounce",
     to: "/debounce",
   },
+  {
+    title: "Replace(instead of push)",
+    to: "/replace",
+  },
 ] as const satisfies Menu[];
 
 export const Route = createRootRoute({
