@@ -115,6 +115,12 @@ describe("pagination", () => {
     {
       name: "with options: debounce milliseconds",
       options: {
+        debounceMilliseconds: 1,
+      },
+    },
+    {
+      name: "with options: debounce milliseconds for pagination",
+      options: {
         debounceMilliseconds: {
           pagination: 1,
         },
@@ -132,6 +138,13 @@ describe("pagination", () => {
             pageSize: "pageSize",
           };
 
+    const debounceMilliseconds =
+      options?.debounceMilliseconds !== undefined
+        ? typeof options.debounceMilliseconds === "object"
+          ? options.debounceMilliseconds.pagination
+          : options.debounceMilliseconds
+        : undefined;
+
     test("basic", () => {
       const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
@@ -143,8 +156,8 @@ describe("pagination", () => {
         });
       });
       const rerender = () => {
-        if (options?.debounceMilliseconds?.pagination) {
-          vi.advanceTimersByTime(options?.debounceMilliseconds?.pagination);
+        if (debounceMilliseconds !== undefined) {
+          vi.advanceTimersByTime(debounceMilliseconds);
         }
         resultRerender();
       };
