@@ -20,7 +20,7 @@ export default function Basic() {
   const stateAndOnChanges = useTableSearchParams({
     pathname: router.pathname,
     query: router.query,
-    push: router.push,
+    replace: router.replace,
   });
 
   const table = useReactTable({
@@ -35,7 +35,7 @@ export default function Basic() {
 
   return (
     <div className="space-y-2 mx-6">
-      <h1 className="text-lg font-semibold">Basic</h1>
+      <h1 className="text-lg font-semibold">Replace(instead of push)</h1>
       <UserTable table={table} />
     </div>
   );

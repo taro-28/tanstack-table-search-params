@@ -72,26 +72,34 @@ const extractSpecificStateOptions = <KEY extends keyof State>({
       : [],
   );
 
+type Props = (Pick<Router, "pathname"> & {
+  query: Router["query"] | URLSearchParams;
+}) &
+  (
+    | {
+        push: Router["navigate"];
+      }
+    | {
+        replace: Router["navigate"];
+      }
+  );
+
 export const useTableSearchParams = (
-  {
-    push,
-    pathname,
-    query,
-  }: Pick<Router, "push" | "pathname"> & {
-    query: Router["query"] | URLSearchParams;
-  },
+  { pathname, query, ...props }: Props,
   options?: Options,
 ): Returns => {
+  const usePush = "push" in props;
+  const navigate = usePush ? props.push : props.replace;
   const router = useMemo(
     () => ({
-      push,
+      navigate,
       pathname,
       query:
         query instanceof URLSearchParams
           ? Object.fromEntries(query.entries())
           : query,
     }),
-    [push, pathname, query],
+    [pathname, query, navigate],
   );
 
   const { globalFilter, onGlobalFilterChange } = useGlobalFilter({
