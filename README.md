@@ -65,8 +65,8 @@ Please refer to the examples below:
 
 The `useTableSearchParams` hook primarily does the following two things:
 
-- Decodes the `query` (React state of the query parameters) and returns it as the `state` of Tanstack Table.
-- Encodes the `state` as query parameters and returns the `push`(or `replace`) function as a function such as `onChangeGlobalFilter`.
+- Decode `query` (query parameter state) and return it as the `state` for Tanstack Table.
+- Return a function like `onChangeGlobalFilter` that encodes `state` as a query parameter and performs `push` (or `replace`).
 
 # Options
 
@@ -248,7 +248,6 @@ List of supported TanStack table states
 
 - [ ] Add examples for other routers
 - [ ] Add e2e tests
-- [ ] Add JSDoc
 
 # License
 

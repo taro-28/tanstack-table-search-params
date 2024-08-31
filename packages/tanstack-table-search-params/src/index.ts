@@ -21,15 +21,34 @@ export const PARAM_NAMES = {
 } as const;
 
 export type Returns = {
+  /**
+   * Tanstack Table's state
+   */
   state: State;
+  /**
+   * Tanstack Table's `onChangeGlobalFilter` function
+   */
   onGlobalFilterChange: OnChangeFn<State["globalFilter"]>;
+  /**
+   * Tanstack Table's `onChangeSorting` function
+   */
   onSortingChange: OnChangeFn<State["sorting"]>;
+  /**
+   * Tanstack Table's `onChangePagination` function
+   */
   onPaginationChange: OnChangeFn<State["pagination"]>;
+  /**
+   * Tanstack Table's `onChangeColumnFilters` function
+   */
   onColumnFiltersChange: OnChangeFn<State["columnFilters"]>;
 };
 
 export type Options = {
-  defaultValues?: Partial<State>;
+  /**
+   * The custom names of query parameters.
+   *
+   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-query-param-name)
+   */
   paramNames?: {
     [KEY in keyof State]?: KEY extends "pagination"
       ?
@@ -43,12 +62,39 @@ export type Options = {
             }) => { pageIndex: string; pageSize: string })
       : string | ((key: KEY) => string);
   };
+  /**
+   * The default values of a query parameter.
+   *
+   * The "default value" is the value that is used as the `state` when the query parameter is not present.
+   *
+   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-default-value)
+   */
+  defaultValues?: Partial<State>;
+  /**
+   * The custom encoders of query parameters.
+   *
+   * It is used with the `decoders` option.
+   *
+   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-encoderdecoder)
+   */
   encoders?: {
     [KEY in keyof State]?: (value: State[KEY]) => Query;
   };
+  /**
+   * The custom decoders of query parameters.
+   *
+   * It is used with the `encoders` option.
+   *
+   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-encoderdecoder)
+   */
   decoders?: {
     [KEY in keyof State]?: (query: Query) => State[KEY];
   };
+  /**
+   * The debounce milliseconds of a query parameter.
+   *
+   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#debounce)
+   */
   debounceMilliseconds?:
     | {
         [KEY in keyof State]?: number;
@@ -72,17 +118,35 @@ const extractSpecificStateOptions = <KEY extends keyof State>({
       : [],
   );
 
-type Props = (Pick<Router, "pathname"> & {
+type Props = {
+  /**
+   * search params state
+   *
+   * It is used to decode and create the `state` of the Tanstack Table.
+   */
   query: Router["query"] | URLSearchParams;
-}) &
-  (
-    | {
-        push: Router["navigate"];
-      }
-    | {
-        replace: Router["navigate"];
-      }
-  );
+  /**
+   * It is used for calling `push`(or `replace`).
+   */
+  pathname: Router["pathname"];
+} & (
+  | {
+      /**
+       * It is used to create a function like onChangeGlobalFilter that encodes state as a query parameter and performs a push navigation.
+       *
+       * If both `push` and `replace` are provided, push will be used.
+       */
+      push: Router["navigate"];
+    }
+  | {
+      /**
+       * It is used to create a function like onChangeGlobalFilter that encodes state as a query parameter and performs a replace navigation.
+       *
+       * If both `push` and `replace` are provided, push will be used.
+       */
+      replace: Router["navigate"];
+    }
+);
 
 export const useTableSearchParams = (
   { pathname, query, ...props }: Props,
