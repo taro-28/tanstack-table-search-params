@@ -100,7 +100,13 @@ describe("columnFilters", () => {
       },
     },
     {
-      name: "with options: custom debounce milliseconds",
+      name: "with options: debounce milliseconds",
+      options: {
+        debounceMilliseconds: 1,
+      },
+    },
+    {
+      name: "with options: debounce milliseconds for columnFilters",
       options: {
         debounceMilliseconds: {
           columnFilters: 1,
@@ -116,6 +122,13 @@ describe("columnFilters", () => {
     const defaultColumnFilters =
       options?.defaultValues?.columnFilters ?? defaultDefaultColumnFilters;
 
+    const debounceMilliseconds =
+      options?.debounceMilliseconds !== undefined
+        ? typeof options.debounceMilliseconds === "object"
+          ? options.debounceMilliseconds.columnFilters
+          : options.debounceMilliseconds
+        : undefined;
+
     test("single column: string value", () => {
       const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
@@ -130,8 +143,8 @@ describe("columnFilters", () => {
         });
       });
       const rerender = () => {
-        if (options?.debounceMilliseconds?.columnFilters) {
-          vi.advanceTimersByTime(options?.debounceMilliseconds?.columnFilters);
+        if (debounceMilliseconds !== undefined) {
+          vi.advanceTimersByTime(debounceMilliseconds);
         }
         resultRerender();
       };
@@ -191,8 +204,8 @@ describe("columnFilters", () => {
         });
       });
       const rerender = () => {
-        if (options?.debounceMilliseconds?.columnFilters) {
-          vi.advanceTimersByTime(options?.debounceMilliseconds?.columnFilters);
+        if (debounceMilliseconds !== undefined) {
+          vi.advanceTimersByTime(debounceMilliseconds);
         }
         resultRerender();
       };
@@ -256,8 +269,8 @@ describe("columnFilters", () => {
         });
       });
       const rerender = () => {
-        if (options?.debounceMilliseconds?.columnFilters) {
-          vi.advanceTimersByTime(options?.debounceMilliseconds?.columnFilters);
+        if (debounceMilliseconds !== undefined) {
+          vi.advanceTimersByTime(debounceMilliseconds);
         }
         resultRerender();
       };

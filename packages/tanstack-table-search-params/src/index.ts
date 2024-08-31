@@ -49,9 +49,11 @@ export type Options = {
   decoders?: {
     [KEY in keyof State]?: (query: Query) => State[KEY];
   };
-  debounceMilliseconds?: {
-    [KEY in keyof State]?: number;
-  };
+  debounceMilliseconds?:
+    | {
+        [KEY in keyof State]?: number;
+      }
+    | number;
 };
 
 const extractSpecificStateOptions = <KEY extends keyof State>({
@@ -65,7 +67,7 @@ const extractSpecificStateOptions = <KEY extends keyof State>({
     options
       ? Object.entries(options).map(([k, v]) => [
           k === "debounceMilliseconds" ? k : k.replace(/s$/, ""),
-          v?.[key],
+          typeof v === "object" ? v?.[key] : v,
         ])
       : [],
   );

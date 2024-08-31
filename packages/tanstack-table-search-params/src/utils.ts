@@ -5,5 +5,7 @@ export type ExtractSpecificStateOptions<STATE_NAME extends keyof State> = {
     ? OPTION_NAME
     : OPTION_NAME extends `${infer T}s`
       ? T
-      : OPTION_NAME]?: Required<Options>[OPTION_NAME][STATE_NAME];
+      : OPTION_NAME]?: Required<Options>[OPTION_NAME] extends object
+    ? Required<Options>[OPTION_NAME][STATE_NAME]
+    : never;
 };

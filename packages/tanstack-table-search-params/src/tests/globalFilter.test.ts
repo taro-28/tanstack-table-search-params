@@ -80,6 +80,12 @@ describe("globalFilter", () => {
     {
       name: "with options: debounce milliseconds",
       options: {
+        debounceMilliseconds: 1,
+      },
+    },
+    {
+      name: "with options: debounce milliseconds for globalFilter",
+      options: {
         debounceMilliseconds: {
           globalFilter: 1,
         },
@@ -90,6 +96,13 @@ describe("globalFilter", () => {
       typeof options?.paramNames?.globalFilter === "function"
         ? options?.paramNames?.globalFilter("globalFilter")
         : options?.paramNames?.globalFilter || "globalFilter";
+
+    const debounceMilliseconds =
+      options?.debounceMilliseconds !== undefined
+        ? typeof options.debounceMilliseconds === "object"
+          ? options.debounceMilliseconds.globalFilter
+          : options.debounceMilliseconds
+        : undefined;
 
     test("basic", () => {
       const { result: routerResult, rerender: routerRerender } = renderHook(
@@ -108,8 +121,8 @@ describe("globalFilter", () => {
         });
       });
       const rerender = () => {
-        if (options?.debounceMilliseconds?.globalFilter) {
-          vi.advanceTimersByTime(options?.debounceMilliseconds?.globalFilter);
+        if (debounceMilliseconds !== undefined) {
+          vi.advanceTimersByTime(debounceMilliseconds);
         }
         routerRerender();
         resultRerender();

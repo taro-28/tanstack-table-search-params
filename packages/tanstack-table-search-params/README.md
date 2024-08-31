@@ -210,6 +210,14 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
+Also, you can debounce all query parameters at once.
+
+```tsx
+const stateAndOnChanges = useTableSearchParams(router, {
+  debounceMilliseconds: 500,
+});
+```
+
 # Supported
 
 List of supported TanStack table states

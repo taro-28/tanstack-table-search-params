@@ -103,6 +103,12 @@ describe("sorting", () => {
     {
       name: "with options: debounce milliseconds",
       options: {
+        debounceMilliseconds: 1,
+      },
+    },
+    {
+      name: "with options: debounce milliseconds for sorting",
+      options: {
         debounceMilliseconds: {
           sorting: 1,
         },
@@ -116,6 +122,13 @@ describe("sorting", () => {
 
     const defaultSorting =
       options?.defaultValues?.sorting ?? defaultDefaultSorting;
+
+    const debounceMilliseconds =
+      options?.debounceMilliseconds !== undefined
+        ? typeof options.debounceMilliseconds === "object"
+          ? options.debounceMilliseconds.sorting
+          : options.debounceMilliseconds
+        : undefined;
 
     test("single column", () => {
       const { result, rerender: resultRerender } = renderHook(() => {
@@ -131,8 +144,8 @@ describe("sorting", () => {
         });
       });
       const rerender = () => {
-        if (options?.debounceMilliseconds?.sorting) {
-          vi.advanceTimersByTime(options?.debounceMilliseconds?.sorting);
+        if (debounceMilliseconds) {
+          vi.advanceTimersByTime(debounceMilliseconds);
         }
         resultRerender();
       };
@@ -227,8 +240,8 @@ describe("sorting", () => {
         });
       });
       const rerender = () => {
-        if (options?.debounceMilliseconds?.sorting) {
-          vi.advanceTimersByTime(options?.debounceMilliseconds?.sorting);
+        if (debounceMilliseconds) {
+          vi.advanceTimersByTime(debounceMilliseconds);
         }
         resultRerender();
       };
