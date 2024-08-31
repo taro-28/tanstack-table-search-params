@@ -71,8 +71,8 @@ The `useTableSearchParams` hook primarily does the following two things:
 # ⚙️ Options
 
 - [🏷️ Custom query param name](#custom-query-param-name)
-- [🔢 Custom encoder/decoder](#custom-encoder-decoder)
 - [🪄 Custom default value](#custom-default-value)
+- [🔢 Custom encoder/decoder](#custom-encoder-decoder)
 - [⏱️ Debounce](#debounce)
 
 <h2 id="custom-query-param-name">🏷️ Custom query param name</h2>
