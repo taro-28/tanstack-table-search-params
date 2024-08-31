@@ -75,7 +75,7 @@ export type Options = {
    *
    * It is used with the `decoders` option.
    *
-   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-encoderdecoder)
+   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-encoder-decoder)
    */
   encoders?: {
     [KEY in keyof State]?: (value: State[KEY]) => Query;
@@ -85,7 +85,7 @@ export type Options = {
    *
    * It is used with the `encoders` option.
    *
-   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-encoderdecoder)
+   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-encoder-decoder)
    */
   decoders?: {
     [KEY in keyof State]?: (query: Query) => State[KEY];

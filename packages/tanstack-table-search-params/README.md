@@ -13,7 +13,7 @@ React Hook for syncing [TanStack Table](https://github.com/TanStack/table) state
 
 https://github.com/user-attachments/assets/1f1b4a65-fdec-4a80-a5d5-783642befaa3
 
-# Quick Start
+# 🚀 Quick Start
 
 First, install the package.
 
@@ -61,21 +61,21 @@ Please refer to the examples below:
 - [Next.js(App Router)](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-app-router/src/app/table.tsx)
 - [TanStack Router](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router/src/routes/index.tsx)
 
-# How it works
+# 🔍 How it works
 
 The `useTableSearchParams` hook primarily does the following two things:
 
 - Decode `query` (query parameter state) and return it as the `state` for Tanstack Table.
 - Return a function like `onChangeGlobalFilter` that encodes `state` as a query parameter and performs `push` (or `replace`).
 
-# Options
+# ⚙️ Options
 
-- [Custom query param name](#custom-query-param-name)
-- [Custom encoder/decoder](#custom-encoderdecoder)
-- [Custom default value](#custom-default-value)
-- [Debounce](#debounce)
+- [🏷️ Custom query param name](#custom-query-param-name)
+- [🔢 Custom encoder/decoder](#custom-encoder-decoder)
+- [🪄 Custom default value](#custom-default-value)
+- [⏱️ Debounce](#debounce)
 
-## Custom query param name
+<h2 id="custom-query-param-name">🏷️ Custom query param name</h2>
 
 You can customize a query parameter name.
 
@@ -93,7 +93,7 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
-## Custom default value
+<h2 id="custom-default-value">🔢 Custom default value</h2>
 
 You can customize the default value of a query parameter.
 
@@ -125,7 +125,7 @@ useEffect(() => {
 }, [router.replace]);
 ```
 
-## Custom encoder/decoder
+<h2 id="custom-encoder-decoder">🪄 Custom encoder/decoder</h2>
 
 You can customize the encoder/decoder for the query parameter.
 
@@ -196,7 +196,7 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
-## Debounce
+<h2 id="custom-encoder-decoder">⏱️ Debounce</h2>
 
 You can debounce the reflection of state changes in the query parameters.
 
