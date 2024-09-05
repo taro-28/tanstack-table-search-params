@@ -22,7 +22,7 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
+    "@faker-js/faker": "^9.0.0",
     "@tanstack-table-search-params/tsconfig": "workspace:*",
     "@tanstack/react-table": "^8.19.2",
     "@testing-library/react": "^16.0.0",
