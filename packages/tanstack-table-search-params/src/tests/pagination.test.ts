@@ -126,6 +126,24 @@ describe("pagination", () => {
         },
       },
     },
+    {
+      name: "with options: custom param name, default value, debounce",
+      options: {
+        paramNames: {
+          pagination: {
+            pageIndex: "PAGE_INDEX",
+            pageSize: "PAGE_SIZE",
+          },
+        },
+        defaultValues: {
+          pagination: {
+            pageIndex: 3,
+            pageSize: 25,
+          },
+        },
+        debounceMilliseconds: 1,
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.pagination === "function"

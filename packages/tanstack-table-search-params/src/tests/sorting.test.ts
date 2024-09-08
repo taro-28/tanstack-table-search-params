@@ -96,7 +96,7 @@ describe("sorting", () => {
       name: "with options: custom default value",
       options: {
         defaultValues: {
-          sorting: [{ id: "custom", desc: true }],
+          sorting: [{ id: "name", desc: true }],
         },
       },
     },
@@ -112,6 +112,18 @@ describe("sorting", () => {
         debounceMilliseconds: {
           sorting: 1,
         },
+      },
+    },
+    {
+      name: "with options: custom param name, default value, debounce",
+      options: {
+        paramNames: {
+          sorting: "SORTING",
+        },
+        defaultValues: {
+          sorting: [{ id: "name", desc: true }],
+        },
+        debounceMilliseconds: 1,
       },
     },
   ])("%s", ({ options }) => {

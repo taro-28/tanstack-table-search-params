@@ -113,6 +113,18 @@ describe("columnFilters", () => {
         },
       },
     },
+    {
+      name: "with options: custom param name, default value, debounce",
+      options: {
+        paramNames: {
+          columnFilters: "COLUMN_FILTERS",
+        },
+        defaultValues: {
+          columnFilters: [{ id: "custom", value: "default" }],
+        },
+        debounceMilliseconds: 1,
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.columnFilters === "function"

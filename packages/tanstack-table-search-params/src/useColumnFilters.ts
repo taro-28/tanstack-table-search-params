@@ -29,12 +29,17 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
       ? options?.paramName(PARAM_NAMES.COLUMN_FILTERS)
       : options?.paramName) || PARAM_NAMES.COLUMN_FILTERS;
 
-  const defaultColumnFilters =
-    options?.defaultValue ?? defaultDefaultColumnFilters;
+  const stringDefaultColumnFilters = JSON.stringify(
+    options?.defaultValue ?? defaultDefaultColumnFilters,
+  );
 
   const uncustomisedColumnFilters = useMemo(
-    () => decodeColumnFilters(router.query[paramName], defaultColumnFilters),
-    [router.query[paramName], paramName, defaultColumnFilters],
+    () =>
+      decodeColumnFilters(
+        router.query[paramName],
+        JSON.parse(stringDefaultColumnFilters),
+      ),
+    [router.query[paramName], paramName, stringDefaultColumnFilters],
   );
 
   // If `router.query` is included in the dependency array,
@@ -63,7 +68,7 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
           : {
               [paramName]: encodeColumnFilters(
                 columnFilters,
-                defaultColumnFilters,
+                JSON.parse(stringDefaultColumnFilters),
               ),
             };
       await updateQuery({
@@ -72,7 +77,13 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
         router,
       });
     },
-    [router, paramName, options?.encoder, defaultColumnFilters, columnFilters],
+    [
+      router,
+      paramName,
+      options?.encoder,
+      stringDefaultColumnFilters,
+      columnFilters,
+    ],
   );
 
   const [debouncedColumnFilters, setDebouncedColumnFilters] = useDebounce({

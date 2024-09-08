@@ -91,6 +91,18 @@ describe("globalFilter", () => {
         },
       },
     },
+    {
+      name: "with options: custom param name, default value, debounce",
+      options: {
+        paramNames: {
+          globalFilter: "GLOBAL_FILTER",
+        },
+        defaultValues: {
+          globalFilter: "default",
+        },
+        debounceMilliseconds: 1,
+      },
+    },
   ])("%s", ({ options }) => {
     const paramName =
       typeof options?.paramNames?.globalFilter === "function"
