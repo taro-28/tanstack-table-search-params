@@ -25,11 +25,14 @@ export const useSorting = ({ router, options }: Props): Returns => {
       ? options?.paramName(PARAM_NAMES.SORTING)
       : options?.paramName) || PARAM_NAMES.SORTING;
 
-  const defaultSorting = options?.defaultValue ?? defaultDefaultSorting;
+  const stringDefaultSorting = JSON.stringify(
+    options?.defaultValue ?? defaultDefaultSorting,
+  );
 
   const uncustomisedSorting = useMemo(
-    () => decodeSorting(router.query[paramName], defaultSorting),
-    [router.query[paramName], paramName, defaultSorting],
+    () =>
+      decodeSorting(router.query[paramName], JSON.parse(stringDefaultSorting)),
+    [router.query[paramName], paramName, stringDefaultSorting],
   );
 
   // If `router.query` is included in the dependency array,
@@ -56,7 +59,10 @@ export const useSorting = ({ router, options }: Props): Returns => {
         options?.encoder
           ? options.encoder(sorting)
           : {
-              [paramName]: encodeSorting(sorting, defaultSorting),
+              [paramName]: encodeSorting(
+                sorting,
+                JSON.parse(stringDefaultSorting),
+              ),
             };
       await updateQuery({
         oldQuery: encoder(sorting),
@@ -64,7 +70,7 @@ export const useSorting = ({ router, options }: Props): Returns => {
         router,
       });
     },
-    [router, paramName, options?.encoder, defaultSorting, sorting],
+    [router, paramName, options?.encoder, stringDefaultSorting, sorting],
   );
 
   const [debouncedSorting, setDebouncedSorting] = useDebounce({
