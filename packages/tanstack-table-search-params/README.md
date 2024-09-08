@@ -79,7 +79,7 @@ The `useTableSearchParams` hook primarily does the following two things:
 
 You can customize a query parameter name.
 
-- [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/custom-param-name)
+- [demo](https://tanstack-table-search-params-next-pages-router-taro28s-projects.vercel.app/custom-param-name)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/custom-param-name.tsx)
 
 ```tsx
@@ -99,7 +99,7 @@ You can customize the default value of a query parameter.
 
 The "default value" is the value that is used as the `state` when the query parameter is not present.
 
-- [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/custom-default-value)
+- [demo](https://tanstack-table-search-params-next-pages-router-taro28s-projects.vercel.app/custom-default-value)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/custom-default-value.tsx)
 
 ```tsx
@@ -129,7 +129,7 @@ useEffect(() => {
 
 You can customize the encoder/decoder for the query parameter.
 
-- [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/custom-encoder-decoder)
+- [demo](https://tanstack-table-search-params-next-pages-router-taro28s-projects.vercel.app/custom-encoder-decoder)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/custom-encoder-decoder.tsx)
 
 ```tsx
@@ -196,11 +196,11 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
-<h2 id="custom-encoder-decoder">⏱️ Debounce</h2>
+<h2 id="debounce">⏱️ Debounce</h2>
 
 You can debounce the reflection of state changes in the query parameters.
 
-- [demo](https://tanstack-table-search-paramsexample-git-56132d-taro28s-projects.vercel.app/debounce)
+- [demo](https://tanstack-table-search-params-next-pages-router-taro28s-projects.vercel.app/debounce)
 - [code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/debounce.tsx)
 
 ```tsx
