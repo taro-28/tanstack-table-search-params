@@ -80,7 +80,7 @@ export const usePagination = ({ router, options }: Props): Returns => {
   const stringCustomPagination = options?.decoder?.(router.query)
     ? JSON.stringify(options.decoder(router.query))
     : "";
-  const pagination = useMemo(
+  const _pagination = useMemo(
     () =>
       isCustomDecoder
         ? stringCustomPagination === ""
@@ -112,14 +112,14 @@ export const usePagination = ({ router, options }: Props): Returns => {
         };
       };
       await updateQuery({
-        oldQuery: encoder(pagination),
+        oldQuery: encoder(_pagination),
         newQuery: encoder(newPagination),
         router,
       });
     },
     [
       router,
-      pagination,
+      _pagination,
       paramName,
       options?.encoder,
       defaultPagination.pageIndex,
@@ -128,16 +128,21 @@ export const usePagination = ({ router, options }: Props): Returns => {
   );
 
   const [debouncedPagination, setDebouncedPagination] = useDebounce({
-    stateValue: pagination,
+    stateValue: _pagination,
     updateQuery: updatePaginationQuery,
     milliseconds: options?.debounceMilliseconds,
   });
 
-  return {
-    pagination:
+  const pagination = useMemo(
+    () =>
       options?.debounceMilliseconds === undefined
-        ? pagination
+        ? _pagination
         : debouncedPagination,
+    [_pagination, debouncedPagination, options?.debounceMilliseconds],
+  );
+
+  return {
+    pagination,
     onPaginationChange: useCallback(
       async (updater) => {
         const newPagination = functionalUpdate(updater, pagination);
