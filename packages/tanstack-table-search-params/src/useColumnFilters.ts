@@ -50,7 +50,7 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
   const stringCustomColumnFilters = options?.decoder?.(router.query)
     ? JSON.stringify(options.decoder(router.query))
     : "";
-  const columnFilters = useMemo(
+  const _columnFilters = useMemo(
     () =>
       isCustomDecoder
         ? stringCustomColumnFilters === ""
@@ -72,7 +72,7 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
               ),
             };
       await updateQuery({
-        oldQuery: encoder(columnFilters),
+        oldQuery: encoder(_columnFilters),
         newQuery: encoder(newColumnFilters),
         router,
       });
@@ -82,21 +82,26 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
       paramName,
       options?.encoder,
       stringDefaultColumnFilters,
-      columnFilters,
+      _columnFilters,
     ],
   );
 
   const [debouncedColumnFilters, setDebouncedColumnFilters] = useDebounce({
-    stateValue: columnFilters,
+    stateValue: _columnFilters,
     updateQuery: updateColumnFiltersQuery,
     milliseconds: options?.debounceMilliseconds,
   });
 
-  return {
-    columnFilters:
+  const columnFilters = useMemo(
+    () =>
       options?.debounceMilliseconds === undefined
-        ? columnFilters
+        ? _columnFilters
         : debouncedColumnFilters,
+    [_columnFilters, debouncedColumnFilters, options?.debounceMilliseconds],
+  );
+
+  return {
+    columnFilters,
     onColumnFiltersChange: useCallback(
       async (updater) => {
         const newColumnFilters = functionalUpdate(updater, columnFilters);

@@ -43,7 +43,7 @@ export const useSorting = ({ router, options }: Props): Returns => {
   const stringCustomSorting = options?.decoder?.(router.query)
     ? JSON.stringify(options.decoder(router.query))
     : "";
-  const sorting = useMemo(
+  const _sorting = useMemo(
     () =>
       isCustomDecoder
         ? stringCustomSorting === ""
@@ -65,23 +65,28 @@ export const useSorting = ({ router, options }: Props): Returns => {
               ),
             };
       await updateQuery({
-        oldQuery: encoder(sorting),
+        oldQuery: encoder(_sorting),
         newQuery: encoder(newSorting),
         router,
       });
     },
-    [router, paramName, options?.encoder, stringDefaultSorting, sorting],
+    [router, paramName, options?.encoder, stringDefaultSorting, _sorting],
   );
 
   const [debouncedSorting, setDebouncedSorting] = useDebounce({
-    stateValue: sorting,
+    stateValue: _sorting,
     updateQuery: updateSortingQuery,
     milliseconds: options?.debounceMilliseconds,
   });
 
+  const sorting = useMemo(
+    () =>
+      options?.debounceMilliseconds === undefined ? _sorting : debouncedSorting,
+    [_sorting, debouncedSorting, options?.debounceMilliseconds],
+  );
+
   return {
-    sorting:
-      options?.debounceMilliseconds === undefined ? sorting : debouncedSorting,
+    sorting,
     onSortingChange: useCallback(
       async (updater) => {
         const newSorting = functionalUpdate(updater, sorting);

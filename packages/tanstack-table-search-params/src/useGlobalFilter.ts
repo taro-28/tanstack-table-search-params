@@ -1,5 +1,5 @@
 import { type OnChangeFn, functionalUpdate } from "@tanstack/react-table";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { PARAM_NAMES, type State } from ".";
 import {
   decodeGlobalFilter,
@@ -32,7 +32,7 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
   const defaultGlobalFilter =
     options?.defaultValue ?? defaultDefaultGlobalFilter;
 
-  const globalFilter = options?.decoder
+  const _globalFilter = options?.decoder
     ? options?.decoder?.(router.query)
     : decodeGlobalFilter(router.query[paramNames], defaultGlobalFilter);
 
@@ -48,25 +48,30 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
               ),
             };
       await updateQuery({
-        oldQuery: encoder(globalFilter),
+        oldQuery: encoder(_globalFilter),
         newQuery: encoder(newGlobalFilter),
         router,
       });
     },
-    [router, paramNames, options?.encoder, defaultGlobalFilter, globalFilter],
+    [router, paramNames, options?.encoder, defaultGlobalFilter, _globalFilter],
   );
 
   const [debouncedGlobalFilter, setDebouncedGlobalFilter] = useDebounce({
-    stateValue: globalFilter,
+    stateValue: _globalFilter,
     updateQuery: updateGlobalFilterQuery,
     milliseconds: options?.debounceMilliseconds,
   });
 
-  return {
-    globalFilter:
+  const globalFilter = useMemo(
+    () =>
       options?.debounceMilliseconds === undefined
-        ? globalFilter
+        ? _globalFilter
         : debouncedGlobalFilter,
+    [_globalFilter, debouncedGlobalFilter, options?.debounceMilliseconds],
+  );
+
+  return {
+    globalFilter,
     onGlobalFilterChange: useCallback(
       async (updater) => {
         const newGlobalFilter = functionalUpdate(updater, globalFilter);
