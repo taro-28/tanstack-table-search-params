@@ -102,6 +102,8 @@ export type Options = {
     | number;
 };
 
+const regex = /s$/;
+
 const extractSpecificStateOptions = <KEY extends keyof State>({
   options,
   key,
@@ -112,7 +114,7 @@ const extractSpecificStateOptions = <KEY extends keyof State>({
   Object.fromEntries(
     options
       ? Object.entries(options).map(([k, v]) => [
-          k === "debounceMilliseconds" ? k : k.replace(/s$/, ""),
+          k === "debounceMilliseconds" ? k : k.replace(regex, ""),
           typeof v === "object" ? v?.[key] : v,
         ])
       : [],

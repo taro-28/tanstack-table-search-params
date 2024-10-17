@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "organizeImports": {
     "enabled": true
   },
@@ -16,13 +16,16 @@
         "noNonNullAssertion": "off"
       },
       "correctness": {
-        "noNodejsModules": "off"
+        "noNodejsModules": "off",
+        "useImportExtensions": "off",
+        "noUndeclaredDependencies": "off"
       },
       "complexity": {
         "useLiteralKeys": "off"
       },
       "suspicious": {
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noReactSpecificProps": "off"
       }
     }
   },

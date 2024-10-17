@@ -49,7 +49,7 @@ describe("globalFilter", () => {
           globalFilter: (query) =>
             query["globalFilter"]
               ? JSON.parse(query["globalFilter"] as string)
-              : query["globalFilter"] ?? "",
+              : (query["globalFilter"] ?? ""),
         },
       },
     },
@@ -65,7 +65,7 @@ describe("globalFilter", () => {
           globalFilter: (query) =>
             query["userTable-globalFilter"]
               ? JSON.parse(query["userTable-globalFilter"] as string)
-              : query["userTable-globalFilter"] ?? "",
+              : (query["userTable-globalFilter"] ?? ""),
         },
       },
     },

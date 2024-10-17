@@ -151,10 +151,10 @@ describe("pagination", () => {
             pageIndex: "pageIndex",
             pageSize: "pageSize",
           })
-        : options?.paramNames?.pagination ?? {
+        : (options?.paramNames?.pagination ?? {
             pageIndex: "pageIndex",
             pageSize: "pageSize",
-          };
+          });
 
     const debounceMilliseconds =
       options?.debounceMilliseconds !== undefined
