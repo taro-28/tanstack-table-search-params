@@ -34,9 +34,9 @@ const router = useRouter();
 const stateAndOnChanges = useTableSearchParams({
   query: router.query,
   pathname: router.pathname,
-  push: router.push,
-  // or
   replace: router.replace,
+  // or
+  push: router.push,
 });
 
 const table = useReactTable({
@@ -66,7 +66,7 @@ Please refer to the examples below:
 The `useTableSearchParams` hook primarily does the following two things:
 
 - Decode `query` (query parameter state) and return it as the `state` for Tanstack Table.
-- Return a function like `onChangeGlobalFilter` that encodes `state` as a query parameter and performs `push` (or `replace`).
+- Return a function like `onChangeGlobalFilter` that encodes `state` as a query parameter and performs `replace` (or `push`).
 
 # ⚙️ Options
 

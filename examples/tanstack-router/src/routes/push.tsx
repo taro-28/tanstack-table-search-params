@@ -13,7 +13,7 @@ import {
 } from "@tanstack/react-table";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
-export const Route = createFileRoute("/replace")({
+export const Route = createFileRoute("/push")({
   component: Page,
 });
 
@@ -26,10 +26,7 @@ function Page() {
   const stateAndOnChanges = useTableSearchParams({
     push: (url) => {
       const searchParams = new URLSearchParams(url.split("?")[1]);
-      navigate({
-        search: Object.fromEntries(searchParams.entries()),
-        replace: true,
-      });
+      navigate({ search: Object.fromEntries(searchParams.entries()) });
     },
     query,
     pathname: Route.path,

@@ -17,11 +17,7 @@ export default function Basic() {
   const data = useUserData();
 
   const router = useRouter();
-  const stateAndOnChanges = useTableSearchParams({
-    pathname: router.pathname,
-    query: router.query,
-    push: router.push,
-  });
+  const stateAndOnChanges = useTableSearchParams(router);
 
   const table = useReactTable({
     data,
