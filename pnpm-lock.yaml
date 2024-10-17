@@ -17,7 +17,7 @@ importers:
         version: 1.9.3
       knip:
         specifier: ^5.26.0
-        version: 5.33.3(@types/node@20.16.12)(typescript@5.6.2)
+        version: 5.33.3(@types/node@20.16.12)(typescript@5.6.3)
       turbo:
         specifier: ^2.0.12
         version: 2.1.3
@@ -26,7 +26,7 @@ importers:
     dependencies:
       '@faker-js/faker':
         specifier: ^8.4.1
-        version: 9.0.3
+        version: 8.4.1
       '@tanstack/react-table':
         specifier: ^8.19.2
         version: 8.20.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -51,7 +51,7 @@ importers:
         version: 18.3.0
       typescript:
         specifier: ^5.5.3
-        version: 5.6.2
+        version: 5.6.3
 
   examples/next-app-router:
     dependencies:
@@ -94,7 +94,7 @@ importers:
         version: 3.4.4
       typescript:
         specifier: ^5.5.3
-        version: 5.6.2
+        version: 5.6.3
 
   examples/next-pages-router:
     dependencies:
@@ -137,7 +137,7 @@ importers:
         version: 3.4.4
       typescript:
         specifier: ^5.5.3
-        version: 5.6.2
+        version: 5.6.3
 
   examples/tanstack-router:
     dependencies:
@@ -186,7 +186,7 @@ importers:
         version: 3.4.4
       typescript:
         specifier: ^5.5.3
-        version: 5.6.2
+        version: 5.6.3
       vite:
         specifier: ^5.4.0
         version: 5.4.0(@types/node@20.16.12)
@@ -225,10 +225,10 @@ importers:
         version: 18.3.1
       tsup:
         specifier: ^8.1.0
-        version: 8.2.4(@swc/core@1.7.10(@swc/helpers@0.5.5))(jiti@2.3.3)(postcss@8.4.47)(typescript@5.6.2)(yaml@2.4.5)
+        version: 8.2.4(@swc/core@1.7.10(@swc/helpers@0.5.5))(jiti@2.3.3)(postcss@8.4.47)(typescript@5.6.3)(yaml@2.4.5)
       typescript:
         specifier: ^5.5.3
-        version: 5.6.2
+        version: 5.6.3
       vitest:
         specifier: ^2.0.2
         version: 2.1.3(@types/node@20.16.12)(jsdom@25.0.1)
@@ -237,7 +237,7 @@ importers:
     devDependencies:
       typescript:
         specifier: ^5.5.3
-        version: 5.6.2
+        version: 5.6.3
 
 packages:
 
@@ -761,6 +761,10 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@faker-js/faker@8.4.1':
+    resolution: {integrity: sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
 
   '@faker-js/faker@9.0.3':
     resolution: {integrity: sha512-lWrrK4QNlFSU+13PL9jMbMKLJYXDFu3tQfayBsMXX7KL/GiQeqfB1CzHkqD5UHBUtPAuPo6XwGbMFNdVMZObRA==}
@@ -2402,8 +2406,8 @@ packages:
     resolution: {integrity: sha512-lY0yj2GH2a2a3NExZ3rGe+rHUVeFE2aXuRAue57n+08E7Z7N7YCmynju0kPC1grAQzERmoLpKrmzmWd+PNiADw==}
     hasBin: true
 
-  typescript@5.6.2:
-    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
+  typescript@5.6.3:
+    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -3051,6 +3055,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.23.0':
     optional: true
+
+  '@faker-js/faker@8.4.1': {}
 
   '@faker-js/faker@9.0.3': {}
 
@@ -3986,7 +3992,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  knip@5.33.3(@types/node@20.16.12)(typescript@5.6.2):
+  knip@5.33.3(@types/node@20.16.12)(typescript@5.6.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@snyk/github-codeowners': 1.1.0
@@ -4003,7 +4009,7 @@ snapshots:
       smol-toml: 1.3.0
       strip-json-comments: 5.0.1
       summary: 2.1.0
-      typescript: 5.6.2
+      typescript: 5.6.3
       zod: 3.23.8
       zod-validation-error: 3.4.0(zod@3.23.8)
 
@@ -4521,7 +4527,7 @@ snapshots:
 
   tslib@2.6.3: {}
 
-  tsup@8.2.4(@swc/core@1.7.10(@swc/helpers@0.5.5))(jiti@2.3.3)(postcss@8.4.47)(typescript@5.6.2)(yaml@2.4.5):
+  tsup@8.2.4(@swc/core@1.7.10(@swc/helpers@0.5.5))(jiti@2.3.3)(postcss@8.4.47)(typescript@5.6.3)(yaml@2.4.5):
     dependencies:
       bundle-require: 5.0.0(esbuild@0.23.0)
       cac: 6.7.14
@@ -4542,7 +4548,7 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.7.10(@swc/helpers@0.5.5)
       postcss: 8.4.47
-      typescript: 5.6.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - jiti
       - supports-color
@@ -4576,7 +4582,7 @@ snapshots:
       turbo-windows-64: 2.1.3
       turbo-windows-arm64: 2.1.3
 
-  typescript@5.6.2: {}
+  typescript@5.6.3: {}
 
   undici-types@6.19.8: {}
 
