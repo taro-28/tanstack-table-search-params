@@ -18,12 +18,12 @@ import { useTableSearchParams } from "tanstack-table-search-params";
 export const Table = () => {
   const data = useUserData();
 
-  const push = useRouter().push;
+  const replace = useRouter().replace;
   const query = useSearchParams();
   const pathname = usePathname();
 
   const stateAndOnChanges = useTableSearchParams(
-    { push, query, pathname },
+    { replace, query, pathname },
     {
       debounceMilliseconds: {
         globalFilter: 1000,

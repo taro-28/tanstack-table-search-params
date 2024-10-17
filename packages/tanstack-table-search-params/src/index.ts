@@ -134,19 +134,19 @@ type Props = {
 } & (
   | {
       /**
-       * It is used to create a function like onChangeGlobalFilter that encodes state as a query parameter and performs a push navigation.
+       * It is used to create a function like onChangeGlobalFilter that encodes state as a query parameter and performs a replace navigation.
        *
-       * If both `push` and `replace` are provided, push will be used.
+       * If both `push` and `replace` are provided, replace will be used.
        */
-      push: Router["navigate"];
+      replace: Router["navigate"];
     }
   | {
       /**
-       * It is used to create a function like onChangeGlobalFilter that encodes state as a query parameter and performs a replace navigation.
+       * It is used to create a function like onChangeGlobalFilter that encodes state as a query parameter and performs a push navigation.
        *
-       * If both `push` and `replace` are provided, push will be used.
+       * If both `push` and `replace` are provided, replace will be used.
        */
-      replace: Router["navigate"];
+      push: Router["navigate"];
     }
 );
 
@@ -154,8 +154,8 @@ export const useTableSearchParams = (
   { pathname, query, ...props }: Props,
   options?: Options,
 ): Returns => {
-  const usePush = "push" in props;
-  const navigate = usePush ? props.push : props.replace;
+  const useReplace = "replace" in props;
+  const navigate = useReplace ? props.replace : props.push;
   const router = useMemo(
     () => ({
       navigate,

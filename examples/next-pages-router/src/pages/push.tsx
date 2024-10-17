@@ -1,5 +1,3 @@
-"use client";
-
 import { UserTable } from "@examples/lib/src/components/UserTable";
 import {
   useUserData,
@@ -12,17 +10,18 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
-export const Table = () => {
+export default function Basic() {
   const data = useUserData();
 
-  const replace = useRouter().replace;
-  const query = useSearchParams();
-  const pathname = usePathname();
-
-  const stateAndOnChanges = useTableSearchParams({ replace, query, pathname });
+  const router = useRouter();
+  const stateAndOnChanges = useTableSearchParams({
+    pathname: router.pathname,
+    query: router.query,
+    push: router.push,
+  });
 
   const table = useReactTable({
     data,
@@ -33,5 +32,11 @@ export const Table = () => {
     getPaginationRowModel: getPaginationRowModel(),
     ...stateAndOnChanges,
   });
-  return <UserTable table={table} />;
-};
+
+  return (
+    <div className="space-y-2 mx-6">
+      <h1 className="text-lg font-semibold">Push(instead of replace)</h1>
+      <UserTable table={table} />
+    </div>
+  );
+}

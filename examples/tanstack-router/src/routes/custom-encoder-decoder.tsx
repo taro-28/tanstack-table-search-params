@@ -25,9 +25,12 @@ function Page() {
 
   const stateAndOnChanges = useTableSearchParams(
     {
-      push: (url) => {
+      replace: (url) => {
         const searchParams = new URLSearchParams(url.split("?")[1]);
-        navigate({ search: Object.fromEntries(searchParams.entries()) });
+        navigate({
+          search: Object.fromEntries(searchParams.entries()),
+          replace: true,
+        });
       },
       query,
       pathname: Route.path,

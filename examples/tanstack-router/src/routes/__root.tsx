@@ -28,8 +28,8 @@ const menus = [
     to: "/debounce",
   },
   {
-    title: "Replace(instead of push)",
-    to: "/replace",
+    title: "Push(instead of replace)",
+    to: "/push",
   },
 ] as const satisfies Menu[];
 
