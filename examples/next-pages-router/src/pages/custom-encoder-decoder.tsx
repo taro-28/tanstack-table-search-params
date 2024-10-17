@@ -44,7 +44,7 @@ export default function CustomEncoderDecoder() {
       globalFilter: (query) =>
         query["globalFilter"]
           ? JSON.parse(query["globalFilter"] as string)
-          : query["globalFilter"] ?? "",
+          : (query["globalFilter"] ?? ""),
       sorting: (query) =>
         Object.entries(query)
           .filter(([key]) => key.startsWith("sorting."))
