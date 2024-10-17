@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { defaultDefaultColumnFilters } from "../useColumnFilters";
 import { decodeColumnFilters, encodeColumnFilters } from "./columnFilters";
-import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
 const customDefaultValue = [
   {
@@ -33,7 +33,7 @@ describe("columnFilters", () => {
             JSON.stringify(defaultValue) ===
             JSON.stringify(defaultDefaultColumnFilters)
               ? undefined
-              : encodedEmptyStringForCustomDefaultValue,
+              : noneStringForCustomDefaultValue,
         },
         {
           name: "string value",
@@ -188,8 +188,8 @@ describe("columnFilters", () => {
             want: defaultValue,
           },
           {
-            name: "encodedEmptyStringForCustomDefaultValue",
-            queryValue: encodedEmptyStringForCustomDefaultValue,
+            name: "noneStringForCustomDefaultValue",
+            queryValue: noneStringForCustomDefaultValue,
             want: [],
           },
           {

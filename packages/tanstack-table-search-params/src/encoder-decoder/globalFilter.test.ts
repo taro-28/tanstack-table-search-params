@@ -1,7 +1,10 @@
 import { describe, expect, test } from "vitest";
 import { defaultDefaultGlobalFilter } from "../useGlobalFilter";
-import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringForCustomDefaultValue";
-import { decodeGlobalFilter, encodeGlobalFilter } from "./globalFilter";
+import {
+  decodeGlobalFilter,
+  encodeGlobalFilter,
+  encodedEmptyStringForGlobalFilterCustomDefaultValue,
+} from "./globalFilter";
 
 const customDefaultValue = "default";
 
@@ -36,12 +39,12 @@ describe("globalFilter", () => {
           want:
             defaultValue === ""
               ? undefined
-              : encodedEmptyStringForCustomDefaultValue,
+              : encodedEmptyStringForGlobalFilterCustomDefaultValue,
         },
         {
-          name: "encodedEmptyStringForCustomDefaultValue",
-          stateValue: encodedEmptyStringForCustomDefaultValue,
-          want: encodedEmptyStringForCustomDefaultValue,
+          name: "encodedEmptyStringForGlobalFilterCustomDefaultValue",
+          stateValue: encodedEmptyStringForGlobalFilterCustomDefaultValue,
+          want: encodedEmptyStringForGlobalFilterCustomDefaultValue,
         },
         {
           name: "valid",
@@ -88,10 +91,12 @@ describe("globalFilter", () => {
           want: "",
         },
         {
-          name: "encodedEmptyStringForCustomDefaultValue",
-          queryValue: encodedEmptyStringForCustomDefaultValue,
+          name: "encodedEmptyStringForGlobalFilterCustomDefaultValue",
+          queryValue: encodedEmptyStringForGlobalFilterCustomDefaultValue,
           want:
-            defaultValue === "" ? encodedEmptyStringForCustomDefaultValue : "",
+            defaultValue === ""
+              ? encodedEmptyStringForGlobalFilterCustomDefaultValue
+              : "",
         },
         {
           name: "string",
@@ -145,10 +150,12 @@ describe("globalFilter", () => {
           globalFilter: "foo",
         },
         {
-          name: "encodedEmptyStringForCustomDefaultValue",
-          globalFilter: encodedEmptyStringForCustomDefaultValue,
+          name: "encodedEmptyStringForGlobalFilterCustomDefaultValue",
+          globalFilter: encodedEmptyStringForGlobalFilterCustomDefaultValue,
           wantDecoded:
-            defaultValue === "" ? encodedEmptyStringForCustomDefaultValue : "",
+            defaultValue === ""
+              ? encodedEmptyStringForGlobalFilterCustomDefaultValue
+              : "",
         },
       ])("$name", ({ globalFilter, wantDecoded }) =>
         expect(

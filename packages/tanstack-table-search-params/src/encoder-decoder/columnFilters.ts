@@ -1,6 +1,6 @@
 import type { State } from "..";
 import type { Query } from "../types";
-import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
 export const encodeColumnFilters = (
   stateValue: State["columnFilters"],
@@ -12,7 +12,7 @@ export const encodeColumnFilters = (
 
   // return encoded empty string if stateValue is empty with custom default value
   if (stateValue.length === 0) {
-    return encodedEmptyStringForCustomDefaultValue;
+    return noneStringForCustomDefaultValue;
   }
 
   return stateValue
@@ -28,7 +28,7 @@ export const decodeColumnFilters = (
 ): State["columnFilters"] => {
   if (typeof queryValue !== "string") return defaultValue;
   if (queryValue === "") return defaultValue;
-  if (queryValue === encodedEmptyStringForCustomDefaultValue) {
+  if (queryValue === noneStringForCustomDefaultValue) {
     return [];
   }
 
