@@ -1,6 +1,8 @@
 import type { State } from "..";
 import type { Query } from "../types";
-import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringForCustomDefaultValue";
+
+export const encodedEmptyStringForGlobalFilterCustomDefaultValue =
+  encodeURIComponent(JSON.stringify(""));
 
 export const encodeGlobalFilter = (
   stateValue: State["globalFilter"],
@@ -15,7 +17,7 @@ export const encodeGlobalFilter = (
 
   // return encoded empty string if stateValue is empty with custom default value
   if (stateValue === "") {
-    return encodedEmptyStringForCustomDefaultValue;
+    return encodedEmptyStringForGlobalFilterCustomDefaultValue;
   }
   return stateValue;
 };
@@ -27,8 +29,10 @@ export const decodeGlobalFilter = (
   if (typeof queryValue !== "string") {
     return defaultValue;
   }
-  if (queryValue === encodedEmptyStringForCustomDefaultValue) {
-    return defaultValue === "" ? encodedEmptyStringForCustomDefaultValue : "";
+  if (queryValue === encodedEmptyStringForGlobalFilterCustomDefaultValue) {
+    return defaultValue === ""
+      ? encodedEmptyStringForGlobalFilterCustomDefaultValue
+      : "";
   }
   return queryValue;
 };

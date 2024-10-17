@@ -4,7 +4,7 @@ import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
-import { encodedEmptyStringForCustomDefaultValue } from "../../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "../../encoder-decoder/noneStringForCustomDefaultValue";
 import { defaultDefaultSorting } from "../../useSorting";
 
 describe("sorting", () => {
@@ -232,7 +232,7 @@ describe("sorting", () => {
         options?.encoders?.sorting?.([]) ?? {
           [paramName]:
             defaultSorting.length > 0
-              ? encodedEmptyStringForCustomDefaultValue
+              ? noneStringForCustomDefaultValue
               : undefined,
         },
       );

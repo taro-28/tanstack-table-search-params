@@ -3,7 +3,7 @@ import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
-import { encodedEmptyStringForCustomDefaultValue } from "../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
+import { encodedEmptyStringForGlobalFilterCustomDefaultValue } from "../encoder-decoder/globalFilter";
 import { defaultDefaultGlobalFilter } from "../useGlobalFilter";
 import { useTestRouter } from "./testRouter";
 
@@ -165,7 +165,7 @@ describe("globalFilter", () => {
       expect(routerResult.current.query).toEqual(
         options?.encoders?.globalFilter?.("") ?? {
           [paramName]: defaultGlobalFilter
-            ? encodedEmptyStringForCustomDefaultValue
+            ? encodedEmptyStringForGlobalFilterCustomDefaultValue
             : undefined,
         },
       );

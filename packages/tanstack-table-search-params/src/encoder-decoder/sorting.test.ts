@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { defaultDefaultSorting } from "../useSorting";
-import { encodedEmptyStringForCustomDefaultValue } from "./encodedEmptyStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 import { decodeSorting, encodeSorting } from "./sorting";
 
 const customDefaultValue = [
@@ -42,7 +42,7 @@ describe("sorting", () => {
             JSON.stringify(defaultValue) ===
             JSON.stringify(defaultDefaultSorting)
               ? undefined
-              : encodedEmptyStringForCustomDefaultValue,
+              : noneStringForCustomDefaultValue,
         },
         {
           name: "non-empty array",
@@ -92,8 +92,8 @@ describe("sorting", () => {
           want: defaultValue,
         },
         {
-          name: "encodedEmptyStringForCustomDefaultValue",
-          queryValue: encodedEmptyStringForCustomDefaultValue,
+          name: "noneStringForCustomDefaultValue",
+          queryValue: noneStringForCustomDefaultValue,
           want: [],
         },
         {

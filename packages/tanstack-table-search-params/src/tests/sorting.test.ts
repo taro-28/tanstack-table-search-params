@@ -3,7 +3,7 @@ import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
-import { encodedEmptyStringForCustomDefaultValue } from "../encoder-decoder/encodedEmptyStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "../encoder-decoder/noneStringForCustomDefaultValue";
 import { defaultDefaultSorting } from "../useSorting";
 import { useTestRouter } from "./testRouter";
 
@@ -239,7 +239,7 @@ describe("sorting", () => {
         options?.encoders?.sorting?.([]) ?? {
           [paramName]:
             defaultSorting.length > 0
-              ? encodedEmptyStringForCustomDefaultValue
+              ? noneStringForCustomDefaultValue
               : undefined,
         },
       );
