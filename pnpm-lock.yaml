@@ -17,7 +17,7 @@ importers:
         version: 1.9.4
       knip:
         specifier: ^5.26.0
-        version: 5.34.2(@types/node@22.8.4)(typescript@5.6.3)
+        version: 5.34.3(@types/node@22.8.4)(typescript@5.6.3)
       turbo:
         specifier: ^2.0.12
         version: 2.2.3
@@ -42,7 +42,7 @@ importers:
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
-        version: 22.8.4
+        version: 20.17.3
       '@types/react':
         specifier: ^18
         version: 18.3.12
@@ -79,7 +79,7 @@ importers:
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
-        version: 22.8.4
+        version: 20.17.3
       '@types/react':
         specifier: ^18
         version: 18.3.12
@@ -122,7 +122,7 @@ importers:
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
-        version: 22.8.4
+        version: 20.17.3
       '@types/react':
         specifier: ^18
         version: 18.3.12
@@ -1368,6 +1368,9 @@ packages:
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
+  '@types/node@20.17.3':
+    resolution: {integrity: sha512-tSQrmKKatLDGnG92h40GD7FzUt0MjahaHwOME4VAFeeA/Xopayq5qLyQRy7Jg/pjgKIFBXuKcGhJo+UdYG55jQ==}
+
   '@types/node@22.8.4':
     resolution: {integrity: sha512-SpNNxkftTJOPk0oN+y2bIqurEXHTA2AOZ3EJDDKeJ5VzkvvORSvmQXGQarcOzWV1ac7DCaPBEdMDxBsM+d8jWw==}
 
@@ -1895,8 +1898,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  knip@5.34.2:
-    resolution: {integrity: sha512-quSohta9fKJUWTXIqHenA4NYW24rmoP3g/Naw5Lq/Xb/LjAQYSUK4aIyU1wizDLC4EnMicGA5g/H33vJ3ovz5Q==}
+  knip@5.34.3:
+    resolution: {integrity: sha512-SRkGOV6dWp+FoDPLsN1lanqTnL1DImuEsU1ynUo+X8ti4IXc+Abvc2VD/F10Jyuv2d5najpUEbfCJ71REqeZZA==}
     engines: {node: '>=18.6.0'}
     hasBin: true
     peerDependencies:
@@ -3591,6 +3594,10 @@ snapshots:
 
   '@types/estree@1.0.6': {}
 
+  '@types/node@20.17.3':
+    dependencies:
+      undici-types: 6.19.8
+
   '@types/node@22.8.4':
     dependencies:
       undici-types: 6.19.8
@@ -4137,7 +4144,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  knip@5.34.2(@types/node@22.8.4)(typescript@5.6.3):
+  knip@5.34.3(@types/node@22.8.4)(typescript@5.6.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@snyk/github-codeowners': 1.1.0
