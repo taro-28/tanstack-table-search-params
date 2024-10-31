@@ -17,7 +17,7 @@ importers:
         version: 1.9.4
       knip:
         specifier: ^5.26.0
-        version: 5.35.0(@types/node@22.8.5)(typescript@5.6.3)
+        version: 5.35.0(@types/node@22.8.6)(typescript@5.6.3)
       turbo:
         specifier: ^2.0.12
         version: 2.2.3
@@ -42,7 +42,7 @@ importers:
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
-        version: 20.17.4
+        version: 22.8.6
       '@types/react':
         specifier: ^18
         version: 18.3.12
@@ -79,7 +79,7 @@ importers:
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
-        version: 20.17.4
+        version: 22.8.6
       '@types/react':
         specifier: ^18
         version: 18.3.12
@@ -122,7 +122,7 @@ importers:
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
-        version: 20.17.4
+        version: 22.8.6
       '@types/react':
         specifier: ^18
         version: 18.3.12
@@ -168,7 +168,7 @@ importers:
         version: 1.47.1(@tanstack/react-router@1.47.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/router-plugin':
         specifier: ^1.47.0
-        version: 1.47.0(vite@5.4.0(@types/node@22.8.5))
+        version: 1.47.0(vite@5.4.0(@types/node@22.8.6))
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.12
@@ -177,7 +177,7 @@ importers:
         version: 18.3.0
       '@vitejs/plugin-react-swc':
         specifier: ^3.5.0
-        version: 3.7.0(@swc/helpers@0.5.5)(vite@5.4.0(@types/node@22.8.5))
+        version: 3.7.0(@swc/helpers@0.5.5)(vite@5.4.0(@types/node@22.8.6))
       postcss:
         specifier: ^8
         version: 8.4.41
@@ -189,7 +189,7 @@ importers:
         version: 5.6.3
       vite:
         specifier: ^5.4.0
-        version: 5.4.0(@types/node@22.8.5)
+        version: 5.4.0(@types/node@22.8.6)
 
   packages/tanstack-table-search-params:
     devDependencies:
@@ -207,13 +207,13 @@ importers:
         version: 16.0.1(@testing-library/dom@10.3.1)(@types/react-dom@18.3.0)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@types/node':
         specifier: ^22.0.0
-        version: 22.8.5
+        version: 22.8.6
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.12
       '@vitejs/plugin-react':
         specifier: ^4.3.1
-        version: 4.3.3(vite@5.4.10(@types/node@22.8.5))
+        version: 4.3.3(vite@5.4.10(@types/node@22.8.6))
       jsdom:
         specifier: ^25.0.0
         version: 25.0.1
@@ -231,7 +231,7 @@ importers:
         version: 5.6.3
       vitest:
         specifier: ^2.0.2
-        version: 2.1.4(@types/node@22.8.5)(jsdom@25.0.1)
+        version: 2.1.4(@types/node@22.8.6)(jsdom@25.0.1)
 
   packages/tsconfig:
     devDependencies:
@@ -1368,11 +1368,8 @@ packages:
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
-  '@types/node@20.17.4':
-    resolution: {integrity: sha512-Fi1Bj8qTJr4f1FDdHFR7oMlOawEYSzkHNdBJK+aRjcDDNHwEV3jPPjuZP2Lh2QNgXeqzM8Y+U6b6urKAog2rZw==}
-
-  '@types/node@22.8.5':
-    resolution: {integrity: sha512-5iYk6AMPtsMbkZqCO1UGF9W5L38twq11S2pYWkybGHH2ogPUvXWNlQqJBzuEZWKj/WRH+QTeiv6ySWqJtvIEgA==}
+  '@types/node@22.8.6':
+    resolution: {integrity: sha512-tosuJYKrIqjQIlVCM4PEGxOmyg3FCPa/fViuJChnGeEIhjA46oy8FMVoF9su1/v8PNs2a8Q0iFNyOx0uOF91nw==}
 
   '@types/prop-types@15.7.13':
     resolution: {integrity: sha512-hCZTSvwbzWGvhqxp/RqVqwU999pBf2vp7hzIjiYOsl8wqOmUxkQ6ddw1cV3l8811+kdUFus/q4d1Y3E3SyEifA==}
@@ -3518,7 +3515,7 @@ snapshots:
       prettier: 3.3.3
       zod: 3.23.8
 
-  '@tanstack/router-plugin@1.47.0(vite@5.4.0(@types/node@22.8.5))':
+  '@tanstack/router-plugin@1.47.0(vite@5.4.0(@types/node@22.8.6))':
     dependencies:
       '@babel/core': 7.25.2
       '@babel/generator': 7.25.0
@@ -3538,7 +3535,7 @@ snapshots:
       unplugin: 1.12.1
       zod: 3.23.8
     optionalDependencies:
-      vite: 5.4.0(@types/node@22.8.5)
+      vite: 5.4.0(@types/node@22.8.6)
     transitivePeerDependencies:
       - supports-color
 
@@ -3594,11 +3591,7 @@ snapshots:
 
   '@types/estree@1.0.6': {}
 
-  '@types/node@20.17.4':
-    dependencies:
-      undici-types: 6.19.8
-
-  '@types/node@22.8.5':
+  '@types/node@22.8.6':
     dependencies:
       undici-types: 6.19.8
 
@@ -3613,21 +3606,21 @@ snapshots:
       '@types/prop-types': 15.7.13
       csstype: 3.1.3
 
-  '@vitejs/plugin-react-swc@3.7.0(@swc/helpers@0.5.5)(vite@5.4.0(@types/node@22.8.5))':
+  '@vitejs/plugin-react-swc@3.7.0(@swc/helpers@0.5.5)(vite@5.4.0(@types/node@22.8.6))':
     dependencies:
       '@swc/core': 1.7.10(@swc/helpers@0.5.5)
-      vite: 5.4.0(@types/node@22.8.5)
+      vite: 5.4.0(@types/node@22.8.6)
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@vitejs/plugin-react@4.3.3(vite@5.4.10(@types/node@22.8.5))':
+  '@vitejs/plugin-react@4.3.3(vite@5.4.10(@types/node@22.8.6))':
     dependencies:
       '@babel/core': 7.25.8
       '@babel/plugin-transform-react-jsx-self': 7.25.7(@babel/core@7.25.8)
       '@babel/plugin-transform-react-jsx-source': 7.25.7(@babel/core@7.25.8)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.4.10(@types/node@22.8.5)
+      vite: 5.4.10(@types/node@22.8.6)
     transitivePeerDependencies:
       - supports-color
 
@@ -3638,13 +3631,13 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
-  '@vitest/mocker@2.1.4(vite@5.4.10(@types/node@22.8.5))':
+  '@vitest/mocker@2.1.4(vite@5.4.10(@types/node@22.8.6))':
     dependencies:
       '@vitest/spy': 2.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.12
     optionalDependencies:
-      vite: 5.4.10(@types/node@22.8.5)
+      vite: 5.4.10(@types/node@22.8.6)
 
   '@vitest/pretty-format@2.1.4':
     dependencies:
@@ -4144,11 +4137,11 @@ snapshots:
 
   json5@2.2.3: {}
 
-  knip@5.35.0(@types/node@22.8.5)(typescript@5.6.3):
+  knip@5.35.0(@types/node@22.8.6)(typescript@5.6.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@snyk/github-codeowners': 1.1.0
-      '@types/node': 22.8.5
+      '@types/node': 22.8.6
       easy-table: 1.2.0
       enhanced-resolve: 5.17.1
       fast-glob: 3.3.2
@@ -4774,12 +4767,12 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  vite-node@2.1.4(@types/node@22.8.5):
+  vite-node@2.1.4(@types/node@22.8.6):
     dependencies:
       cac: 6.7.14
       debug: 4.3.7
       pathe: 1.1.2
-      vite: 5.4.10(@types/node@22.8.5)
+      vite: 5.4.10(@types/node@22.8.6)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4791,28 +4784,28 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.4.0(@types/node@22.8.5):
+  vite@5.4.0(@types/node@22.8.6):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.41
       rollup: 4.20.0
     optionalDependencies:
-      '@types/node': 22.8.5
+      '@types/node': 22.8.6
       fsevents: 2.3.3
 
-  vite@5.4.10(@types/node@22.8.5):
+  vite@5.4.10(@types/node@22.8.6):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.47
       rollup: 4.24.2
     optionalDependencies:
-      '@types/node': 22.8.5
+      '@types/node': 22.8.6
       fsevents: 2.3.3
 
-  vitest@2.1.4(@types/node@22.8.5)(jsdom@25.0.1):
+  vitest@2.1.4(@types/node@22.8.6)(jsdom@25.0.1):
     dependencies:
       '@vitest/expect': 2.1.4
-      '@vitest/mocker': 2.1.4(vite@5.4.10(@types/node@22.8.5))
+      '@vitest/mocker': 2.1.4(vite@5.4.10(@types/node@22.8.6))
       '@vitest/pretty-format': 2.1.4
       '@vitest/runner': 2.1.4
       '@vitest/snapshot': 2.1.4
@@ -4828,11 +4821,11 @@ snapshots:
       tinyexec: 0.3.1
       tinypool: 1.0.1
       tinyrainbow: 1.2.0
-      vite: 5.4.10(@types/node@22.8.5)
-      vite-node: 2.1.4(@types/node@22.8.5)
+      vite: 5.4.10(@types/node@22.8.6)
+      vite-node: 2.1.4(@types/node@22.8.6)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 22.8.5
+      '@types/node': 22.8.6
       jsdom: 25.0.1
     transitivePeerDependencies:
       - less
