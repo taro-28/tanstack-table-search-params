@@ -1,5 +1,5 @@
 import type React from "react";
-import { useRef, useState, type ChangeEvent } from "react";
+import { type ChangeEvent, useRef, useState } from "react";
 
 export const SearchInput = (
   props: Omit<React.JSX.IntrinsicElements["input"], "onChange"> & {

@@ -1,6 +1,6 @@
 import { type Table, flexRender } from "@tanstack/react-table";
-import type { User } from "./userData";
 import { SearchInput } from "./SearchInput";
+import type { User } from "./userData";
 
 type Props = {
   table: Table<User>;
