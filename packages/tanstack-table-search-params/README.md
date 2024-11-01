@@ -13,7 +13,7 @@ React Hook for syncing [TanStack Table](https://github.com/TanStack/table) state
 
 https://github.com/user-attachments/assets/1f1b4a65-fdec-4a80-a5d5-783642befaa3
 
-# 🚀 Quick Start
+## 🚀 Quick Start
 
 First, install the package.
 
@@ -61,14 +61,14 @@ Please refer to the examples below:
 - [Next.js(App Router)](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-app-router/src/app/table.tsx)
 - [TanStack Router](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router/src/routes/index.tsx)
 
-# 🔍 How it works
+## 🔍 How it works
 
 The `useTableSearchParams` hook primarily does the following two things:
 
 - Decode `query` (query parameter state) and return it as the `state` for Tanstack Table.
 - Return a function like `onChangeGlobalFilter` that encodes `state` as a query parameter and performs `replace` (or `push`).
 
-# ⚙️ Options
+## ⚙️ Options
 
 - [🏷️ Custom query param name](#custom-query-param-name)
 - [🪄 Custom default value](#custom-default-value)
@@ -220,7 +220,27 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
-# Supported
+## 💬 Trouble Shooting
+
+### Q. Page transition occurs every time the search params change
+
+If you are using Next.js (Pages Router), you can prevent page transitions by using the `shallow` option.
+
+```tsx
+const router = useRouter();
+const stateAndOnChanges = useTableSearchParams({
+  ...router,
+  replace: (query) => router.replace(query, undefined, { shallow: true }),
+});
+```
+
+### Q. The value during IME conversion is set to search params
+
+Create an input that supports IME conversion with a uncontrolled component.
+
+- [sample code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/lib/src/components/SearchInput.tsx)
+
+## Supported
 
 List of supported TanStack table states
 
@@ -238,18 +258,18 @@ List of supported TanStack table states
 - [ ] rowPinning
 - [ ] rowSelection
 
-# Roadmap
+## Roadmap
 
 - [ ] Support other table states
 - [ ] Disable specific state
 - [ ] Add `onChangeXxxQuery` option
 
-# TODO
+## TODO
 
 - [ ] Add examples for other routers
 - [ ] Add e2e tests
 
-# License
+## License
 
 MIT
 
