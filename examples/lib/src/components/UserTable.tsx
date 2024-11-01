@@ -1,4 +1,5 @@
 import { type Table, flexRender } from "@tanstack/react-table";
+import { SearchInput } from "./SearchInput";
 import type { User } from "./userData";
 
 type Props = {
@@ -8,13 +9,13 @@ type Props = {
 export const UserTable = ({ table }: Props) => (
   <div className="flex">
     <div>
+      {/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
       <label>
         Global Filter
-        <input
-          className="ml-2 border"
-          placeholder="Search..."
-          onChange={(e) => table.setGlobalFilter(String(e.target.value))}
-          value={table.getState().globalFilter ?? ""}
+        <SearchInput
+          className="ml-2"
+          onSearch={(value) => table.setGlobalFilter(value)}
+          defaultValue={table.getState().globalFilter ?? ""}
         />
       </label>
       <table>
@@ -82,14 +83,12 @@ export const UserTable = ({ table }: Props) => (
                       />
                     </div>
                   ) : (
-                    <input
-                      className="border"
-                      onChange={(e) =>
-                        header.column.setFilterValue(e.target.value)
+                    <SearchInput
+                      className="ml-2"
+                      onSearch={(value) => header.column.setFilterValue(value)}
+                      defaultValue={
+                        (header.column.getFilterValue() ?? "") as string
                       }
-                      placeholder="Search..."
-                      type="text"
-                      value={(header.column.getFilterValue() ?? "") as string}
                     />
                   )}
                 </div>
