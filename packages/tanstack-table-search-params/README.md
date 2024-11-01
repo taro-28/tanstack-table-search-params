@@ -220,9 +220,9 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
-## 💬 Trouble Shooting
+## 💬 Troubleshooting
 
-### Q. Page transition occurs every time the search params change
+### Q. The page transitions every time the search params change
 
 If you are using Next.js (Pages Router), you can prevent page transitions by using the `shallow` option.
 
