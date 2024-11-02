@@ -215,7 +215,7 @@ importers:
         specifier: ^4.3.3
         version: 4.3.3(vite@5.4.10(@types/node@22.8.6))
       jsdom:
-        specifier: ^25.0.0
+        specifier: ^25.0.1
         version: 25.0.1
       next-router-mock:
         specifier: ^0.9.13
