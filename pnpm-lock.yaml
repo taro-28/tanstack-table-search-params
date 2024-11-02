@@ -227,7 +227,7 @@ importers:
         specifier: ^8.1.0
         version: 8.3.5(@swc/core@1.7.10(@swc/helpers@0.5.5))(jiti@2.4.0)(postcss@8.4.47)(typescript@5.6.3)(yaml@2.4.5)
       typescript:
-        specifier: ^5.5.3
+        specifier: ^5.6.3
         version: 5.6.3
       vitest:
         specifier: ^2.0.2
@@ -236,7 +236,7 @@ importers:
   packages/tsconfig:
     devDependencies:
       typescript:
-        specifier: ^5.5.3
+        specifier: ^5.6.3
         version: 5.6.3
 
 packages:
