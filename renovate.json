@@ -9,7 +9,6 @@
   "dependencyDashboard": false,
   "rangeStrategy": "bump",
   "prHourlyLimit": 0,
-  ":pinAllExceptPeerDependencies": true,
   "npm": {
     "fileMatch": ["examples/*/package.json"]
   },
