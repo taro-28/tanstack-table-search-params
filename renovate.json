@@ -9,6 +9,8 @@
   "dependencyDashboard": false,
   "rangeStrategy": "bump",
   "prHourlyLimit": 0,
+  "prConcurrentLimit": 1,
+  "rebaseWhen": "never",
   "ignorePaths": [
     "**/node_modules/**",
     "**/bower_components/**",
