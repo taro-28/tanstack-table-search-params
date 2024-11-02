@@ -9,9 +9,15 @@
   "dependencyDashboard": false,
   "rangeStrategy": "bump",
   "prHourlyLimit": 0,
-  "npm": {
-    "fileMatch": ["examples/*/package.json"]
-  },
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/__fixtures__/**"
+  ],
   "packageRules": [
     {
       "updateTypes": ["patch", "minor", "major"],
