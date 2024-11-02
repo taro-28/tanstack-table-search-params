@@ -9,9 +9,17 @@
   "dependencyDashboard": false,
   "rangeStrategy": "bump",
   "prHourlyLimit": 0,
-  "npm": {
-    "fileMatch": ["examples/*/package.json"]
-  },
+  "prConcurrentLimit": 1,
+  "rebaseWhen": "never",
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/__fixtures__/**"
+  ],
   "packageRules": [
     {
       "updateTypes": ["patch", "minor", "major"],
