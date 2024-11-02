@@ -1,7 +1,12 @@
 {
-  "extends": ["config:base"],
+  "extends": ["config:recommended"],
+  "ignorePresets": [":prHourlyLimit2"],
+  "enabledManagers": ["npm"],
+  "timezone": "Asia/Tokyo",
+  "automergeType": "pr",
+  "platformAutomerge": true,
   "dependencyDashboard": false,
-  "prHourlyLimit": 0,
+  "rangeStrategy": "bump",
   "packageRules": [
     {
       "updateTypes": ["patch", "minor", "major"],
