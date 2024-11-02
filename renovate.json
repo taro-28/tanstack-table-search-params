@@ -1,4 +1,5 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "ignorePresets": [":prHourlyLimit2"],
   "enabledManagers": ["npm"],
@@ -8,6 +9,10 @@
   "dependencyDashboard": false,
   "rangeStrategy": "bump",
   "prHourlyLimit": 0,
+  ":pinAllExceptPeerDependencies": true,
+  "npm": {
+    "fileMatch": ["examples/*/package.json"]
+  },
   "packageRules": [
     {
       "updateTypes": ["patch", "minor", "major"],
