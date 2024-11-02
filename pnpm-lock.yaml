@@ -42,7 +42,7 @@ importers:
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
-        version: 22.8.6
+        version: 20.17.5
       '@types/react':
         specifier: ^18
         version: 18.3.12
@@ -79,7 +79,7 @@ importers:
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
-        version: 22.8.6
+        version: 20.17.5
       '@types/react':
         specifier: ^18
         version: 18.3.12
@@ -122,7 +122,7 @@ importers:
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
-        version: 22.8.6
+        version: 20.17.5
       '@types/react':
         specifier: ^18
         version: 18.3.12
@@ -203,7 +203,7 @@ importers:
         specifier: ^8.19.2
         version: 8.20.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@testing-library/react':
-        specifier: ^16.0.0
+        specifier: ^16.0.1
         version: 16.0.1(@testing-library/dom@10.3.1)(@types/react-dom@18.3.0)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@types/node':
         specifier: ^22.0.0
@@ -406,10 +406,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-
-  '@babel/runtime@7.25.6':
-    resolution: {integrity: sha512-VBj9MYyDb9tuLq7yzqjgzt6Q+IBQLrGZfdjOekyEirZPHxXWoTSGUTMrpsfi58Up73d13NfYLv8HT9vmznjzhQ==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.26.0':
     resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
@@ -1367,6 +1363,9 @@ packages:
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
+
+  '@types/node@20.17.5':
+    resolution: {integrity: sha512-n8FYY/pRxu496441gIcAQFZPKXbhsd6VZygcq+PTSZ75eMh/Ke0hCAROdUa21qiFqKNsPPYic46yXDO1JGiPBQ==}
 
   '@types/node@22.8.6':
     resolution: {integrity: sha512-tosuJYKrIqjQIlVCM4PEGxOmyg3FCPa/fViuJChnGeEIhjA46oy8FMVoF9su1/v8PNs2a8Q0iFNyOx0uOF91nw==}
@@ -2925,10 +2924,6 @@ snapshots:
       '@babel/core': 7.25.8
       '@babel/helper-plugin-utils': 7.25.7
 
-  '@babel/runtime@7.25.6':
-    dependencies:
-      regenerator-runtime: 0.14.1
-
   '@babel/runtime@7.26.0':
     dependencies:
       regenerator-runtime: 0.14.1
@@ -3556,7 +3551,7 @@ snapshots:
 
   '@testing-library/react@16.0.1(@testing-library/dom@10.3.1)(@types/react-dom@18.3.0)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.0
       '@testing-library/dom': 10.3.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -3590,6 +3585,10 @@ snapshots:
   '@types/estree@1.0.5': {}
 
   '@types/estree@1.0.6': {}
+
+  '@types/node@20.17.5':
+    dependencies:
+      undici-types: 6.19.8
 
   '@types/node@22.8.6':
     dependencies:
