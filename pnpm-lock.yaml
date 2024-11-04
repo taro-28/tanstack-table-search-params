@@ -87,7 +87,7 @@ importers:
         specifier: ^18
         version: 18.3.1
       postcss:
-        specifier: ^8
+        specifier: ^8.4.47
         version: 8.4.47
       tailwindcss:
         specifier: ^3.4.1
@@ -179,7 +179,7 @@ importers:
         specifier: ^3.7.1
         version: 3.7.1(@swc/helpers@0.5.13)(vite@5.4.10(@types/node@22.8.7))
       postcss:
-        specifier: ^8
+        specifier: ^8.4.47
         version: 8.4.47
       tailwindcss:
         specifier: ^3.4.1
