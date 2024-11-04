@@ -31,10 +31,10 @@ importers:
         specifier: ^8.19.2
         version: 8.20.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1
       react-dom:
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@tanstack-table-search-params/tsconfig':
@@ -44,10 +44,10 @@ importers:
         specifier: ^22.8.7
         version: 22.8.7
       '@types/react':
-        specifier: ^18
+        specifier: ^18.3.12
         version: 18.3.12
       '@types/react-dom':
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1
       typescript:
         specifier: ^5.6.3
@@ -65,10 +65,10 @@ importers:
         specifier: 14.2.5
         version: 14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1
       react-dom:
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       tanstack-table-search-params:
         specifier: workspace:*
@@ -81,10 +81,10 @@ importers:
         specifier: ^22.8.7
         version: 22.8.7
       '@types/react':
-        specifier: ^18
+        specifier: ^18.3.12
         version: 18.3.12
       '@types/react-dom':
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1
       postcss:
         specifier: ^8.4.47
@@ -170,10 +170,10 @@ importers:
         specifier: ^1.47.0
         version: 1.78.2(vite@5.4.10(@types/node@22.8.7))(webpack-sources@3.2.3)
       '@types/react':
-        specifier: ^18.3.3
+        specifier: ^18.3.12
         version: 18.3.12
       '@types/react-dom':
-        specifier: ^18.3.0
+        specifier: ^18.3.1
         version: 18.3.1
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.1
