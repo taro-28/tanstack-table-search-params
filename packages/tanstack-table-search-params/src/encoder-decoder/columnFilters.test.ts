@@ -41,6 +41,11 @@ describe("columnFilters", () => {
           want: "foo.%22bar%22",
         },
         {
+          name: "string value with period or comma",
+          stateValue: [{ id: "foo", value: "to bar, or not to bar." }],
+          want: "foo.%22to%20bar%2C%20or%20not%20to%20bar%2E%22",
+        },
+        {
           name: "number value",
           stateValue: [{ id: "foo", value: 42 }],
           want: "foo.42",
@@ -64,6 +69,11 @@ describe("columnFilters", () => {
           name: "empty object value",
           stateValue: [{ id: "foo", value: {} }],
           want: "foo.%7B%7D",
+        },
+        {
+          name: "date value",
+          stateValue: [{ id: "foo", value: new Date('2002-10-31') }],
+          want: "foo.%222002-10-31T00%3A00%3A00%2E000Z%22",
         },
         {
           name: "string object value",
@@ -198,6 +208,11 @@ describe("columnFilters", () => {
             want: [{ id: "foo", value: "bar" }],
           },
           {
+            name: "string value with period or comma",
+            queryValue: "foo.%22to%20bar%2C%20or%20not%20to%20bar%2E%22",
+            want: [{ id: "foo", value: "to bar, or not to bar." }],
+          },
+          {
             name: "number value",
             queryValue: "foo.42",
             want: [{ id: "foo", value: 42 }],
@@ -221,6 +236,11 @@ describe("columnFilters", () => {
             name: "empty object value",
             queryValue: "foo.%7B%7D",
             want: [{ id: "foo", value: {} }],
+          },
+          {
+            name: "date value",
+            queryValue: "foo.%222002-10-31T00%3A00%3A00%2E000Z%22",
+            want: [{ id: "foo", value: new Date('2002-10-31').toISOString()} ],
           },
           {
             name: "string object value",

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const createUser = () => ({
   id: faker.string.uuid(),
-  name: faker.internet.userName(),
+  name: faker.internet.username(),
   age: faker.number.int({ min: 18, max: 100 }),
 });
 

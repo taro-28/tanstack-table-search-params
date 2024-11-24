@@ -3,7 +3,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 
 const createUser = () => ({
   id: faker.string.uuid(),
-  name: faker.internet.userName(),
+  name: faker.internet.username(),
   age: faker.number.int({ min: 18, max: 100 }),
 });
 

@@ -17,7 +17,7 @@ export const encodeColumnFilters = (
 
   return stateValue
     .map(
-      ({ id, value }) => `${id}.${encodeURIComponent(JSON.stringify(value))}`,
+      ({ id, value }) => `${id}.${encodeURIComponent(JSON.stringify(value)).replaceAll('.','%2E')}`,
     )
     .join(",");
 };
