@@ -72,7 +72,7 @@ describe("columnFilters", () => {
         },
         {
           name: "date value",
-          stateValue: [{ id: "foo", value: new Date('2002-10-31') }],
+          stateValue: [{ id: "foo", value: new Date("2002-10-31") }],
           want: "foo.%222002-10-31T00%3A00%3A00%2E000Z%22",
         },
         {
@@ -240,7 +240,7 @@ describe("columnFilters", () => {
           {
             name: "date value",
             queryValue: "foo.%222002-10-31T00%3A00%3A00%2E000Z%22",
-            want: [{ id: "foo", value: new Date('2002-10-31').toISOString()} ],
+            want: [{ id: "foo", value: new Date("2002-10-31").toISOString() }],
           },
           {
             name: "string object value",
