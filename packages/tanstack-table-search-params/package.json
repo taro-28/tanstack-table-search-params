@@ -26,7 +26,7 @@
     "@tanstack-table-search-params/tsconfig": "workspace:*",
     "@tanstack/react-table": "^8.20.5",
     "@testing-library/react": "^16.0.1",
-    "@types/node": "^22.9.3",
+    "@types/node": "^22.9.4",
     "@types/react": "^18.3.12",
     "@vitejs/plugin-react": "^4.3.3",
     "jsdom": "^25.0.1",
