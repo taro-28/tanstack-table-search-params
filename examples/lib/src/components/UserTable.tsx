@@ -7,23 +7,23 @@ type Props = {
 };
 
 export const UserTable = ({ table }: Props) => (
-  <div className="flex">
-    <div>
-      {/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
-      <label>
-        Global Filter
-        <SearchInput
-          className="ml-2"
-          onSearch={(value) => table.setGlobalFilter(value)}
-          defaultValue={table.getState().globalFilter ?? ""}
-        />
-      </label>
-      <table>
-        <thead>
-          <tr>
+  <div className="flex space-x-4">
+    <div className="space-y-2">
+      <SearchInput
+        className="font-normal"
+        onSearch={(value) => table.setGlobalFilter(value)}
+        defaultValue={table.getState().globalFilter ?? ""}
+      />
+      <div className="table border-2 border-gray-200 rounded-md ">
+        <div className="table-header-group bg-slate-200">
+          <div className="table-row">
             {table.getFlatHeaders().map((header) => (
-              <th key={header.id}>
+              <div
+                key={header.id}
+                className="table-cell py-2 px-2 text-center space-y-1"
+              >
                 <button
+                  className="font-semibold"
                   type="button"
                   onClick={header.column.getToggleSortingHandler()}
                 >
@@ -61,7 +61,7 @@ export const UserTable = ({ table }: Props) => (
                           )
                         }
                         placeholder="Min"
-                        className="border w-24"
+                        className="border w-16 rounded-md px-2"
                       />
                       <input
                         type="number"
@@ -79,12 +79,11 @@ export const UserTable = ({ table }: Props) => (
                           )
                         }
                         placeholder="Max"
-                        className="border w-24"
+                        className="border w-16 rounded-md px-2"
                       />
                     </div>
                   ) : (
                     <SearchInput
-                      className="ml-2"
                       onSearch={(value) => header.column.setFilterValue(value)}
                       defaultValue={
                         (header.column.getFilterValue() ?? "") as string
@@ -92,26 +91,26 @@ export const UserTable = ({ table }: Props) => (
                     />
                   )}
                 </div>
-              </th>
+              </div>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </div>
+        </div>
+        <div className="table-row-group">
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <div key={row.id} className="table-row">
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <div key={cell.id} className="table-cell py-1 px-2 text-center">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+                </div>
               ))}
-            </tr>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      </div>
       <div className="flex items-center gap-2">
         <button
           type="button"
-          className="border rounded p-1"
+          className="border rounded w-12"
           onClick={() => table.firstPage()}
           disabled={!table.getCanPreviousPage()}
         >
@@ -119,7 +118,7 @@ export const UserTable = ({ table }: Props) => (
         </button>
         <button
           type="button"
-          className="border rounded p-1"
+          className="border rounded w-12"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
@@ -127,7 +126,7 @@ export const UserTable = ({ table }: Props) => (
         </button>
         <button
           type="button"
-          className="border rounded p-1"
+          className="border rounded w-12"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
@@ -135,7 +134,7 @@ export const UserTable = ({ table }: Props) => (
         </button>
         <button
           type="button"
-          className="border rounded p-1"
+          className="border rounded w-12"
           onClick={() => table.lastPage()}
           disabled={!table.getCanNextPage()}
         >
@@ -157,7 +156,7 @@ export const UserTable = ({ table }: Props) => (
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
               table.setPageIndex(page);
             }}
-            className="border p-1 rounded w-16"
+            className="border px-2 rounded w-16"
           />
         </span>
         <select
@@ -165,6 +164,7 @@ export const UserTable = ({ table }: Props) => (
           onChange={(e) => {
             table.setPageSize(Number(e.target.value));
           }}
+          className="border px-2 rounded"
         >
           {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
@@ -178,17 +178,20 @@ export const UserTable = ({ table }: Props) => (
         {table.getRowCount().toLocaleString()} Rows
       </div>
     </div>
-    <pre>
-      {JSON.stringify(
-        {
-          globalFilter: table.getState().globalFilter,
-          sorting: table.getState().sorting,
-          pagination: table.getState().pagination,
-          columnFilters: table.getState().columnFilters,
-        },
-        null,
-        2,
-      )}
-    </pre>
+    <div className="border-2 border-gray-200 rounded p-2 space-y-2">
+      <div className="font-semibold">Table State</div>
+      <pre>
+        {JSON.stringify(
+          {
+            globalFilter: table.getState().globalFilter,
+            sorting: table.getState().sorting,
+            pagination: table.getState().pagination,
+            columnFilters: table.getState().columnFilters,
+          },
+          null,
+          2,
+        )}
+      </pre>
+    </div>
   </div>
 );
