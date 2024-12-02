@@ -23,7 +23,7 @@ export const SearchInput = (
       {...props}
       ref={ref}
       type="text"
-      className={`border ${props.className ?? ""}`}
+      className={`border rounded-md px-2 ${props.className ?? ""}`}
       placeholder="Search..."
       onChange={handleChange}
       onCompositionStart={handleCompositionStart}
