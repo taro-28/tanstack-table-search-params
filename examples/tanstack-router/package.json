@@ -20,8 +20,8 @@
   "devDependencies": {
     "@tanstack/router-devtools": "^1.85.5",
     "@tanstack/router-plugin": "^1.85.3",
-    "@types/react": "^18.3.13",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^18.3.2",
     "@vitejs/plugin-react-swc": "^3.7.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
