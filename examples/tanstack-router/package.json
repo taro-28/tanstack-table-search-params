@@ -21,7 +21,7 @@
     "@tanstack/router-devtools": "^1.87.2",
     "@tanstack/router-plugin": "^1.86.0",
     "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react-swc": "^3.7.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
