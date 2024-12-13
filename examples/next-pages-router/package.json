@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@examples/lib": "workspace:*",
-    "@tanstack/react-table": "^8.20.5",
+    "@tanstack/react-table": "^8.20.6",
     "next": "15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
