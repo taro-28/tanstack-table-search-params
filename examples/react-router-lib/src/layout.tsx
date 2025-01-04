@@ -34,7 +34,7 @@ const menus = [
 
 export default function Layout() {
   return (
-    <body>
+    <>
       <header className="flex items-center space-x-4 mx-4">
         <NavLink to="/" className="hover:text-gray-500 font-bold p-2 text-xl">
           TanStack Table Search Params
@@ -52,6 +52,6 @@ export default function Layout() {
         </nav>
       </header>
       <Outlet />
-    </body>
+    </>
   );
 }
