@@ -60,6 +60,7 @@ Please refer to the examples below:
 - [Next.js(Pages Router)](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/index.tsx)
 - [Next.js(App Router)](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-app-router/src/app/table.tsx)
 - [TanStack Router](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router/src/routes/index.tsx)
+- [TanStack Router](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router/src/routes/index.tsx)
 
 ## 🔍 How it works
 
