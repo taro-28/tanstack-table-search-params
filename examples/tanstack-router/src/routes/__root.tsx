@@ -40,25 +40,23 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-      <body>
-        <header className="flex items-center space-x-4 mx-4">
-          <Link to="/" className="hover:text-gray-500 font-bold p-2 text-xl">
-            TanStack Table Search Params
-          </Link>
-          <nav>
-            <ul className="flex items-center">
-              {menus.map((menu) => (
-                <li key={menu.to}>
-                  <Link to={menu.to} className="hover:text-gray-500 p-2">
-                    {menu.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </header>
-        <Outlet />
-      </body>
+      <header className="flex items-center space-x-4 mx-4">
+        <Link to="/" className="hover:text-gray-500 font-bold p-2 text-xl">
+          TanStack Table Search Params
+        </Link>
+        <nav>
+          <ul className="flex items-center">
+            {menus.map((menu) => (
+              <li key={menu.to}>
+                <Link to={menu.to} className="hover:text-gray-500 p-2">
+                  {menu.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </header>
+      <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
     </>
   );
