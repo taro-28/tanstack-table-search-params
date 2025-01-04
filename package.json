@@ -9,6 +9,7 @@
     "examples/next-pages-router": "pnpm --filter './examples/next-pages-router'",
     "examples/next-app-router": "pnpm --filter './examples/next-app-router'",
     "examples/tanstack-router": "pnpm --filter './examples/tanstack-router'",
+    "examples/react-router-lib": "pnpm --filter './examples/react-router-lib'",
     "check-write": "biome check --write .",
     "prettier": "prettier --write .",
     "knip": "knip",

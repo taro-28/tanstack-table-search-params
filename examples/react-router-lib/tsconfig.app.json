@@ -1,0 +1,7 @@
+{
+  "extends": "@tanstack-table-search-params/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "incremental": true
+  },
+  "include": ["src", "*.ts"]
+}
