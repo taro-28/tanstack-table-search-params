@@ -14,8 +14,8 @@
   "devDependencies": {
     "@tanstack-table-search-params/tsconfig": "workspace:*",
     "@types/node": "^22.10.5",
-    "@types/react": "^19.0.4",
-    "@types/react-dom": "^19.0.2",
+    "@types/react": "^19.0.5",
+    "@types/react-dom": "^19.0.3",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"
