@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "knip": "^5.43.4",
+    "knip": "^5.43.5",
     "turbo": "^2.3.4"
   },
   "dependencies": {
