@@ -16,8 +16,8 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       knip:
-        specifier: ^5.43.3
-        version: 5.43.3(@types/node@22.10.10)(typescript@5.7.3)
+        specifier: ^5.43.4
+        version: 5.43.4(@types/node@22.10.10)(typescript@5.7.3)
       turbo:
         specifier: ^2.3.4
         version: 2.3.4
@@ -1815,8 +1815,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  knip@5.43.3:
-    resolution: {integrity: sha512-rCSc7X1jQs+ZIc08lQF3c3nS/nKzsg9UPIbY+qQUMh+FVF5ojdiT3bJNypRlSm2pMLQVeE7XWxXrtT4sdg6nfA==}
+  knip@5.43.4:
+    resolution: {integrity: sha512-ixDX4LQkM1Ixorj0/5IQu1zJvBV7jjf8I0za0l7KIzFVZrr7q3zu9J6jkkFuDZnEen3qI1ADqjTC6avVbrQ5sw==}
     engines: {node: '>=18.18.0'}
     hasBin: true
     peerDependencies:
@@ -2584,9 +2584,6 @@ packages:
     engines: {node: '>=18.0.0'}
     peerDependencies:
       zod: ^3.18.0
-
-  zod@3.23.8:
-    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
   zod@3.24.1:
     resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
@@ -3944,7 +3941,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  knip@5.43.3(@types/node@22.10.10)(typescript@5.7.3):
+  knip@5.43.4(@types/node@22.10.10)(typescript@5.7.3):
     dependencies:
       '@nodelib/fs.walk': 3.0.1
       '@snyk/github-codeowners': 1.1.0
@@ -3962,8 +3959,8 @@ snapshots:
       strip-json-comments: 5.0.1
       summary: 2.1.0
       typescript: 5.7.3
-      zod: 3.23.8
-      zod-validation-error: 3.4.0(zod@3.23.8)
+      zod: 3.24.1
+      zod-validation-error: 3.4.0(zod@3.24.1)
 
   lilconfig@3.1.3: {}
 
@@ -4666,10 +4663,8 @@ snapshots:
 
   yaml@2.6.0: {}
 
-  zod-validation-error@3.4.0(zod@3.23.8):
+  zod-validation-error@3.4.0(zod@3.24.1):
     dependencies:
-      zod: 3.23.8
-
-  zod@3.23.8: {}
+      zod: 3.24.1
 
   zod@3.24.1: {}
