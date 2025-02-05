@@ -10,6 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: corepack enable
+      - run: npm i -g corepack
       - uses: actions/setup-node@v4
         with:
           cache: "pnpm"
@@ -30,6 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: corepack enable
+      - run: npm i -g corepack
       - uses: actions/setup-node@v4
         with:
           cache: "pnpm"
@@ -41,6 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: corepack enable
+      - run: npm i -g corepack
       - uses: actions/setup-node@v4
         with:
           cache: "pnpm"
