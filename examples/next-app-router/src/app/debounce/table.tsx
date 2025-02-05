@@ -12,18 +12,24 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
 export const Table = () => {
   const data = useUserData();
 
-  const replace = useRouter().replace;
   const query = useSearchParams();
   const pathname = usePathname();
 
   const stateAndOnChanges = useTableSearchParams(
-    { replace, query, pathname },
+    {
+      replace: (url) => {
+        const searchParams = new URLSearchParams(url.split("?")[1]);
+        window.history.replaceState(null, "", `?${searchParams.toString()}`);
+      },
+      query,
+      pathname,
+    },
     {
       debounceMilliseconds: {
         globalFilter: 1000,
