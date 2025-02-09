@@ -23,6 +23,6 @@
     "turbo": "^2.4.0"
   },
   "dependencies": {
-    "prettier": "^3.4.2"
+    "prettier": "^3.5.0"
   }
 }
