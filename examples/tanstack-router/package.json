@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.102.1",
-    "@tanstack/router-plugin": "^1.102.1",
+    "@tanstack/router-plugin": "^1.102.2",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^3.8.0",
