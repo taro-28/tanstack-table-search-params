@@ -1,7 +1,7 @@
 {
   "name": "@tanstack-table-search-params/root",
   "engines": {
-    "node": "22.x"
+    "node": "22.14.0"
   },
   "packageManager": "pnpm@10.4.1",
   "scripts": {
