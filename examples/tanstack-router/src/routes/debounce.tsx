@@ -41,6 +41,7 @@ function Page() {
         sorting: 1000,
         pagination: 1000,
         columnFilters: 1000,
+        columnOrder: 1000,
       },
     },
   );

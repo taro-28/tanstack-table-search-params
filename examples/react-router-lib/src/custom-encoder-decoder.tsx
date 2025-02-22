@@ -70,6 +70,10 @@ export default function CustomEncoderDecoderPage() {
               id: key.replace("columnFilters.", ""),
               value: JSON.parse(value as string),
             })),
+        columnOrder: (query) =>
+          query["columnOrder"]
+            ? JSON.parse(query["columnOrder"] as string)
+            : [],
       },
     },
   );

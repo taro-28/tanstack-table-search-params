@@ -249,7 +249,7 @@ List of supported TanStack table states
 - [x] sorting
 - [x] pagination
 - [x] columnFilters
-- [ ] columnOrder
+- [x] columnOrder
 - [ ] columnPinning
 - [ ] columnSizing
 - [ ] columnSizingInfo
