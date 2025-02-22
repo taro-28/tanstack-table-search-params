@@ -52,6 +52,9 @@ export const Table = () => {
               JSON.stringify(value),
             ]),
           ),
+        columnOrder: (columnOrder) => ({
+          columnOrder: JSON.stringify(columnOrder),
+        }),
       },
       decoders: {
         globalFilter: (query) =>
@@ -79,6 +82,10 @@ export const Table = () => {
               id: key.replace("columnFilters.", ""),
               value: JSON.parse(value as string),
             })),
+        columnOrder: (query) =>
+          query["columnOrder"]
+            ? JSON.parse(query["columnOrder"] as string)
+            : [],
       },
     },
   );

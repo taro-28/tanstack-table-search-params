@@ -30,6 +30,7 @@ export default function CustomParamNamePage() {
           pageSize: "userTable-pageSize",
         },
         columnFilters: (defaultParamName) => `userTable-${defaultParamName}`,
+        columnOrder: (defaultParamName) => `userTable-${defaultParamName}`,
       },
     },
   );

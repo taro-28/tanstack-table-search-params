@@ -23,6 +23,7 @@ export default function CustomParamNames() {
       sorting: [{ id: "name", desc: true }],
       pagination: { pageIndex: 2, pageSize: 20 },
       columnFilters: [{ id: "name", value: "b" }],
+      columnOrder: userColumns.reverse().map((c) => c.id as string),
     },
   });
 

@@ -57,6 +57,9 @@ function Page() {
               JSON.stringify(value),
             ]),
           ),
+        columnOrder: (columnOrder) => ({
+          columnOrder: JSON.stringify(columnOrder),
+        }),
       },
       decoders: {
         globalFilter: (query) =>
@@ -84,6 +87,10 @@ function Page() {
               id: key.replace("columnFilters.", ""),
               value: JSON.parse(value as string),
             })),
+        columnOrder: (query) =>
+          query["columnOrder"]
+            ? JSON.parse(query["columnOrder"] as string)
+            : [],
       },
     },
   );

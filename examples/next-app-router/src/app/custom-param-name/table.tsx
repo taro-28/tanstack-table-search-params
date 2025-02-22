@@ -39,6 +39,7 @@ export const Table = () => {
           pageSize: "userTable-pageSize",
         },
         columnFilters: (defaultParamName) => `userTable-${defaultParamName}`,
+        columnOrder: (defaultParamName) => `userTable-${defaultParamName}`,
       },
     },
   );

@@ -2,6 +2,7 @@ import type { OnChangeFn, TableState } from "@tanstack/react-table";
 import { useMemo } from "react";
 import type { Query, Router } from "./types";
 import { useColumnFilters } from "./useColumnFilters";
+import { useColumnOrder } from "./useColumnOrder";
 import { useGlobalFilter } from "./useGlobalFilter";
 import { usePagination } from "./usePagination";
 import { useSorting } from "./useSorting";
@@ -9,7 +10,7 @@ import type { ExtractSpecificStateOptions } from "./utils";
 
 export type State = Pick<
   TableState,
-  "globalFilter" | "sorting" | "pagination" | "columnFilters"
+  "globalFilter" | "sorting" | "pagination" | "columnFilters" | "columnOrder"
 >;
 
 export const PARAM_NAMES = {
@@ -18,6 +19,7 @@ export const PARAM_NAMES = {
   PAGE_INDEX: "pageIndex",
   PAGE_SIZE: "pageSize",
   COLUMN_FILTERS: "columnFilters",
+  COLUMN_ORDER: "columnOrder",
 } as const;
 
 export type Returns = {
@@ -41,6 +43,10 @@ export type Returns = {
    * Tanstack Table's `onChangeColumnFilters` function
    */
   onColumnFiltersChange: OnChangeFn<State["columnFilters"]>;
+  /**
+   * Tanstack Table's `onChangeColumnOrder` function
+   */
+  onColumnOrderChange: OnChangeFn<State["columnOrder"]>;
 };
 
 export type Options = {
@@ -184,10 +190,14 @@ export const useTableSearchParams = (
     router,
     options: extractSpecificStateOptions({ options, key: "columnFilters" }),
   });
+  const { columnOrder, onColumnOrderChange } = useColumnOrder({
+    router,
+    options: extractSpecificStateOptions({ options, key: "columnOrder" }),
+  });
 
   const state = useMemo(
-    () => ({ sorting, pagination, globalFilter, columnFilters }),
-    [sorting, pagination, globalFilter, columnFilters],
+    () => ({ sorting, pagination, globalFilter, columnFilters, columnOrder }),
+    [sorting, pagination, globalFilter, columnFilters, columnOrder],
   );
 
   return {
@@ -196,5 +206,6 @@ export const useTableSearchParams = (
     onSortingChange,
     onPaginationChange,
     onColumnFiltersChange,
+    onColumnOrderChange,
   };
 };
