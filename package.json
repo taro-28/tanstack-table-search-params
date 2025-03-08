@@ -23,7 +23,7 @@
     "turbo": "^2.4.4"
   },
   "dependencies": {
-    "prettier": "^3.5.2"
+    "prettier": "^3.5.3"
   },
   "volta": {
     "node": "22.14.0"
