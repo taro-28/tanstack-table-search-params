@@ -3,7 +3,7 @@
   "engines": {
     "node": "22.14.0"
   },
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.6.1",
   "scripts": {
     "tanstack-table-search-params": "pnpm --filter './packages/tanstack-table-search-params'",
     "examples/next-pages-router": "pnpm --filter './examples/next-pages-router'",
