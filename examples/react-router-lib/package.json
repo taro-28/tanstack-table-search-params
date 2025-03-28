@@ -14,7 +14,7 @@
     "@tanstack/react-table": "^8.21.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router": "^7.4.0",
+    "react-router": "^7.4.1",
     "tanstack-table-search-params": "workspace:*"
   },
   "devDependencies": {
