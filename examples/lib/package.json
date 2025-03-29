@@ -8,8 +8,8 @@
   "dependencies": {
     "@faker-js/faker": "^9.5.1",
     "@tanstack/react-table": "^8.21.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@tanstack-table-search-params/tsconfig": "workspace:*",
