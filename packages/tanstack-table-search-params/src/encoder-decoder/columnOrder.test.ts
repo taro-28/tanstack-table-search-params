@@ -5,9 +5,13 @@ import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultVal
 
 const customDefaultValue = ["custom"];
 
+type DefaultValue = NonNullable<
+  NonNullable<Parameters<typeof encodeColumnOrder>[1]>["defaultValue"]
+>;
+
 describe("columnOrder", () => {
   describe("encode", () =>
-    describe.each<Parameters<typeof encodeColumnOrder>[1]>([
+    describe.each<DefaultValue>([
       defaultDefaultColumnOrder,
       customDefaultValue,
     ])("default value: %defaultValue", (...defaultValue) =>
@@ -51,7 +55,7 @@ describe("columnOrder", () => {
           want: "foo,bar%2Cbaz",
         },
       ])("$name", ({ stateValue, want }) =>
-        expect(encodeColumnOrder(stateValue, defaultValue)).toEqual(want),
+        expect(encodeColumnOrder(stateValue, { defaultValue })).toEqual(want),
       ),
     ));
 
@@ -66,7 +70,7 @@ describe("columnOrder", () => {
         }>([
           {
             name: "default value",
-            queryValue: encodeColumnOrder(defaultValue, defaultValue),
+            queryValue: encodeColumnOrder(defaultValue, { defaultValue }),
             want: defaultValue,
           },
           {
@@ -110,18 +114,18 @@ describe("columnOrder", () => {
             want: defaultValue,
           },
         ])("$name", ({ queryValue, want }) =>
-          expect(decodeColumnOrder(queryValue, defaultValue)).toEqual(want),
+          expect(decodeColumnOrder(queryValue, { defaultValue })).toEqual(want),
         ),
     ));
 
   describe("encode and decode", () =>
-    describe.each<Parameters<typeof encodeColumnOrder>[1]>([
+    describe.each<DefaultValue>([
       defaultDefaultColumnOrder,
       customDefaultValue,
     ])("default value: $defaultValue", (...defaultValue) =>
       test.each<{
         name: string;
-        stateValue: Parameters<typeof encodeColumnOrder>[1];
+        stateValue: DefaultValue;
       }>([
         {
           name: "default value",
@@ -149,10 +153,9 @@ describe("columnOrder", () => {
         },
       ])("$name", ({ stateValue }) => {
         expect(
-          decodeColumnOrder(
-            encodeColumnOrder(stateValue, defaultValue),
+          decodeColumnOrder(encodeColumnOrder(stateValue, { defaultValue }), {
             defaultValue,
-          ),
+          }),
         ).toEqual(stateValue);
       }),
     ));

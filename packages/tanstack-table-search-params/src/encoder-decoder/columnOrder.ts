@@ -1,29 +1,55 @@
-import type { State } from "..";
+import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
+/**
+ * The default encoder of Tanstack Table's `columnOrder`.
+ *
+ * @param value - The value to encode.
+ * @param options
+ * @param options.defaultValue
+ * - If you set [`defaultValues`](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-default-value) in `useTableSearchParams`,
+ * you should set the same value.
+ *
+ * @returns The encoded query parameter value.
+ */
 export const encodeColumnOrder = (
-  stateValue: State["columnOrder"],
-  defaultValue: State["columnOrder"],
+  value: TanstackTableState["columnOrder"],
+  options?: {
+    defaultValue?: TanstackTableState["columnOrder"];
+  },
 ): Query[string] => {
-  if (JSON.stringify(stateValue) === JSON.stringify(defaultValue)) {
+  const defaultValue = options?.defaultValue;
+  if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
     return undefined;
   }
 
   // return encoded empty string if stateValue is empty with custom default value
-  if (stateValue.length === 0) {
+  if (value.length === 0) {
     return noneStringForCustomDefaultValue;
   }
 
-  return stateValue
-    .map((v) => v.replaceAll(",", encodeURIComponent(",")))
-    .join(",");
+  return value.map((v) => v.replaceAll(",", encodeURIComponent(","))).join(",");
 };
 
+/**
+ * The default decoder of Tanstack Table's `columnOrder`.
+ *
+ * @param queryValue - The encoded query parameter value to decode.
+ * @param options
+ * @param options.defaultValue
+ * - If you set [`defaultValues`](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-default-value) in `useTableSearchParams`,
+ * you should set the same value.
+ *
+ * @returns The decoded value.
+ */
 export const decodeColumnOrder = (
   queryValue: Query[string],
-  defaultValue: State["columnOrder"],
-): State["columnOrder"] => {
+  options?: {
+    defaultValue?: TanstackTableState["columnOrder"];
+  },
+): TanstackTableState["columnOrder"] | undefined => {
+  const defaultValue = options?.defaultValue;
   if (typeof queryValue !== "string") return defaultValue;
   if (queryValue === "") return defaultValue;
   if (queryValue === noneStringForCustomDefaultValue) {
