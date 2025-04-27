@@ -34,7 +34,9 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
 
   const _globalFilter = options?.decoder
     ? options?.decoder?.(router.query)
-    : decodeGlobalFilter(router.query[paramNames], defaultGlobalFilter);
+    : decodeGlobalFilter(router.query[paramNames], {
+        defaultValue: defaultGlobalFilter,
+      });
 
   const updateGlobalFilterQuery = useCallback(
     async (newGlobalFilter: State["globalFilter"]) => {
@@ -42,10 +44,9 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
         options?.encoder
           ? options.encoder(globalFilter)
           : {
-              [paramNames]: encodeGlobalFilter(
-                globalFilter,
-                defaultGlobalFilter,
-              ),
+              [paramNames]: encodeGlobalFilter(globalFilter, {
+                defaultValue: defaultGlobalFilter,
+              }),
             };
       await updateQuery({
         oldQuery: encoder(_globalFilter),
