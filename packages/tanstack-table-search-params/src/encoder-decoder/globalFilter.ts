@@ -18,7 +18,7 @@ export const encodedEmptyStringForGlobalFilterCustomDefaultValue =
 export const encodeGlobalFilter = (
   value: TanstackTableState["globalFilter"] | undefined,
   options?: {
-    defaultValue: TanstackTableState["globalFilter"];
+    defaultValue?: TanstackTableState["globalFilter"];
   },
 ): Query[string] => {
   const defaultValue = options?.defaultValue;
@@ -50,7 +50,7 @@ export const encodeGlobalFilter = (
 export const decodeGlobalFilter = (
   value: Query[string],
   options?: {
-    defaultValue: TanstackTableState["globalFilter"];
+    defaultValue?: TanstackTableState["globalFilter"];
   },
 ): TanstackTableState["globalFilter"] | undefined => {
   const defaultValue = options?.defaultValue;

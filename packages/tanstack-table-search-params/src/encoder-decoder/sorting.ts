@@ -16,7 +16,7 @@ import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultVal
 export const encodeSorting = (
   value: State["sorting"],
   options?: {
-    defaultValue: State["sorting"];
+    defaultValue?: State["sorting"];
   },
 ): Query[string] => {
   const defaultValue = options?.defaultValue;
@@ -48,7 +48,7 @@ export const encodeSorting = (
 export const decodeSorting = (
   value: Query[string],
   options?: {
-    defaultValue: State["sorting"];
+    defaultValue?: State["sorting"];
   },
 ): State["sorting"] | undefined => {
   const defaultValue = options?.defaultValue;
