@@ -24,7 +24,7 @@
     "@vitejs/plugin-react-swc": "^3.8.1",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
-    "typescript": "~5.8.2",
+    "typescript": "~5.8.3",
     "vite": "^6.2.3"
   }
 }
