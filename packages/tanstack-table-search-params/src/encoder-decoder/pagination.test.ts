@@ -11,7 +11,9 @@ describe("pagination", () => {
   describe("encode", () =>
     describe.each<{
       name: string;
-      defaultValue: Parameters<typeof encodePagination>[1];
+      defaultValue: NonNullable<
+        NonNullable<Parameters<typeof encodePagination>[1]>["defaultValue"]
+      >;
     }>([
       {
         name: "default default value",
@@ -75,14 +77,16 @@ describe("pagination", () => {
           want: { pageIndex: "3", pageSize: "0" },
         },
       ])("$name", ({ pagination, want }) =>
-        expect(encodePagination(pagination, defaultValue)).toEqual(want),
+        expect(encodePagination(pagination, { defaultValue })).toEqual(want),
       ),
     ));
 
   describe("decode", () =>
     describe.each<{
       name: string;
-      defaultValue: Parameters<typeof decodePagination>[1];
+      defaultValue: NonNullable<
+        NonNullable<Parameters<typeof decodePagination>[1]>["defaultValue"]
+      >;
     }>([
       {
         name: "default default value",
@@ -100,7 +104,7 @@ describe("pagination", () => {
       }>([
         {
           name: "default pageIndex and pageSize",
-          queryValues: encodePagination(defaultValue, defaultValue),
+          queryValues: encodePagination(defaultValue, { defaultValue }),
           want: defaultValue,
         },
         {
@@ -169,14 +173,16 @@ describe("pagination", () => {
           want: { pageIndex: 1, pageSize: 0 },
         },
       ])("$name", ({ queryValues, want }) =>
-        expect(decodePagination(queryValues, defaultValue)).toEqual(want),
+        expect(decodePagination(queryValues, { defaultValue })).toEqual(want),
       ),
     ));
 
   describe("encode and decode", () =>
     describe.each<{
       name: string;
-      defaultValue: Parameters<typeof encodePagination>[1];
+      defaultValue: NonNullable<
+        NonNullable<Parameters<typeof encodePagination>[1]>["defaultValue"]
+      >;
     }>([
       {
         name: "default default value",
@@ -205,10 +211,9 @@ describe("pagination", () => {
         },
       ])("$name", ({ pagination }) =>
         expect(
-          decodePagination(
-            encodePagination(pagination, defaultValue),
+          decodePagination(encodePagination(pagination, { defaultValue }), {
             defaultValue,
-          ),
+          }),
         ).toEqual(pagination),
       ),
     ));

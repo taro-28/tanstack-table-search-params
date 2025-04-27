@@ -58,8 +58,10 @@ export const usePagination = ({ router, options }: Props): Returns => {
           pageSize: router.query[paramName.pageSize],
         },
         {
-          pageIndex: defaultPagination.pageIndex,
-          pageSize: defaultPagination.pageSize,
+          defaultValue: {
+            pageIndex: defaultPagination.pageIndex,
+            pageSize: defaultPagination.pageSize,
+          },
         },
       ),
     [
@@ -103,8 +105,10 @@ export const usePagination = ({ router, options }: Props): Returns => {
       const encoder = (pagination: State["pagination"]) => {
         if (options?.encoder) return options.encoder(pagination);
         const encoded = encodePagination(pagination, {
-          pageIndex: defaultPagination.pageIndex,
-          pageSize: defaultPagination.pageSize,
+          defaultValue: {
+            pageIndex: defaultPagination.pageIndex,
+            pageSize: defaultPagination.pageSize,
+          },
         });
         return {
           [paramName.pageIndex]: encoded.pageIndex,

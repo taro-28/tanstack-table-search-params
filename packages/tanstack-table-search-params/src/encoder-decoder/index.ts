@@ -1,3 +1,4 @@
 // biome-ignore lint/performance/noBarrelFile:
-export { decodeGlobalFilter, encodeGlobalFilter } from "./globalFilter";
-export { decodeSorting, encodeSorting } from "./sorting";
+export { encodeGlobalFilter, decodeGlobalFilter } from "./globalFilter";
+export { encodeSorting, decodeSorting } from "./sorting";
+export { encodePagination, decodePagination } from "./pagination";
