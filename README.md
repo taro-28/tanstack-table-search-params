@@ -292,7 +292,3 @@ MIT
 [1]: https://www.npmjs.com/package/tanstack-table-search-params
 [2]: https://github.com/taro-28/tanstack-table-search-params
 [3]: https://bundlephobia.com/package/tanstack-table-search-params
-
-```
-
-```
