@@ -6,16 +6,15 @@ import {
   encodedEmptyStringForGlobalFilterCustomDefaultValue,
 } from "./globalFilter";
 
+type DefaultValue = NonNullable<
+  NonNullable<Parameters<typeof encodeGlobalFilter>[1]>["defaultValue"]
+>;
+
 const customDefaultValue = "default";
 
 describe("globalFilter", () => {
   describe("encode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: NonNullable<
-        NonNullable<Parameters<typeof encodeGlobalFilter>[1]>["defaultValue"]
-      >;
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
@@ -64,12 +63,7 @@ describe("globalFilter", () => {
     ));
 
   describe("decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: NonNullable<
-        NonNullable<Parameters<typeof decodeGlobalFilter>[1]>["defaultValue"]
-      >;
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
@@ -123,12 +117,7 @@ describe("globalFilter", () => {
     ));
 
   describe("encode and decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: NonNullable<
-        NonNullable<Parameters<typeof encodeGlobalFilter>[1]>["defaultValue"]
-      >;
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,

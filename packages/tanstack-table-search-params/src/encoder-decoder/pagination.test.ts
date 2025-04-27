@@ -2,6 +2,10 @@ import { describe, expect, test } from "vitest";
 import { defaultDefaultPagination } from "../usePagination";
 import { decodePagination, encodePagination } from "./pagination";
 
+type DefaultValue = NonNullable<
+  NonNullable<Parameters<typeof encodePagination>[1]>["defaultValue"]
+>;
+
 const customDefaultValue = {
   pageIndex: 9,
   pageSize: 99,
@@ -9,12 +13,7 @@ const customDefaultValue = {
 
 describe("pagination", () => {
   describe("encode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: NonNullable<
-        NonNullable<Parameters<typeof encodePagination>[1]>["defaultValue"]
-      >;
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultPagination,
@@ -82,12 +81,7 @@ describe("pagination", () => {
     ));
 
   describe("decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: NonNullable<
-        NonNullable<Parameters<typeof decodePagination>[1]>["defaultValue"]
-      >;
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultPagination,
@@ -178,12 +172,7 @@ describe("pagination", () => {
     ));
 
   describe("encode and decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: NonNullable<
-        NonNullable<Parameters<typeof encodePagination>[1]>["defaultValue"]
-      >;
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultPagination,

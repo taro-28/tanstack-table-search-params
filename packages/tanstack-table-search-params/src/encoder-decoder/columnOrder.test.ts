@@ -3,11 +3,11 @@ import { defaultDefaultColumnOrder } from "../useColumnOrder";
 import { decodeColumnOrder, encodeColumnOrder } from "./columnOrder";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
-const customDefaultValue = ["custom"];
-
 type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodeColumnOrder>[1]>["defaultValue"]
 >;
+
+const customDefaultValue = ["custom"];
 
 describe("columnOrder", () => {
   describe("encode", () =>
@@ -125,7 +125,7 @@ describe("columnOrder", () => {
     ])("default value: $defaultValue", (...defaultValue) =>
       test.each<{
         name: string;
-        stateValue: DefaultValue;
+        stateValue: Parameters<typeof encodeColumnOrder>[0];
       }>([
         {
           name: "default value",

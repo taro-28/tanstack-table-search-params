@@ -378,7 +378,10 @@ describe("columnFilters", () => {
       defaultDefaultColumnFilters,
       customDefaultValue,
     ])("default value: $defaultValue", (...defaultValue) =>
-      test.each<{ name: string; stateValue: DefaultValue }>([
+      test.each<{
+        name: string;
+        stateValue: Parameters<typeof encodeColumnFilters>[0];
+      }>([
         {
           name: "default value",
           stateValue: defaultValue,

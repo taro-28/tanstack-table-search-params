@@ -3,6 +3,10 @@ import { defaultDefaultSorting } from "../useSorting";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 import { decodeSorting, encodeSorting } from "./sorting";
 
+type DefaultValue = NonNullable<
+  NonNullable<Parameters<typeof encodeSorting>[1]>["defaultValue"]
+>;
+
 const customDefaultValue = [
   {
     id: "custom",
@@ -12,12 +16,7 @@ const customDefaultValue = [
 
 describe("sorting", () => {
   describe("encode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: NonNullable<
-        NonNullable<Parameters<typeof encodeSorting>[1]>["defaultValue"]
-      >;
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultSorting,
@@ -65,12 +64,7 @@ describe("sorting", () => {
     ));
 
   describe("decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: NonNullable<
-        NonNullable<Parameters<typeof decodeSorting>[1]>["defaultValue"]
-      >;
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultSorting,
@@ -131,12 +125,7 @@ describe("sorting", () => {
     ));
 
   describe("encode and decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: NonNullable<
-        NonNullable<Parameters<typeof encodeSorting>[1]>["defaultValue"]
-      >;
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultSorting,
