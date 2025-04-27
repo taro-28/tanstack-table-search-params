@@ -1,21 +1,35 @@
-import type { State } from "..";
+import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
+/**
+ * The default encoder of Tanstack Table's `columnFilters`.
+ *
+ * @param value - The value to encode.
+ * @param options
+ * @param options.defaultValue
+ * - If you set [`defaultValues`](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-default-value) in `useTableSearchParams`,
+ * you should set the same value.
+ *
+ * @returns The encoded query parameter value.
+ */
 export const encodeColumnFilters = (
-  stateValue: State["columnFilters"],
-  defaultValue: State["columnFilters"],
+  value: TanstackTableState["columnFilters"],
+  options?: {
+    defaultValue?: TanstackTableState["columnFilters"];
+  },
 ): Query[string] => {
-  if (JSON.stringify(stateValue) === JSON.stringify(defaultValue)) {
+  const defaultValue = options?.defaultValue;
+  if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
     return undefined;
   }
 
   // return encoded empty string if stateValue is empty with custom default value
-  if (stateValue.length === 0) {
+  if (value.length === 0) {
     return noneStringForCustomDefaultValue;
   }
 
-  return stateValue
+  return value
     .map(
       ({ id, value }) =>
         `${id}.${encodeURIComponent(JSON.stringify(value)).replaceAll(".", "%2E")}`,
@@ -23,18 +37,32 @@ export const encodeColumnFilters = (
     .join(",");
 };
 
+/**
+ * The default decoder of Tanstack Table's `columnFilters`.
+ *
+ * @param value - The encoded query parameter value to decode.
+ * @param options
+ * @param options.defaultValue
+ * - If you set [`defaultValues`](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-default-value) in `useTableSearchParams`,
+ * you should set the same value.
+ *
+ * @returns The decoded value.
+ */
 export const decodeColumnFilters = (
-  queryValue: Query[string],
-  defaultValue: State["columnFilters"],
-): State["columnFilters"] => {
-  if (typeof queryValue !== "string") return defaultValue;
-  if (queryValue === "") return defaultValue;
-  if (queryValue === noneStringForCustomDefaultValue) {
+  value: Query[string],
+  options?: {
+    defaultValue?: TanstackTableState["columnFilters"];
+  },
+): TanstackTableState["columnFilters"] | undefined => {
+  const defaultValue = options?.defaultValue;
+  if (typeof value !== "string") return defaultValue;
+  if (value === "") return defaultValue;
+  if (value === noneStringForCustomDefaultValue) {
     return [];
   }
 
   try {
-    return queryValue
+    return value
       .split(",")
       .map((item) => {
         const [id, stringValue] = item.split(".");

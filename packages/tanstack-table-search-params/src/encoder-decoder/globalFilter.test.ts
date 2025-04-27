@@ -6,14 +6,15 @@ import {
   encodedEmptyStringForGlobalFilterCustomDefaultValue,
 } from "./globalFilter";
 
+type DefaultValue = NonNullable<
+  NonNullable<Parameters<typeof encodeGlobalFilter>[1]>["defaultValue"]
+>;
+
 const customDefaultValue = "default";
 
 describe("globalFilter", () => {
   describe("encode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: Parameters<typeof encodeGlobalFilter>[1];
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
@@ -57,15 +58,12 @@ describe("globalFilter", () => {
           want: defaultValue,
         },
       ])("$name", ({ stateValue, want }) =>
-        expect(encodeGlobalFilter(stateValue, defaultValue)).toEqual(want),
+        expect(encodeGlobalFilter(stateValue, { defaultValue })).toEqual(want),
       ),
     ));
 
   describe("decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: Parameters<typeof decodeGlobalFilter>[1];
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
@@ -114,15 +112,12 @@ describe("globalFilter", () => {
           want: defaultValue,
         },
       ])("$name", ({ queryValue, want }) =>
-        expect(decodeGlobalFilter(queryValue, defaultValue)).toBe(want),
+        expect(decodeGlobalFilter(queryValue, { defaultValue })).toBe(want),
       ),
     ));
 
   describe("encode and decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: Parameters<typeof encodeGlobalFilter>[1];
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
@@ -160,8 +155,8 @@ describe("globalFilter", () => {
       ])("$name", ({ globalFilter, wantDecoded }) =>
         expect(
           decodeGlobalFilter(
-            encodeGlobalFilter(globalFilter, defaultValue),
-            defaultValue,
+            encodeGlobalFilter(globalFilter, { defaultValue }),
+            { defaultValue },
           ),
         ).toBe(wantDecoded ?? globalFilter),
       ),

@@ -3,6 +3,10 @@ import { defaultDefaultSorting } from "../useSorting";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 import { decodeSorting, encodeSorting } from "./sorting";
 
+type DefaultValue = NonNullable<
+  NonNullable<Parameters<typeof encodeSorting>[1]>["defaultValue"]
+>;
+
 const customDefaultValue = [
   {
     id: "custom",
@@ -12,10 +16,7 @@ const customDefaultValue = [
 
 describe("sorting", () => {
   describe("encode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: Parameters<typeof encodeSorting>[1];
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultSorting,
@@ -58,15 +59,12 @@ describe("sorting", () => {
           want: "foo.desc,bar.asc",
         },
       ])("$name", ({ stateValue, want }) =>
-        expect(encodeSorting(stateValue, defaultValue)).toEqual(want),
+        expect(encodeSorting(stateValue, { defaultValue })).toEqual(want),
       ),
     ));
 
   describe("decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: Parameters<typeof decodeSorting>[1];
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultSorting,
@@ -83,7 +81,7 @@ describe("sorting", () => {
       }>([
         {
           name: "default value",
-          queryValue: encodeSorting(defaultValue, defaultValue),
+          queryValue: encodeSorting(defaultValue, { defaultValue }),
           want: defaultValue,
         },
         {
@@ -122,15 +120,12 @@ describe("sorting", () => {
           want: defaultValue,
         },
       ])("$name", ({ queryValue, want }) =>
-        expect(decodeSorting(queryValue, defaultValue)).toEqual(want),
+        expect(decodeSorting(queryValue, { defaultValue })).toEqual(want),
       ),
     ));
 
   describe("encode and decode", () =>
-    describe.each<{
-      name: string;
-      defaultValue: Parameters<typeof encodeSorting>[1];
-    }>([
+    describe.each<{ name: string; defaultValue: DefaultValue }>([
       {
         name: "default default value",
         defaultValue: defaultDefaultSorting,
@@ -165,7 +160,9 @@ describe("sorting", () => {
         },
       ])("$name", ({ stateValue }) => {
         expect(
-          decodeSorting(encodeSorting(stateValue, defaultValue), defaultValue),
+          decodeSorting(encodeSorting(stateValue, { defaultValue }), {
+            defaultValue,
+          }),
         ).toEqual(stateValue);
       }),
     ));

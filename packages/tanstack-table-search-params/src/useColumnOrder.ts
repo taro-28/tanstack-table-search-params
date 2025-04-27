@@ -35,10 +35,9 @@ export const useColumnOrder = ({ router, options }: Props): Returns => {
 
   const uncustomisedColumnOrder = useMemo(
     () =>
-      decodeColumnOrder(
-        router.query[paramName],
-        JSON.parse(stringDefaultColumnOrder),
-      ),
+      decodeColumnOrder(router.query[paramName], {
+        defaultValue: JSON.parse(stringDefaultColumnOrder),
+      }),
     [router.query[paramName], paramName, stringDefaultColumnOrder],
   );
 
@@ -66,10 +65,9 @@ export const useColumnOrder = ({ router, options }: Props): Returns => {
         options?.encoder
           ? options.encoder(columnOrder)
           : {
-              [paramName]: encodeColumnOrder(
-                columnOrder,
-                JSON.parse(stringDefaultColumnOrder),
-              ),
+              [paramName]: encodeColumnOrder(columnOrder, {
+                defaultValue: JSON.parse(stringDefaultColumnOrder),
+              }),
             };
       await updateQuery({
         oldQuery: encoder(_columnOrder),

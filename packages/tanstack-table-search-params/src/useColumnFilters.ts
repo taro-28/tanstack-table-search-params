@@ -35,10 +35,9 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
 
   const uncustomisedColumnFilters = useMemo(
     () =>
-      decodeColumnFilters(
-        router.query[paramName],
-        JSON.parse(stringDefaultColumnFilters),
-      ),
+      decodeColumnFilters(router.query[paramName], {
+        defaultValue: JSON.parse(stringDefaultColumnFilters),
+      }),
     [router.query[paramName], paramName, stringDefaultColumnFilters],
   );
 
@@ -66,10 +65,9 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
         options?.encoder
           ? options.encoder(columnFilters)
           : {
-              [paramName]: encodeColumnFilters(
-                columnFilters,
-                JSON.parse(stringDefaultColumnFilters),
-              ),
+              [paramName]: encodeColumnFilters(columnFilters, {
+                defaultValue: JSON.parse(stringDefaultColumnFilters),
+              }),
             };
       await updateQuery({
         oldQuery: encoder(_columnFilters),

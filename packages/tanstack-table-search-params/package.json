@@ -46,6 +46,11 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index",
       "import": "./dist/index.mjs"
+    },
+    "./encoder-decoder": {
+      "types": "./dist/encoder-decoder/index.d.ts",
+      "require": "./dist/encoder-decoder/index",
+      "import": "./dist/encoder-decoder/index.mjs"
     }
   },
   "main": "./dist/index",
