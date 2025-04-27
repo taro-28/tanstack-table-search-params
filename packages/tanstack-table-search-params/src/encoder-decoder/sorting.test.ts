@@ -14,7 +14,9 @@ describe("sorting", () => {
   describe("encode", () =>
     describe.each<{
       name: string;
-      defaultValue: Parameters<typeof encodeSorting>[1];
+      defaultValue: NonNullable<
+        Parameters<typeof encodeSorting>[1]
+      >["defaultValue"];
     }>([
       {
         name: "default default value",
@@ -58,14 +60,16 @@ describe("sorting", () => {
           want: "foo.desc,bar.asc",
         },
       ])("$name", ({ stateValue, want }) =>
-        expect(encodeSorting(stateValue, defaultValue)).toEqual(want),
+        expect(encodeSorting(stateValue, { defaultValue })).toEqual(want),
       ),
     ));
 
   describe("decode", () =>
     describe.each<{
       name: string;
-      defaultValue: Parameters<typeof decodeSorting>[1];
+      defaultValue: NonNullable<
+        Parameters<typeof decodeSorting>[1]
+      >["defaultValue"];
     }>([
       {
         name: "default default value",
@@ -83,7 +87,7 @@ describe("sorting", () => {
       }>([
         {
           name: "default value",
-          queryValue: encodeSorting(defaultValue, defaultValue),
+          queryValue: encodeSorting(defaultValue, { defaultValue }),
           want: defaultValue,
         },
         {
@@ -122,14 +126,16 @@ describe("sorting", () => {
           want: defaultValue,
         },
       ])("$name", ({ queryValue, want }) =>
-        expect(decodeSorting(queryValue, defaultValue)).toEqual(want),
+        expect(decodeSorting(queryValue, { defaultValue })).toEqual(want),
       ),
     ));
 
   describe("encode and decode", () =>
     describe.each<{
       name: string;
-      defaultValue: Parameters<typeof encodeSorting>[1];
+      defaultValue: NonNullable<
+        Parameters<typeof encodeSorting>[1]
+      >["defaultValue"];
     }>([
       {
         name: "default default value",
@@ -165,7 +171,9 @@ describe("sorting", () => {
         },
       ])("$name", ({ stateValue }) => {
         expect(
-          decodeSorting(encodeSorting(stateValue, defaultValue), defaultValue),
+          decodeSorting(encodeSorting(stateValue, { defaultValue }), {
+            defaultValue,
+          }),
         ).toEqual(stateValue);
       }),
     ));
