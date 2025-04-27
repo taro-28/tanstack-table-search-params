@@ -15,8 +15,8 @@ describe("sorting", () => {
     describe.each<{
       name: string;
       defaultValue: NonNullable<
-        Parameters<typeof encodeSorting>[1]
-      >["defaultValue"];
+        NonNullable<Parameters<typeof encodeSorting>[1]>["defaultValue"]
+      >;
     }>([
       {
         name: "default default value",
@@ -68,8 +68,8 @@ describe("sorting", () => {
     describe.each<{
       name: string;
       defaultValue: NonNullable<
-        Parameters<typeof decodeSorting>[1]
-      >["defaultValue"];
+        NonNullable<Parameters<typeof decodeSorting>[1]>["defaultValue"]
+      >;
     }>([
       {
         name: "default default value",
@@ -134,8 +134,8 @@ describe("sorting", () => {
     describe.each<{
       name: string;
       defaultValue: NonNullable<
-        Parameters<typeof encodeSorting>[1]
-      >["defaultValue"];
+        NonNullable<Parameters<typeof encodeSorting>[1]>["defaultValue"]
+      >;
     }>([
       {
         name: "default default value",

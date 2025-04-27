@@ -13,7 +13,7 @@ import type { Query } from "../types";
  * @returns The encoded query parameter value.
  */
 export const encodePagination = (
-  stateValue: TanstackTableState["pagination"],
+  value: TanstackTableState["pagination"],
   options?: {
     defaultValue?: TanstackTableState["pagination"];
   },
@@ -24,20 +24,20 @@ export const encodePagination = (
   const defaultValue = options?.defaultValue;
   return {
     pageIndex:
-      stateValue.pageIndex === defaultValue?.pageIndex
+      value.pageIndex === defaultValue?.pageIndex
         ? undefined
-        : (stateValue.pageIndex + 1).toString(),
+        : (value.pageIndex + 1).toString(),
     pageSize:
-      stateValue.pageSize === defaultValue?.pageSize
+      value.pageSize === defaultValue?.pageSize
         ? undefined
-        : stateValue.pageSize.toString(),
+        : value.pageSize.toString(),
   };
 };
 
 /**
  * The default decoder of Tanstack Table's `pagination`.
  *
- * @param queryValues - The encoded query parameter value to decode.
+ * @param value - The encoded query parameter value to decode.
  * @param options
  * @param options.defaultValue
  * - If you set [`defaultValues`](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#custom-default-value) in `useTableSearchParams`,
@@ -46,7 +46,7 @@ export const encodePagination = (
  * @returns The decoded value.
  */
 export const decodePagination = (
-  queryValues: {
+  value: {
     pageIndex: Query[string];
     pageSize: Query[string];
   },
@@ -57,16 +57,16 @@ export const decodePagination = (
   | TanstackTableState["pagination"]
   | { pageIndex: number | undefined; pageSize: number | undefined } => {
   const defaultValue = options?.defaultValue;
-  const pageIndex = Number(queryValues.pageIndex);
-  const pageSize = Number(queryValues.pageSize);
+  const pageIndex = Number(value.pageIndex);
+  const pageSize = Number(value.pageSize);
 
   return {
     pageIndex:
-      queryValues.pageIndex === "" || Number.isNaN(pageIndex) || pageIndex < 1
+      value.pageIndex === "" || Number.isNaN(pageIndex) || pageIndex < 1
         ? defaultValue?.pageIndex
         : pageIndex - 1,
     pageSize:
-      queryValues.pageSize === "" || Number.isNaN(pageSize)
+      value.pageSize === "" || Number.isNaN(pageSize)
         ? defaultValue?.pageSize
         : pageSize,
   };

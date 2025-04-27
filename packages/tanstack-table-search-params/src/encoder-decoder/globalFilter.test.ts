@@ -13,8 +13,8 @@ describe("globalFilter", () => {
     describe.each<{
       name: string;
       defaultValue: NonNullable<
-        Parameters<typeof encodeGlobalFilter>[1]
-      >["defaultValue"];
+        NonNullable<Parameters<typeof encodeGlobalFilter>[1]>["defaultValue"]
+      >;
     }>([
       {
         name: "default default value",
@@ -67,8 +67,8 @@ describe("globalFilter", () => {
     describe.each<{
       name: string;
       defaultValue: NonNullable<
-        Parameters<typeof decodeGlobalFilter>[1]
-      >["defaultValue"];
+        NonNullable<Parameters<typeof decodeGlobalFilter>[1]>["defaultValue"]
+      >;
     }>([
       {
         name: "default default value",
@@ -126,8 +126,8 @@ describe("globalFilter", () => {
     describe.each<{
       name: string;
       defaultValue: NonNullable<
-        Parameters<typeof encodeGlobalFilter>[1]
-      >["defaultValue"];
+        NonNullable<Parameters<typeof encodeGlobalFilter>[1]>["defaultValue"]
+      >;
     }>([
       {
         name: "default default value",
