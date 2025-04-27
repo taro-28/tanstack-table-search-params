@@ -28,8 +28,8 @@ importers:
         specifier: ^9.5.1
         version: 9.5.1
       '@tanstack/react-table':
-        specifier: ^8.21.2
-        version: 8.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -65,8 +65,8 @@ importers:
         specifier: workspace:*
         version: link:../lib
       '@tanstack/react-table':
-        specifier: ^8.21.2
-        version: 8.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next:
         specifier: 15.2.4
         version: 15.2.4(@babel/core@7.26.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -108,8 +108,8 @@ importers:
         specifier: workspace:*
         version: link:../lib
       '@tanstack/react-table':
-        specifier: ^8.21.2
-        version: 8.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next:
         specifier: 15.2.4
         version: 15.2.4(@babel/core@7.26.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -151,8 +151,8 @@ importers:
         specifier: workspace:*
         version: link:../lib
       '@tanstack/react-table':
-        specifier: ^8.21.2
-        version: 8.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -200,8 +200,8 @@ importers:
         specifier: ^1.114.29
         version: 1.114.29(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@tanstack/react-table':
-        specifier: ^8.21.2
-        version: 8.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -252,8 +252,8 @@ importers:
         specifier: workspace:*
         version: link:../tsconfig
       '@tanstack/react-table':
-        specifier: ^8.21.2
-        version: 8.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@testing-library/react':
         specifier: ^16.2.0
         version: 16.2.0(@testing-library/dom@10.3.1)(@types/react-dom@19.0.4(@types/react@19.0.12))(@types/react@19.0.12)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1195,8 +1195,8 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@tanstack/react-table@8.21.2':
-    resolution: {integrity: sha512-11tNlEDTdIhMJba2RBH+ecJ9l1zgS2kjmexDPAraulc8jeNA4xocSNeyzextT0XJyASil4XsCYlJmf5jEWAtYg==}
+  '@tanstack/react-table@8.21.3':
+    resolution: {integrity: sha512-5nNMTSETP4ykGegmVkhjcS8tTLW6Vl4axfEGQN3v0zdHYbK4UfoqfPChclTrJ4EoK9QynqAu9oUf8VEmrpZ5Ww==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16.8'
@@ -1267,8 +1267,8 @@ packages:
   '@tanstack/store@0.7.0':
     resolution: {integrity: sha512-CNIhdoUsmD2NolYuaIs8VfWM467RK6oIBAW4nPEKZhg1smZ+/CwtCdpURgp7nxSqOaV9oKkzdWD80+bC66F/Jg==}
 
-  '@tanstack/table-core@8.21.2':
-    resolution: {integrity: sha512-uvXk/U4cBiFMxt+p9/G7yUWI/UbHYbyghLCjlpWZ3mLeIZiUBSKcUnw9UnKkdRz7Z/N4UBuFLWQdJCjUe7HjvA==}
+  '@tanstack/table-core@8.21.3':
+    resolution: {integrity: sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==}
     engines: {node: '>=12'}
 
   '@tanstack/virtual-file-routes@1.114.29':
@@ -3295,9 +3295,9 @@ snapshots:
       react-dom: 19.1.0(react@19.1.0)
       use-sync-external-store: 1.4.0(react@19.1.0)
 
-  '@tanstack/react-table@8.21.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@tanstack/react-table@8.21.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@tanstack/table-core': 8.21.2
+      '@tanstack/table-core': 8.21.3
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
@@ -3374,7 +3374,7 @@ snapshots:
 
   '@tanstack/store@0.7.0': {}
 
-  '@tanstack/table-core@8.21.2': {}
+  '@tanstack/table-core@8.21.3': {}
 
   '@tanstack/virtual-file-routes@1.114.29': {}
 

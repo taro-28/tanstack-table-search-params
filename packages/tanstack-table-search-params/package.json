@@ -24,7 +24,7 @@
   "devDependencies": {
     "@faker-js/faker": "^9.5.1",
     "@tanstack-table-search-params/tsconfig": "workspace:*",
-    "@tanstack/react-table": "^8.21.2",
+    "@tanstack/react-table": "^8.21.3",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^22.13.14",
     "@types/react": "^19.0.12",
@@ -37,7 +37,7 @@
     "vitest": "^3.0.9"
   },
   "peerDependencies": {
-    "@tanstack/react-table": ">=8.21.2",
+    "@tanstack/react-table": ">=8.21.3",
     "react": ">=19.1.0"
   },
   "files": ["dist"],
