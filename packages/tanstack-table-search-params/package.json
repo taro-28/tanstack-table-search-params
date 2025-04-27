@@ -25,7 +25,7 @@
     "@faker-js/faker": "^9.5.1",
     "@tanstack-table-search-params/tsconfig": "workspace:*",
     "@tanstack/react-table": "^8.21.3",
-    "@testing-library/react": "^16.2.0",
+    "@testing-library/react": "^16.3.0",
     "@types/node": "^22.13.14",
     "@types/react": "^19.0.12",
     "@vitejs/plugin-react": "^4.3.4",
