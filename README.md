@@ -241,6 +241,26 @@ Create an input that supports IME conversion with a uncontrolled component.
 
 - [sample code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/lib/src/components/SearchInput.tsx)
 
+### Q: How can I preset query parameters when navigating to a page that contains a table?
+
+To pass initial table state via the URL, call one of the `encode*` helpers from  
+`tanstack-table-search-params/encoder-decoder` and assign its return value to your link.
+
+```tsx
+import { encodeSorting } from "tanstack-table-search-params/encoder-decoder";
+
+<Link
+  href={{
+    pathname: "/some-page-with-table",
+    query: {
+      sorting: encodeSorting([{ id: "name", desc: true }]),
+    },
+  }}
+>
+  foo
+</Link>;
+```
+
 ## Supported
 
 List of supported TanStack table states
@@ -272,3 +292,7 @@ MIT
 [1]: https://www.npmjs.com/package/tanstack-table-search-params
 [2]: https://github.com/taro-28/tanstack-table-search-params
 [3]: https://bundlephobia.com/package/tanstack-table-search-params
+
+```
+
+```
