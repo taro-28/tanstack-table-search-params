@@ -3,6 +3,10 @@ import { defaultDefaultColumnFilters } from "../useColumnFilters";
 import { decodeColumnFilters, encodeColumnFilters } from "./columnFilters";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
+type DefaultValue = NonNullable<
+  NonNullable<Parameters<typeof encodeColumnFilters>[1]>["defaultValue"]
+>;
+
 const customDefaultValue = [
   {
     id: "custom",
@@ -12,7 +16,7 @@ const customDefaultValue = [
 
 describe("columnFilters", () => {
   describe("encode", () =>
-    describe.each<Parameters<typeof encodeColumnFilters>[1]>([
+    describe.each<DefaultValue>([
       defaultDefaultColumnFilters,
       customDefaultValue,
     ])("default value: %defaultValue", (...defaultValue) =>
@@ -174,7 +178,7 @@ describe("columnFilters", () => {
           want: "foo.%5B%22bar%22%2C42%2Ctrue%2Cnull%2C%7B%22bar%22%3A%22baz%22%7D%2C%5B%22qux%22%5D%5D",
         },
       ])("$name", ({ stateValue, want }) =>
-        expect(encodeColumnFilters(stateValue, defaultValue)).toEqual(want),
+        expect(encodeColumnFilters(stateValue, { defaultValue })).toEqual(want),
       ),
     ));
 
@@ -189,7 +193,7 @@ describe("columnFilters", () => {
         }>([
           {
             name: "default value",
-            queryValue: encodeColumnFilters(defaultValue, defaultValue),
+            queryValue: encodeColumnFilters(defaultValue, { defaultValue }),
             want: defaultValue,
           },
           {
@@ -363,19 +367,18 @@ describe("columnFilters", () => {
             want: defaultValue,
           },
         ])("$name", ({ queryValue, want }) =>
-          expect(decodeColumnFilters(queryValue, defaultValue)).toEqual(want),
+          expect(decodeColumnFilters(queryValue, { defaultValue })).toEqual(
+            want,
+          ),
         ),
     ));
 
   describe("encode and decode", () =>
-    describe.each<Parameters<typeof encodeColumnFilters>[1]>([
+    describe.each<DefaultValue>([
       defaultDefaultColumnFilters,
       customDefaultValue,
     ])("default value: $defaultValue", (...defaultValue) =>
-      test.each<{
-        name: string;
-        stateValue: Parameters<typeof encodeColumnFilters>[1];
-      }>([
+      test.each<{ name: string; stateValue: DefaultValue }>([
         {
           name: "default value",
           stateValue: defaultValue,
@@ -493,8 +496,8 @@ describe("columnFilters", () => {
       ])("$name", ({ stateValue }) => {
         expect(
           decodeColumnFilters(
-            encodeColumnFilters(stateValue, defaultValue),
-            defaultValue,
+            encodeColumnFilters(stateValue, { defaultValue }),
+            { defaultValue },
           ),
         ).toEqual(stateValue);
       }),
