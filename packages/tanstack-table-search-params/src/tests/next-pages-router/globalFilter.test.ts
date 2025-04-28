@@ -4,8 +4,10 @@ import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
-import { encodedEmptyStringForGlobalFilterCustomDefaultValue } from "../../encoder-decoder/globalFilter";
-import { defaultDefaultGlobalFilter } from "../../useGlobalFilter";
+import {
+  encodedEmptyStringForGlobalFilterCustomDefaultValue,
+  defaultDefaultGlobalFilter,
+} from "../../encoder-decoder/globalFilter";
 
 describe("globalFilter", () => {
   beforeEach(() => {
