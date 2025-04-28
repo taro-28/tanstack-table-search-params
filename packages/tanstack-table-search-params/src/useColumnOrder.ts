@@ -10,9 +10,6 @@ import { updateQuery } from "./updateQuery";
 import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
 
-export const defaultDefaultColumnOrder =
-  [] as const satisfies State["columnOrder"];
-
 type Props = {
   router: Router;
   options?: ExtractSpecificStateOptions<"columnOrder">;
@@ -29,14 +26,16 @@ export const useColumnOrder = ({ router, options }: Props): Returns => {
       ? options?.paramName(PARAM_NAMES.COLUMN_ORDER)
       : options?.paramName) || PARAM_NAMES.COLUMN_ORDER;
 
-  const stringDefaultColumnOrder = JSON.stringify(
-    options?.defaultValue ?? defaultDefaultColumnOrder,
-  );
+  const stringDefaultColumnOrder =
+    options?.defaultValue && JSON.stringify(options?.defaultValue);
 
   const uncustomisedColumnOrder = useMemo(
     () =>
       decodeColumnOrder(router.query[paramName], {
-        defaultValue: JSON.parse(stringDefaultColumnOrder),
+        defaultValue:
+          stringDefaultColumnOrder === undefined
+            ? undefined
+            : JSON.parse(stringDefaultColumnOrder),
       }),
     [router.query[paramName], paramName, stringDefaultColumnOrder],
   );
@@ -66,7 +65,10 @@ export const useColumnOrder = ({ router, options }: Props): Returns => {
           ? options.encoder(columnOrder)
           : {
               [paramName]: encodeColumnOrder(columnOrder, {
-                defaultValue: JSON.parse(stringDefaultColumnOrder),
+                defaultValue:
+                  stringDefaultColumnOrder === undefined
+                    ? undefined
+                    : JSON.parse(stringDefaultColumnOrder),
               }),
             };
       await updateQuery({

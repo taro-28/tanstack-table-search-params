@@ -1,6 +1,9 @@
 import { describe, expect, test } from "vitest";
-import { defaultDefaultColumnOrder } from "../useColumnOrder";
-import { decodeColumnOrder, encodeColumnOrder } from "./columnOrder";
+import {
+  decodeColumnOrder,
+  defaultDefaultColumnOrder,
+  encodeColumnOrder,
+} from "./columnOrder";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
 type DefaultValue = NonNullable<

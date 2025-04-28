@@ -4,7 +4,7 @@ import mockRouter from "next-router-mock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
 import { noneStringForCustomDefaultValue } from "../../encoder-decoder/noneStringForCustomDefaultValue";
-import { defaultDefaultColumnOrder } from "../../useColumnOrder";
+import { defaultDefaultColumnOrder } from "../../encoder-decoder/columnOrder";
 
 describe("columnOrder", () => {
   beforeEach(() => {
