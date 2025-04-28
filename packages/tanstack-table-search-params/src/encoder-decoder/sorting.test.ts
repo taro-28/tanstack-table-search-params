@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { defaultDefaultSorting } from "../useSorting";
+import { defaultDefaultSorting } from "./sorting";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 import { decodeSorting, encodeSorting } from "./sorting";
 
