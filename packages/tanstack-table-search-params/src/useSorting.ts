@@ -29,7 +29,10 @@ export const useSorting = ({ router, options }: Props): Returns => {
   const uncustomisedSorting = useMemo(
     () =>
       decodeSorting(router.query[paramName], {
-        defaultValue: stringDefaultSorting && JSON.parse(stringDefaultSorting),
+        defaultValue:
+          stringDefaultSorting === undefined
+            ? undefined
+            : JSON.parse(stringDefaultSorting),
       }),
     [router.query[paramName], paramName, stringDefaultSorting],
   );
@@ -60,7 +63,9 @@ export const useSorting = ({ router, options }: Props): Returns => {
           : {
               [paramName]: encodeSorting(sorting, {
                 defaultValue:
-                  stringDefaultSorting && JSON.parse(stringDefaultSorting),
+                  stringDefaultSorting === undefined
+                    ? undefined
+                    : JSON.parse(stringDefaultSorting),
               }),
             };
       await updateQuery({
