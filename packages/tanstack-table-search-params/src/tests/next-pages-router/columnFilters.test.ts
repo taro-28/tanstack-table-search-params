@@ -4,7 +4,7 @@ import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
-import { defaultDefaultColumnFilters } from "../../useColumnFilters";
+import { defaultDefaultColumnFilters } from "../../encoder-decoder/columnFilters";
 
 describe("columnFilters", () => {
   beforeEach(() => {

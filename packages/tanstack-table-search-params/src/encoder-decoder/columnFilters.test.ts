@@ -1,6 +1,9 @@
 import { describe, expect, test } from "vitest";
-import { defaultDefaultColumnFilters } from "../useColumnFilters";
-import { decodeColumnFilters, encodeColumnFilters } from "./columnFilters";
+import {
+  decodeColumnFilters,
+  defaultDefaultColumnFilters,
+  encodeColumnFilters,
+} from "./columnFilters";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
 type DefaultValue = NonNullable<
