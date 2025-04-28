@@ -5,8 +5,8 @@ import mockRouter from "next-router-mock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
 import {
-  encodedEmptyStringForGlobalFilterCustomDefaultValue,
   defaultDefaultGlobalFilter,
+  encodedEmptyStringForGlobalFilterCustomDefaultValue,
 } from "../../encoder-decoder/globalFilter";
 
 describe("globalFilter", () => {

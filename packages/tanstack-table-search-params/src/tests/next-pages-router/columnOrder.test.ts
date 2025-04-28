@@ -3,8 +3,8 @@ import { act, renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
-import { noneStringForCustomDefaultValue } from "../../encoder-decoder/noneStringForCustomDefaultValue";
 import { defaultDefaultColumnOrder } from "../../encoder-decoder/columnOrder";
+import { noneStringForCustomDefaultValue } from "../../encoder-decoder/noneStringForCustomDefaultValue";
 
 describe("columnOrder", () => {
   beforeEach(() => {

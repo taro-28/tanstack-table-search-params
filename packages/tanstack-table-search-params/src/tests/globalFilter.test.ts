@@ -4,8 +4,8 @@ import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
 import {
-  encodedEmptyStringForGlobalFilterCustomDefaultValue,
   defaultDefaultGlobalFilter,
+  encodedEmptyStringForGlobalFilterCustomDefaultValue,
 } from "../encoder-decoder/globalFilter";
 import { useTestRouter } from "./testRouter";
 
