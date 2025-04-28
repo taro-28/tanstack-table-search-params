@@ -1,6 +1,9 @@
 import { describe, expect, test } from "vitest";
-import { defaultDefaultPagination } from "../usePagination";
-import { decodePagination, encodePagination } from "./pagination";
+import {
+  decodePagination,
+  defaultDefaultPagination,
+  encodePagination,
+} from "./pagination";
 
 type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodePagination>[1]>["defaultValue"]

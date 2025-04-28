@@ -4,7 +4,7 @@ import { renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
-import { defaultDefaultPagination } from "../../usePagination";
+import { defaultDefaultPagination } from "../../encoder-decoder/pagination";
 import { testData, testDataColumns } from "../testData";
 
 describe("pagination", () => {
