@@ -1,11 +1,11 @@
-import type { State, State as TanstackTableState } from "..";
+import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
 
 export const encodedEmptyStringForGlobalFilterCustomDefaultValue =
   encodeURIComponent(JSON.stringify(""));
 
 export const defaultDefaultGlobalFilter =
-  "" as const satisfies State["globalFilter"];
+  "" as const satisfies TanstackTableState["globalFilter"];
 
 /**
  * The default encoder of Tanstack Table's `globalFilter`.

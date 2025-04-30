@@ -1,10 +1,10 @@
-import type { State, State as TanstackTableState } from "..";
+import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
 
 export const defaultDefaultPagination = {
   pageIndex: 0,
   pageSize: 10,
-} as const satisfies State["pagination"];
+} as const satisfies TanstackTableState["pagination"];
 
 /**
  * The default encoder of Tanstack Table's `pagination`.

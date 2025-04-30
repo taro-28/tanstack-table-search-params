@@ -1,9 +1,9 @@
-import type { State, State as TanstackTableState } from "..";
+import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
 export const defaultDefaultColumnOrder =
-  [] as const satisfies State["columnOrder"];
+  [] as const satisfies TanstackTableState["columnOrder"];
 
 /**
  * The default encoder of Tanstack Table's `columnOrder`.

@@ -1,9 +1,9 @@
-import type { State, State as TanstackTableState } from "..";
+import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
 export const defaultDefaultColumnFilters =
-  [] as const satisfies State["columnFilters"];
+  [] as const satisfies TanstackTableState["columnFilters"];
 
 /**
  * The default encoder of Tanstack Table's `columnFilters`.
