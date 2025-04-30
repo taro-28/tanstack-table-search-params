@@ -10,9 +10,6 @@ import { updateQuery } from "./updateQuery";
 import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
 
-export const defaultDefaultColumnFilters =
-  [] as const satisfies State["sorting"];
-
 type Props = {
   router: Router;
   options?: ExtractSpecificStateOptions<"columnFilters">;
@@ -29,14 +26,16 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
       ? options?.paramName(PARAM_NAMES.COLUMN_FILTERS)
       : options?.paramName) || PARAM_NAMES.COLUMN_FILTERS;
 
-  const stringDefaultColumnFilters = JSON.stringify(
-    options?.defaultValue ?? defaultDefaultColumnFilters,
-  );
+  const stringDefaultColumnFilters =
+    options?.defaultValue && JSON.stringify(options?.defaultValue);
 
   const uncustomisedColumnFilters = useMemo(
     () =>
       decodeColumnFilters(router.query[paramName], {
-        defaultValue: JSON.parse(stringDefaultColumnFilters),
+        defaultValue:
+          stringDefaultColumnFilters === undefined
+            ? undefined
+            : JSON.parse(stringDefaultColumnFilters),
       }),
     [router.query[paramName], paramName, stringDefaultColumnFilters],
   );
@@ -66,7 +65,10 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
           ? options.encoder(columnFilters)
           : {
               [paramName]: encodeColumnFilters(columnFilters, {
-                defaultValue: JSON.parse(stringDefaultColumnFilters),
+                defaultValue:
+                  stringDefaultColumnFilters === undefined
+                    ? undefined
+                    : JSON.parse(stringDefaultColumnFilters),
               }),
             };
       await updateQuery({

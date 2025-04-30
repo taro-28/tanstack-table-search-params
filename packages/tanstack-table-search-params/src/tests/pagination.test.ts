@@ -3,7 +3,7 @@ import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
-import { defaultDefaultPagination } from "../usePagination";
+import { defaultDefaultPagination } from "../encoder-decoder/pagination";
 import { testData, testDataColumns } from "./testData";
 import { useTestRouter } from "./testRouter";
 

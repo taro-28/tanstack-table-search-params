@@ -7,8 +7,6 @@ import { updateQuery } from "./updateQuery";
 import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
 
-export const defaultDefaultSorting = [] as const satisfies State["sorting"];
-
 type Props = {
   router: Router;
   options?: ExtractSpecificStateOptions<"sorting">;
@@ -25,14 +23,16 @@ export const useSorting = ({ router, options }: Props): Returns => {
       ? options?.paramName(PARAM_NAMES.SORTING)
       : options?.paramName) || PARAM_NAMES.SORTING;
 
-  const stringDefaultSorting = JSON.stringify(
-    options?.defaultValue ?? defaultDefaultSorting,
-  );
+  const stringDefaultSorting =
+    options?.defaultValue && JSON.stringify(options?.defaultValue);
 
   const uncustomisedSorting = useMemo(
     () =>
       decodeSorting(router.query[paramName], {
-        defaultValue: JSON.parse(stringDefaultSorting),
+        defaultValue:
+          stringDefaultSorting === undefined
+            ? undefined
+            : JSON.parse(stringDefaultSorting),
       }),
     [router.query[paramName], paramName, stringDefaultSorting],
   );
@@ -62,7 +62,10 @@ export const useSorting = ({ router, options }: Props): Returns => {
           ? options.encoder(sorting)
           : {
               [paramName]: encodeSorting(sorting, {
-                defaultValue: JSON.parse(stringDefaultSorting),
+                defaultValue:
+                  stringDefaultSorting === undefined
+                    ? undefined
+                    : JSON.parse(stringDefaultSorting),
               }),
             };
       await updateQuery({

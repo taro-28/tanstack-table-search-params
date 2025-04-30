@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
-import { defaultDefaultGlobalFilter } from "../useGlobalFilter";
 import {
   decodeGlobalFilter,
+  defaultDefaultGlobalFilter,
   encodeGlobalFilter,
   encodedEmptyStringForGlobalFilterCustomDefaultValue,
 } from "./globalFilter";

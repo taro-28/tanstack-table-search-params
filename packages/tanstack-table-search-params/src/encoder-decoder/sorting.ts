@@ -1,6 +1,9 @@
-import type { State } from "..";
+import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+
+export const defaultDefaultSorting =
+  [] as const satisfies TanstackTableState["sorting"];
 
 /**
  * The default encoder of Tanstack Table's `sorting`.
@@ -14,12 +17,12 @@ import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultVal
  * @returns The encoded query parameter value.
  */
 export const encodeSorting = (
-  value: State["sorting"],
+  value: TanstackTableState["sorting"],
   options?: {
-    defaultValue?: State["sorting"];
+    defaultValue?: TanstackTableState["sorting"];
   },
 ): Query[string] => {
-  const defaultValue = options?.defaultValue;
+  const defaultValue = options?.defaultValue ?? defaultDefaultSorting;
   if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
     return undefined;
   }
@@ -48,10 +51,10 @@ export const encodeSorting = (
 export const decodeSorting = (
   value: Query[string],
   options?: {
-    defaultValue?: State["sorting"];
+    defaultValue?: TanstackTableState["sorting"];
   },
-): State["sorting"] | undefined => {
-  const defaultValue = options?.defaultValue;
+): TanstackTableState["sorting"] => {
+  const defaultValue = options?.defaultValue ?? defaultDefaultSorting;
   if (typeof value !== "string") return defaultValue;
   if (value === "") return defaultValue;
   if (value === noneStringForCustomDefaultValue) {

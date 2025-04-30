@@ -10,9 +10,6 @@ import { updateQuery } from "./updateQuery";
 import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
 
-export const defaultDefaultGlobalFilter =
-  "" as const satisfies State["globalFilter"];
-
 type Props = {
   router: Router;
   options?: ExtractSpecificStateOptions<"globalFilter"> | undefined;
@@ -29,13 +26,10 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
       ? options?.paramName(PARAM_NAMES.GLOBAL_FILTER)
       : options?.paramName) || PARAM_NAMES.GLOBAL_FILTER;
 
-  const defaultGlobalFilter =
-    options?.defaultValue ?? defaultDefaultGlobalFilter;
-
   const _globalFilter = options?.decoder
     ? options?.decoder?.(router.query)
     : decodeGlobalFilter(router.query[paramNames], {
-        defaultValue: defaultGlobalFilter,
+        defaultValue: options?.defaultValue,
       });
 
   const updateGlobalFilterQuery = useCallback(
@@ -45,7 +39,7 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
           ? options.encoder(globalFilter)
           : {
               [paramNames]: encodeGlobalFilter(globalFilter, {
-                defaultValue: defaultGlobalFilter,
+                defaultValue: options?.defaultValue,
               }),
             };
       await updateQuery({
@@ -54,7 +48,13 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
         router,
       });
     },
-    [router, paramNames, options?.encoder, defaultGlobalFilter, _globalFilter],
+    [
+      router,
+      paramNames,
+      options?.encoder,
+      options?.defaultValue,
+      _globalFilter,
+    ],
   );
 
   const [debouncedGlobalFilter, setDebouncedGlobalFilter] = useDebounce({

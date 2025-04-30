@@ -1,6 +1,11 @@
 import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
 
+export const defaultDefaultPagination = {
+  pageIndex: 0,
+  pageSize: 10,
+} as const satisfies TanstackTableState["pagination"];
+
 /**
  * The default encoder of Tanstack Table's `pagination`.
  *
@@ -15,13 +20,13 @@ import type { Query } from "../types";
 export const encodePagination = (
   value: TanstackTableState["pagination"],
   options?: {
-    defaultValue?: TanstackTableState["pagination"];
+    defaultValue?: TanstackTableState["pagination"] | undefined;
   },
 ): {
   pageIndex: Query[string];
   pageSize: Query[string];
 } => {
-  const defaultValue = options?.defaultValue;
+  const defaultValue = options?.defaultValue ?? defaultDefaultPagination;
   return {
     pageIndex:
       value.pageIndex === defaultValue?.pageIndex
@@ -51,12 +56,10 @@ export const decodePagination = (
     pageSize: Query[string];
   },
   options?: {
-    defaultValue?: TanstackTableState["pagination"];
+    defaultValue?: TanstackTableState["pagination"] | undefined;
   },
-):
-  | TanstackTableState["pagination"]
-  | { pageIndex: number | undefined; pageSize: number | undefined } => {
-  const defaultValue = options?.defaultValue;
+): TanstackTableState["pagination"] => {
+  const defaultValue = options?.defaultValue ?? defaultDefaultPagination;
   const pageIndex = Number(value.pageIndex);
   const pageSize = Number(value.pageSize);
 

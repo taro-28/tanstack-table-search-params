@@ -5,7 +5,7 @@ import mockRouter from "next-router-mock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
 import { noneStringForCustomDefaultValue } from "../../encoder-decoder/noneStringForCustomDefaultValue";
-import { defaultDefaultSorting } from "../../useSorting";
+import { defaultDefaultSorting } from "../../encoder-decoder/sorting";
 
 describe("sorting", () => {
   beforeEach(() => {

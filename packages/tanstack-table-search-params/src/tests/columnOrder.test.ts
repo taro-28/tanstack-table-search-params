@@ -2,8 +2,8 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
+import { defaultDefaultColumnOrder } from "../encoder-decoder/columnOrder";
 import { noneStringForCustomDefaultValue } from "../encoder-decoder/noneStringForCustomDefaultValue";
-import { defaultDefaultColumnOrder } from "../useColumnOrder";
 import { useTestRouter } from "./testRouter";
 
 describe("columnOrder", () => {

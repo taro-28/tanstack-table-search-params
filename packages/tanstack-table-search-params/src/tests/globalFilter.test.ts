@@ -3,8 +3,10 @@ import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
-import { encodedEmptyStringForGlobalFilterCustomDefaultValue } from "../encoder-decoder/globalFilter";
-import { defaultDefaultGlobalFilter } from "../useGlobalFilter";
+import {
+  defaultDefaultGlobalFilter,
+  encodedEmptyStringForGlobalFilterCustomDefaultValue,
+} from "../encoder-decoder/globalFilter";
 import { useTestRouter } from "./testRouter";
 
 describe("globalFilter", () => {

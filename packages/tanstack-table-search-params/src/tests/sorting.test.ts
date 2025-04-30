@@ -4,7 +4,7 @@ import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
 import { noneStringForCustomDefaultValue } from "../encoder-decoder/noneStringForCustomDefaultValue";
-import { defaultDefaultSorting } from "../useSorting";
+import { defaultDefaultSorting } from "../encoder-decoder/sorting";
 import { useTestRouter } from "./testRouter";
 
 describe("sorting", () => {

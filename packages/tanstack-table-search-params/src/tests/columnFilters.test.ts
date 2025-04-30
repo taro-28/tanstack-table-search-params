@@ -3,7 +3,7 @@ import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "..";
-import { defaultDefaultColumnFilters } from "../useColumnFilters";
+import { defaultDefaultColumnFilters } from "../encoder-decoder/columnFilters";
 import { useTestRouter } from "./testRouter";
 
 describe("columnFilters", () => {

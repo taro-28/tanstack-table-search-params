@@ -2,6 +2,9 @@ import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
 
+export const defaultDefaultColumnOrder =
+  [] as const satisfies TanstackTableState["columnOrder"];
+
 /**
  * The default encoder of Tanstack Table's `columnOrder`.
  *
@@ -19,7 +22,7 @@ export const encodeColumnOrder = (
     defaultValue?: TanstackTableState["columnOrder"];
   },
 ): Query[string] => {
-  const defaultValue = options?.defaultValue;
+  const defaultValue = options?.defaultValue ?? defaultDefaultColumnOrder;
   if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
     return undefined;
   }
@@ -48,8 +51,8 @@ export const decodeColumnOrder = (
   options?: {
     defaultValue?: TanstackTableState["columnOrder"];
   },
-): TanstackTableState["columnOrder"] | undefined => {
-  const defaultValue = options?.defaultValue;
+): TanstackTableState["columnOrder"] => {
+  const defaultValue = options?.defaultValue ?? defaultDefaultColumnOrder;
   if (typeof queryValue !== "string") return defaultValue;
   if (queryValue === "") return defaultValue;
   if (queryValue === noneStringForCustomDefaultValue) {
