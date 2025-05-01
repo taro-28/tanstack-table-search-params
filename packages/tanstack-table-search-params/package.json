@@ -34,7 +34,7 @@
     "react": "^19.1.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.3",
-    "vitest": "^3.0.9"
+    "vitest": "^3.1.2"
   },
   "peerDependencies": {
     "@tanstack/react-table": ">=8.21.3",
