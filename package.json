@@ -20,7 +20,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "knip": "^5.53.0",
-    "turbo": "^2.5.2"
+    "turbo": "^2.5.3"
   },
   "dependencies": {
     "prettier": "^3.5.3"
