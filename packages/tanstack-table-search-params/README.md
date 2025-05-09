@@ -24,7 +24,7 @@ npm i tanstack-table-search-params
 For example, if you are using Next.js (Pages Router), you can use the hook like this.
 
 ```tsx
-import { useReactTable } from "tanstack-table";
+import { useReactTable } from "@tanstack/react-table";
 import { useRouter } from "next/router";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
@@ -55,12 +55,154 @@ Here is the [demo](https://tanstack-table-search-params-next-pages-router-taro28
 
 Of course, you can use it with other routers.
 
-Please refer to the examples below:
+Please refer to the following how to use:
 
-- [Next.js(Pages Router)](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/index.tsx)
-- [Next.js(App Router)](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-app-router/src/app/table.tsx)
-- [TanStack Router](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router/src/routes/index.tsx)
-- [React Router](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/react-router-lib/src/basic.tsx)
+<details>
+<summary>Next.js(Pages Router)</summary>
+
+[example code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-pages-router/src/pages/index.tsx)
+
+** Use `next/router` **
+
+```tsx
+import { useReactTable } from "@tanstack/react-table";
+import { useTableSearchParams } from "tanstack-table-search-params";
+import { useRouter } from "next/router";
+
+const router = useRouter();
+const stateAndOnChanges = useTableSearchParams(router);
+
+const table = useReactTable({
+  // Set state and onChanges
+  ...stateAndOnChanges,
+  data,
+  columns,
+  // ... other options
+});
+```
+
+** Use `next/navigation` **
+
+```tsx
+import { useReactTable } from "@tanstack/react-table";
+import { useTableSearchParams } from "tanstack-table-search-params";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+const { replace } = useRouter();
+const stateAndOnChanges = useTableSearchParams({
+  pathname: usePathname(),
+  query: useSearchParams(),
+  replace,
+});
+
+const table = useReactTable({
+  // Set state and onChanges
+  ...stateAndOnChanges,
+  data,
+  columns,
+  // ... other options
+});
+```
+
+</details>
+
+<details>
+<summary>Next.js(App Router)</summary>
+
+[example code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/next-app-router/src/app/table.tsx)
+
+```tsx
+import { useReactTable } from "@tanstack/react-table";
+import { useTableSearchParams } from "tanstack-table-search-params";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+const { replace } = useRouter();
+const stateAndOnChanges = useTableSearchParams({
+  pathname: usePathname(),
+  query: useSearchParams(),
+  replace,
+});
+
+const table = useReactTable({
+  // Set state and onChanges
+  ...stateAndOnChanges,
+  data,
+  columns,
+  // ... other options
+});
+```
+
+</details>
+
+<details>
+<summary>TanStack Router</summary>
+
+[example code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/tanstack-router/src/routes/index.tsx)
+
+```tsx
+import { useReactTable } from "@tanstack/react-table";
+import { useTableSearchParams } from "tanstack-table-search-params";
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/")({
+  component: Page,
+});
+
+function Page() {
+  const navigate = Route.useNavigate();
+  const query = Route.useSearch();
+
+  const stateAndOnChanges = useTableSearchParams({
+    replace: (url) => {
+      const searchParams = new URLSearchParams(url.split("?")[1]);
+      navigate({ search: Object.fromEntries(searchParams.entries()) });
+    },
+    query,
+    pathname: Route.path,
+  });
+
+  const table = useReactTable({
+    // Set state and onChanges
+    ...stateAndOnChanges,
+    data,
+    columns,
+  });
+
+  // ...
+}
+```
+
+</details>
+
+<details>
+<summary>React Router</summary>
+
+[example code](https://github.com/taro-28/tanstack-table-search-params/tree/main/examples/react-router-lib/src/basic.tsx)
+
+```tsx
+import { useReactTable } from "@tanstack/react-table";
+import { useTableSearchParams } from "tanstack-table-search-params";
+import { useSearchParams, useNavigate, useLocation } from "react-router";
+
+const [query] = useSearchParams();
+const navigate = useNavigate();
+const { pathname } = useLocation();
+const stateAndOnChanges = useTableSearchParams({
+  query,
+  pathname,
+  replace: (url) => navigate(url, { replace: true }),
+});
+
+const table = useReactTable({
+  // Set state and onChanges
+  ...stateAndOnChanges,
+  data,
+  columns,
+  // ... other options
+});
+```
+
+</details>
 
 ## 🔍 How it works
 
