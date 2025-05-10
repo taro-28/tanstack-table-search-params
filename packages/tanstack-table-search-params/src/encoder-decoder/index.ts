@@ -4,3 +4,4 @@ export { encodeSorting, decodeSorting } from "./sorting";
 export { encodePagination, decodePagination } from "./pagination";
 export { encodeColumnFilters, decodeColumnFilters } from "./columnFilters";
 export { encodeColumnOrder, decodeColumnOrder } from "./columnOrder";
+export { encodeRowSelection, decodeRowSelection } from "./rowSelection";

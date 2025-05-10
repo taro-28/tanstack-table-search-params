@@ -42,6 +42,7 @@ function Page() {
         pagination: 1000,
         columnFilters: 1000,
         columnOrder: 1000,
+        rowSelection: 1000,
       },
     },
   );

@@ -44,7 +44,7 @@ function Page() {
 
   return (
     <div className="space-y-2 mx-6">
-      <h1 className="text-lg font-semibold">Debounce</h1>
+      <h1 className="text-lg font-semibold">Push(instead of replace)</h1>
       <UserTable table={table} />
     </div>
   );

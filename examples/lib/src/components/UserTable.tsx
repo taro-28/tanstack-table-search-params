@@ -1,7 +1,11 @@
 import { type Table, flexRender } from "@tanstack/react-table";
-import { useState } from "react";
+import { type JSX, useState } from "react";
 import { SearchInput } from "./SearchInput";
 import type { User } from "./userData";
+
+const Cell = ({ className, ...props }: JSX.IntrinsicElements["div"]) => (
+  <div {...props} className={`table-cell py-1 px-2 text-center ${className}`} />
+);
 
 type Props = {
   table: Table<User>;
@@ -39,11 +43,15 @@ export const UserTable = ({ table }: Props) => {
         <div className="table border-2 border-gray-200 rounded-md ">
           <div className="table-header-group bg-slate-200">
             <div className="table-row">
+              <Cell>
+                <input
+                  type="checkbox"
+                  checked={table.getIsAllRowsSelected()}
+                  onChange={table.getToggleAllRowsSelectedHandler()}
+                />
+              </Cell>
               {table.getFlatHeaders().map((header) => (
-                <div
-                  key={header.id}
-                  className="table-cell py-2 px-2 text-center space-y-1"
-                >
+                <Cell key={header.id} className="space-y-1">
                   <button
                     className="font-semibold"
                     type="button"
@@ -115,13 +123,20 @@ export const UserTable = ({ table }: Props) => {
                       />
                     )}
                   </div>
-                </div>
+                </Cell>
               ))}
             </div>
           </div>
           <div className="table-row-group">
             {table.getRowModel().rows.map((row) => (
               <div key={row.id} className="table-row">
+                <div className="table-cell py-1 px-2 text-center">
+                  <input
+                    type="checkbox"
+                    checked={row.getIsSelected()}
+                    onChange={row.getToggleSelectedHandler()}
+                  />
+                </div>
                 {row.getVisibleCells().map((cell) => (
                   <div
                     key={cell.id}
@@ -215,6 +230,7 @@ export const UserTable = ({ table }: Props) => {
               pagination: table.getState().pagination,
               columnFilters: table.getState().columnFilters,
               columnOrder: table.getState().columnOrder,
+              rowSelection: table.getState().rowSelection,
             },
             null,
             2,

@@ -5,12 +5,18 @@ import { useColumnFilters } from "./useColumnFilters";
 import { useColumnOrder } from "./useColumnOrder";
 import { useGlobalFilter } from "./useGlobalFilter";
 import { usePagination } from "./usePagination";
+import { useRowSelection } from "./useRowSelection";
 import { useSorting } from "./useSorting";
 import type { ExtractSpecificStateOptions } from "./utils";
 
 export type State = Pick<
   TableState,
-  "globalFilter" | "sorting" | "pagination" | "columnFilters" | "columnOrder"
+  | "globalFilter"
+  | "sorting"
+  | "pagination"
+  | "columnFilters"
+  | "columnOrder"
+  | "rowSelection"
 >;
 
 export const PARAM_NAMES = {
@@ -20,6 +26,7 @@ export const PARAM_NAMES = {
   PAGE_SIZE: "pageSize",
   COLUMN_FILTERS: "columnFilters",
   COLUMN_ORDER: "columnOrder",
+  ROW_SELECTION: "rowSelection",
 } as const;
 
 export type Returns = {
@@ -47,6 +54,10 @@ export type Returns = {
    * Tanstack Table's `onChangeColumnOrder` function
    */
   onColumnOrderChange: OnChangeFn<State["columnOrder"]>;
+  /**
+   * Tanstack Table's `onChangeRowSelection` function
+   */
+  onRowSelectionChange: OnChangeFn<State["rowSelection"]>;
 };
 
 export type Options = {
@@ -194,10 +205,28 @@ export const useTableSearchParams = (
     router,
     options: extractSpecificStateOptions({ options, key: "columnOrder" }),
   });
+  const { rowSelection, onRowSelectionChange } = useRowSelection({
+    router,
+    options: extractSpecificStateOptions({ options, key: "rowSelection" }),
+  });
 
   const state = useMemo(
-    () => ({ sorting, pagination, globalFilter, columnFilters, columnOrder }),
-    [sorting, pagination, globalFilter, columnFilters, columnOrder],
+    () => ({
+      sorting,
+      pagination,
+      globalFilter,
+      columnFilters,
+      columnOrder,
+      rowSelection,
+    }),
+    [
+      sorting,
+      pagination,
+      globalFilter,
+      columnFilters,
+      columnOrder,
+      rowSelection,
+    ],
   );
 
   return {
@@ -207,5 +236,6 @@ export const useTableSearchParams = (
     onPaginationChange,
     onColumnFiltersChange,
     onColumnOrderChange,
+    onRowSelectionChange,
   };
 };

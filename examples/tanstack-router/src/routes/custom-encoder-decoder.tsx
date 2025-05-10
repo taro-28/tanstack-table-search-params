@@ -60,6 +60,9 @@ function Page() {
         columnOrder: (columnOrder) => ({
           columnOrder: JSON.stringify(columnOrder),
         }),
+        rowSelection: (rowSelection) => ({
+          rowSelection: JSON.stringify(rowSelection),
+        }),
       },
       decoders: {
         globalFilter: (query) =>
@@ -91,6 +94,10 @@ function Page() {
           query["columnOrder"]
             ? JSON.parse(query["columnOrder"] as string)
             : [],
+        rowSelection: (query) =>
+          query["rowSelection"]
+            ? JSON.parse(query["rowSelection"] as string)
+            : {},
       },
     },
   );

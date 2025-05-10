@@ -45,6 +45,7 @@ function Page() {
         },
         columnFilters: (defaultParamName) => `userTable-${defaultParamName}`,
         columnOrder: (defaultParamName) => `userTable-${defaultParamName}`,
+        rowSelection: (defaultParamName) => `userTable-${defaultParamName}`,
       },
     },
   );

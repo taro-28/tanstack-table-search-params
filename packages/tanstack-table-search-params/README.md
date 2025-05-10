@@ -406,6 +406,7 @@ import { encodeSorting } from "tanstack-table-search-params/encoder-decoder";
 ## Supported
 
 List of supported TanStack table states
+([x] means supported, [ ] means not supported)
 
 - [x] globalFilter
 - [x] sorting
@@ -419,7 +420,7 @@ List of supported TanStack table states
 - [ ] expanded
 - [ ] grouping
 - [ ] rowPinning
-- [ ] rowSelection
+- [x] rowSelection
 
 ## Roadmap
 
