@@ -43,6 +43,12 @@ export default function CustomEncoderDecoderPage() {
               JSON.stringify(value),
             ]),
           ),
+        columnOrder: (columnOrder) => ({
+          columnOrder: JSON.stringify(columnOrder),
+        }),
+        rowSelection: (rowSelection) => ({
+          rowSelection: JSON.stringify(rowSelection),
+        }),
       },
       decoders: {
         globalFilter: (query) =>
@@ -74,6 +80,10 @@ export default function CustomEncoderDecoderPage() {
           query["columnOrder"]
             ? JSON.parse(query["columnOrder"] as string)
             : [],
+        rowSelection: (query) =>
+          query["rowSelection"]
+            ? JSON.parse(query["rowSelection"] as string)
+            : {},
       },
     },
   );
