@@ -1,7 +1,7 @@
 {
   "name": "@tanstack-table-search-params/root",
   "engines": {
-    "node": "22.15.0"
+    "node": "22.15.1"
   },
   "packageManager": "pnpm@10.11.0",
   "scripts": {
@@ -26,6 +26,6 @@
     "prettier": "^3.5.3"
   },
   "volta": {
-    "node": "22.15.0"
+    "node": "22.15.1"
   }
 }
