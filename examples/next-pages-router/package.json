@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@tanstack-table-search-params/tsconfig": "workspace:*",
-    "@types/node": "^22.15.24",
+    "@types/node": "^22.15.26",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "postcss": "^8.5.4",
