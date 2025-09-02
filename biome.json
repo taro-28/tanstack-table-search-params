@@ -2,10 +2,18 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "files": {
-    "includes": ["**", "!**/.next", "!**/dist", "!**/routeTree.gen.ts"]
+    "includes": ["**", "!**/.next", "!**/dist", "!**/*/routeTree.gen.ts"]
   },
   "linter": {
+    "domains": {
+      "next": "all",
+      "react": "all",
+      "test": "all",
+      "project": "all"
+    },
+    "enabled": true,
     "rules": {
+      "recommended": true,
       "style": {
         "useNamingConvention": "off",
         "useBlockStatements": "off",
@@ -22,7 +30,6 @@
       },
       "suspicious": {
         "noExplicitAny": "off",
-        "noReactSpecificProps": "off",
         "noUnknownAtRules": "off"
       }
     }

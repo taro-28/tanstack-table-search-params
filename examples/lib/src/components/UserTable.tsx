@@ -1,4 +1,4 @@
-import { type Table, flexRender } from "@tanstack/react-table";
+import { flexRender, type Table } from "@tanstack/react-table";
 import { type JSX, useState } from "react";
 import { SearchInput } from "./SearchInput";
 import type { User } from "./userData";

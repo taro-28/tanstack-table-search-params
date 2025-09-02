@@ -40,7 +40,9 @@
     "@tanstack/react-table": ">=8.21.3",
     "react": ">=19.1.0"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

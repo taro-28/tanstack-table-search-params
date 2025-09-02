@@ -73,10 +73,10 @@ export type Options = {
               pageIndex: string;
               pageSize: string;
             }
-          | ((defaultParamName: {
+          | ((defaultParamName: { pageIndex: string; pageSize: string }) => {
               pageIndex: string;
               pageSize: string;
-            }) => { pageIndex: string; pageSize: string })
+            })
       : string | ((key: KEY) => string);
   };
   /**

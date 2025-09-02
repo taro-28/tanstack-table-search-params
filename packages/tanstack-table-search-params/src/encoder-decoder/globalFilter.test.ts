@@ -2,8 +2,8 @@ import { describe, expect, test } from "vitest";
 import {
   decodeGlobalFilter,
   defaultDefaultGlobalFilter,
-  encodeGlobalFilter,
   encodedEmptyStringForGlobalFilterCustomDefaultValue,
+  encodeGlobalFilter,
 } from "./globalFilter";
 
 type DefaultValue = NonNullable<

@@ -1,4 +1,4 @@
-import { type OnChangeFn, functionalUpdate } from "@tanstack/react-table";
+import { functionalUpdate, type OnChangeFn } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
 import { PARAM_NAMES, type State } from ".";
 import {
