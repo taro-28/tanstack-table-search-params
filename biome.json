@@ -22,7 +22,8 @@
       },
       "suspicious": {
         "noExplicitAny": "off",
-        "noReactSpecificProps": "off"
+        "noReactSpecificProps": "off",
+        "noUnknownAtRules": "off"
       }
     }
   },
