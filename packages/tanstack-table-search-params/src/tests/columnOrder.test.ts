@@ -24,7 +24,7 @@ describe("columnOrder", () => {
       name: "with options: string param name",
       options: {
         paramNames: {
-          columnOrder: "COLUMN_FILTERS",
+          columnOrder: "COLUMN_ORDER",
         },
       },
     },
@@ -114,7 +114,7 @@ describe("columnOrder", () => {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: {
-          columnOrder: "COLUMN_FILTERS",
+          columnOrder: "COLUMN_ORDER",
         },
         defaultValues: {
           columnOrder: ["name", "id"],

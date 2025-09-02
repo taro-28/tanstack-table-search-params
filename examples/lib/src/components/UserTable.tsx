@@ -7,6 +7,16 @@ const Cell = ({ className, ...props }: JSX.IntrinsicElements["div"]) => (
   <div {...props} className={`table-cell py-1 px-2 text-center ${className}`} />
 );
 
+const Button = (
+  props: Omit<JSX.IntrinsicElements["button"], "type" | "className">,
+) => (
+  <button
+    {...props}
+    type="button"
+    className="border rounded px-2 hover:bg-gray-100"
+  />
+);
+
 type Props = {
   table: Table<User>;
 };
@@ -22,8 +32,7 @@ export const UserTable = ({ table }: Props) => {
             onSearch={(value) => table.setGlobalFilter(value)}
             defaultValue={table.getState().globalFilter ?? ""}
           />
-          <button
-            type="button"
+          <Button
             onClick={() => {
               setIsReversed((prev) => !prev);
               table.setColumnOrder(
@@ -35,10 +44,10 @@ export const UserTable = ({ table }: Props) => {
                       .map((c) => c.id),
               );
             }}
-            className="border rounded px-2"
           >
             {isReversed ? "Reset Order" : "Reverse Order"}
-          </button>
+          </Button>
+          <Button onClick={table.reset}>Reset State</Button>
         </div>
         <div className="table border-2 border-gray-200 rounded-md ">
           <div className="table-header-group bg-slate-200">

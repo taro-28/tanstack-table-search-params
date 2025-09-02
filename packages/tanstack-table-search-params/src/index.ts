@@ -1,6 +1,12 @@
-import type { OnChangeFn, TableState } from "@tanstack/react-table";
-import { useMemo } from "react";
+import {
+  functionalUpdate,
+  type OnChangeFn,
+  type TableState,
+  type Updater,
+} from "@tanstack/react-table";
+import { useCallback, useMemo } from "react";
 import type { Query, Router } from "./types";
+import { updateQuery } from "./updateQuery";
 import { useColumnFilters } from "./useColumnFilters";
 import { useColumnOrder } from "./useColumnOrder";
 import { useGlobalFilter } from "./useGlobalFilter";
@@ -58,6 +64,7 @@ export type Returns = {
    * Tanstack Table's `onChangeRowSelection` function
    */
   onRowSelectionChange: OnChangeFn<State["rowSelection"]>;
+  onStateChange: (updater: Updater<TableState>) => void;
 };
 
 export type Options = {
@@ -185,30 +192,34 @@ export const useTableSearchParams = (
     [pathname, query, navigate],
   );
 
-  const { globalFilter, onGlobalFilterChange } = useGlobalFilter({
-    router,
-    options: extractSpecificStateOptions({ options, key: "globalFilter" }),
-  });
-  const { sorting, onSortingChange } = useSorting({
+  const { globalFilter, globalFilterEncoder, onGlobalFilterChange } =
+    useGlobalFilter({
+      router,
+      options: extractSpecificStateOptions({ options, key: "globalFilter" }),
+    });
+  const { sorting, sortingEncoder, onSortingChange } = useSorting({
     router,
     options: extractSpecificStateOptions({ options, key: "sorting" }),
   });
-  const { pagination, onPaginationChange } = usePagination({
+  const { pagination, paginationEncoder, onPaginationChange } = usePagination({
     router,
     options: extractSpecificStateOptions({ options, key: "pagination" }),
   });
-  const { columnFilters, onColumnFiltersChange } = useColumnFilters({
-    router,
-    options: extractSpecificStateOptions({ options, key: "columnFilters" }),
-  });
-  const { columnOrder, onColumnOrderChange } = useColumnOrder({
-    router,
-    options: extractSpecificStateOptions({ options, key: "columnOrder" }),
-  });
-  const { rowSelection, onRowSelectionChange } = useRowSelection({
-    router,
-    options: extractSpecificStateOptions({ options, key: "rowSelection" }),
-  });
+  const { columnFilters, columnFiltersEncoder, onColumnFiltersChange } =
+    useColumnFilters({
+      router,
+      options: extractSpecificStateOptions({ options, key: "columnFilters" }),
+    });
+  const { columnOrder, columnOrderEncoder, onColumnOrderChange } =
+    useColumnOrder({
+      router,
+      options: extractSpecificStateOptions({ options, key: "columnOrder" }),
+    });
+  const { rowSelection, rowSelectionEncoder, onRowSelectionChange } =
+    useRowSelection({
+      router,
+      options: extractSpecificStateOptions({ options, key: "rowSelection" }),
+    });
 
   const state = useMemo(
     () => ({
@@ -229,6 +240,51 @@ export const useTableSearchParams = (
     ],
   );
 
+  const onStateChange: Returns["onStateChange"] = useCallback(
+    async (updater) => {
+      const newState = functionalUpdate(updater, {
+        ...state,
+        columnVisibility: {},
+        columnPinning: {},
+        rowPinning: {},
+        expanded: {},
+        columnSizing: {},
+        grouping: [],
+        columnSizingInfo: {
+          columnSizingStart: [],
+          deltaOffset: null,
+          deltaPercentage: null,
+          isResizingColumn: false,
+          startOffset: null,
+          startSize: null,
+        },
+      });
+      const encodeState = (state: State) => ({
+        ...globalFilterEncoder(state.globalFilter),
+        ...sortingEncoder(state.sorting),
+        ...paginationEncoder(state.pagination),
+        ...columnFiltersEncoder(state.columnFilters),
+        ...columnOrderEncoder(state.columnOrder),
+        ...rowSelectionEncoder(state.rowSelection),
+      });
+      await updateQuery({
+        oldQuery: encodeState(state),
+        newQuery: encodeState(newState),
+        router,
+      });
+    },
+    [
+      state,
+      router,
+      globalFilterEncoder,
+      sortingEncoder,
+      paginationEncoder,
+      columnFiltersEncoder,
+      columnOrderEncoder,
+      rowSelectionEncoder,
+    ],
+  );
+
   return {
     state,
     onGlobalFilterChange,
@@ -237,5 +293,6 @@ export const useTableSearchParams = (
     onColumnFiltersChange,
     onColumnOrderChange,
     onRowSelectionChange,
+    onStateChange,
   };
 };

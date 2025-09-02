@@ -5,7 +5,7 @@ import {
   decodeGlobalFilter,
   encodeGlobalFilter,
 } from "./encoder-decoder/globalFilter";
-import type { Router } from "./types";
+import type { Query, Router } from "./types";
 import { updateQuery } from "./updateQuery";
 import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
@@ -18,6 +18,7 @@ type Props = {
 type Returns = {
   globalFilter: State["globalFilter"];
   onGlobalFilterChange: OnChangeFn<State["globalFilter"]>;
+  globalFilterEncoder: (globalFilter: State["globalFilter"]) => Query;
 };
 
 export const useGlobalFilter = ({ router, options }: Props): Returns => {
@@ -32,29 +33,26 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
         defaultValue: options?.defaultValue,
       });
 
+  const globalFilterEncoder = useCallback(
+    (globalFilter: State["globalFilter"]) =>
+      options?.encoder
+        ? options.encoder(globalFilter)
+        : {
+            [paramNames]: encodeGlobalFilter(globalFilter, {
+              defaultValue: options?.defaultValue,
+            }),
+          },
+    [options?.encoder, options?.defaultValue, paramNames],
+  );
+
   const updateGlobalFilterQuery = useCallback(
-    async (newGlobalFilter: State["globalFilter"]) => {
-      const encoder = (globalFilter: State["globalFilter"]) =>
-        options?.encoder
-          ? options.encoder(globalFilter)
-          : {
-              [paramNames]: encodeGlobalFilter(globalFilter, {
-                defaultValue: options?.defaultValue,
-              }),
-            };
-      await updateQuery({
-        oldQuery: encoder(_globalFilter),
-        newQuery: encoder(newGlobalFilter),
+    (newGlobalFilter: State["globalFilter"]) =>
+      updateQuery({
+        oldQuery: globalFilterEncoder(_globalFilter),
+        newQuery: globalFilterEncoder(newGlobalFilter),
         router,
-      });
-    },
-    [
-      router,
-      paramNames,
-      options?.encoder,
-      options?.defaultValue,
-      _globalFilter,
-    ],
+      }),
+    [router, globalFilterEncoder, _globalFilter],
   );
 
   const [debouncedGlobalFilter, setDebouncedGlobalFilter] = useDebounce({
@@ -89,5 +87,6 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
         setDebouncedGlobalFilter,
       ],
     ),
+    globalFilterEncoder,
   };
 };

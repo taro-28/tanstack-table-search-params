@@ -2,7 +2,7 @@ import { functionalUpdate, type OnChangeFn } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
 import { PARAM_NAMES, type State } from ".";
 import { decodeSorting, encodeSorting } from "./encoder-decoder/sorting";
-import type { Router } from "./types";
+import type { Query, Router } from "./types";
 import { updateQuery } from "./updateQuery";
 import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
@@ -14,6 +14,7 @@ type Props = {
 
 type Returns = {
   sorting: State["sorting"];
+  sortingEncoder: (sorting: State["sorting"]) => Query;
   onSortingChange: OnChangeFn<State["sorting"]>;
 };
 
@@ -55,26 +56,29 @@ export const useSorting = ({ router, options }: Props): Returns => {
     [stringCustomSorting, uncustomisedSorting, isCustomDecoder],
   );
 
+  const sortingEncoder = useCallback(
+    (sorting: State["sorting"]) =>
+      options?.encoder
+        ? options.encoder(sorting)
+        : {
+            [paramName]: encodeSorting(sorting, {
+              defaultValue:
+                stringDefaultSorting === undefined
+                  ? undefined
+                  : JSON.parse(stringDefaultSorting),
+            }),
+          },
+    [paramName, options?.encoder, stringDefaultSorting],
+  );
+
   const updateSortingQuery = useCallback(
-    async (newSorting: State["sorting"]) => {
-      const encoder = (sorting: State["sorting"]) =>
-        options?.encoder
-          ? options.encoder(sorting)
-          : {
-              [paramName]: encodeSorting(sorting, {
-                defaultValue:
-                  stringDefaultSorting === undefined
-                    ? undefined
-                    : JSON.parse(stringDefaultSorting),
-              }),
-            };
-      await updateQuery({
-        oldQuery: encoder(_sorting),
-        newQuery: encoder(newSorting),
+    (newSorting: State["sorting"]) =>
+      updateQuery({
+        oldQuery: sortingEncoder(_sorting),
+        newQuery: sortingEncoder(newSorting),
         router,
-      });
-    },
-    [router, paramName, options?.encoder, stringDefaultSorting, _sorting],
+      }),
+    [router, sortingEncoder, _sorting],
   );
 
   const [debouncedSorting, setDebouncedSorting] = useDebounce({
@@ -91,6 +95,7 @@ export const useSorting = ({ router, options }: Props): Returns => {
 
   return {
     sorting,
+    sortingEncoder,
     onSortingChange: useCallback(
       async (updater) => {
         const newSorting = functionalUpdate(updater, sorting);

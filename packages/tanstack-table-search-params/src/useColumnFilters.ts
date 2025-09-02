@@ -5,7 +5,7 @@ import {
   decodeColumnFilters,
   encodeColumnFilters,
 } from "./encoder-decoder/columnFilters";
-import type { Router } from "./types";
+import type { Query, Router } from "./types";
 import { updateQuery } from "./updateQuery";
 import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
@@ -17,6 +17,7 @@ type Props = {
 
 type Returns = {
   columnFilters: State["columnFilters"];
+  columnFiltersEncoder: (columnFilters: State["columnFilters"]) => Query;
   onColumnFiltersChange: OnChangeFn<State["columnFilters"]>;
 };
 
@@ -58,32 +59,29 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
     [stringCustomColumnFilters, uncustomisedColumnFilters, isCustomDecoder],
   );
 
+  const columnFiltersEncoder = useCallback(
+    (columnFilters: State["columnFilters"]) =>
+      options?.encoder
+        ? options.encoder(columnFilters)
+        : {
+            [paramName]: encodeColumnFilters(columnFilters, {
+              defaultValue:
+                stringDefaultColumnFilters === undefined
+                  ? undefined
+                  : JSON.parse(stringDefaultColumnFilters),
+            }),
+          },
+    [paramName, options?.encoder, stringDefaultColumnFilters],
+  );
+
   const updateColumnFiltersQuery = useCallback(
-    async (newColumnFilters: State["columnFilters"]) => {
-      const encoder = (columnFilters: State["columnFilters"]) =>
-        options?.encoder
-          ? options.encoder(columnFilters)
-          : {
-              [paramName]: encodeColumnFilters(columnFilters, {
-                defaultValue:
-                  stringDefaultColumnFilters === undefined
-                    ? undefined
-                    : JSON.parse(stringDefaultColumnFilters),
-              }),
-            };
-      await updateQuery({
-        oldQuery: encoder(_columnFilters),
-        newQuery: encoder(newColumnFilters),
+    (newColumnFilters: State["columnFilters"]) =>
+      updateQuery({
+        oldQuery: columnFiltersEncoder(_columnFilters),
+        newQuery: columnFiltersEncoder(newColumnFilters),
         router,
-      });
-    },
-    [
-      router,
-      paramName,
-      options?.encoder,
-      stringDefaultColumnFilters,
-      _columnFilters,
-    ],
+      }),
+    [router, columnFiltersEncoder, _columnFilters],
   );
 
   const [debouncedColumnFilters, setDebouncedColumnFilters] = useDebounce({
@@ -102,6 +100,7 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
 
   return {
     columnFilters,
+    columnFiltersEncoder,
     onColumnFiltersChange: useCallback(
       async (updater) => {
         const newColumnFilters = functionalUpdate(updater, columnFilters);
