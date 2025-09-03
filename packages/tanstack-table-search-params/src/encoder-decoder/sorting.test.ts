@@ -1,7 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
-import { defaultDefaultSorting } from "./sorting";
-import { decodeSorting, encodeSorting } from "./sorting";
+import { decodeSorting, defaultDefaultSorting, encodeSorting } from "./sorting";
 
 type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodeSorting>[1]>["defaultValue"]

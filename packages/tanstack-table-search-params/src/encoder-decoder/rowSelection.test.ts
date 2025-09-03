@@ -1,7 +1,10 @@
 import { describe, expect, test } from "vitest";
 import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
-import { defaultDefaultRowSelection } from "./rowSelection";
-import { decodeRowSelection, encodeRowSelection } from "./rowSelection";
+import {
+  decodeRowSelection,
+  defaultDefaultRowSelection,
+  encodeRowSelection,
+} from "./rowSelection";
 
 type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodeRowSelection>[1]>["defaultValue"]

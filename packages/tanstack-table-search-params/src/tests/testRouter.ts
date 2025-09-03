@@ -30,7 +30,6 @@ export const useTestRouter = () => {
       };
     },
     () => router,
-    // biome-ignore lint/suspicious/noEmptyBlockStatements: <explanation>
     () => ({ pathname: "", query: {}, push: async () => {} }),
   );
 };

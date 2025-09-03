@@ -1,7 +1,7 @@
 import { UserTable } from "@examples/lib/src/components/UserTable";
 import {
-  useUserData,
   userColumns,
+  useUserData,
 } from "@examples/lib/src/components/userData";
 import {
   getCoreRowModel,
