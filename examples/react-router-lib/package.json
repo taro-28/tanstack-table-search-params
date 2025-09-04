@@ -12,15 +12,15 @@
   "dependencies": {
     "@examples/lib": "workspace:*",
     "@tanstack/react-table": "^8.21.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "react-router": "^7.6.2",
     "tanstack-table-search-params": "workspace:*"
   },
   "devDependencies": {
     "@tanstack-table-search-params/tsconfig": "workspace:*",
-    "@types/react": "^19.1.6",
-    "@types/react-dom": "^19.1.6",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react-swc": "^3.10.1",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
