@@ -32,6 +32,7 @@ export default function CustomParamNamePage() {
         columnFilters: (defaultParamName) => `userTable-${defaultParamName}`,
         columnOrder: (defaultParamName) => `userTable-${defaultParamName}`,
         rowSelection: (defaultParamName) => `userTable-${defaultParamName}`,
+        columnVisibility: (defaultParamName) => `userTable-${defaultParamName}`,
       },
     },
   );

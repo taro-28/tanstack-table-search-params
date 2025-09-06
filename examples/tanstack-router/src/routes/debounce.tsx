@@ -43,6 +43,7 @@ function Page() {
         columnFilters: 1000,
         columnOrder: 1000,
         rowSelection: 1000,
+        columnVisibility: 1000,
       },
     },
   );

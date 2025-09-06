@@ -48,6 +48,21 @@ export const UserTable = ({ table }: Props) => {
             {isReversed ? "Reset Order" : "Reverse Order"}
           </Button>
           <Button onClick={table.reset}>Reset State</Button>
+          <fieldset className="flex flex-col gap-2">
+            <legend className="font-bold">Column Visibility</legend>
+            <div className="flex flex-col gap-1">
+              {table.getAllLeafColumns().map((column) => (
+                <label key={column.id} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={column.getIsVisible()}
+                    onChange={column.getToggleVisibilityHandler()}
+                  />
+                  {column.id}
+                </label>
+              ))}
+            </div>
+          </fieldset>
         </div>
         <div className="table border-2 border-gray-200 rounded-md ">
           <div className="table-header-group bg-slate-200">
@@ -240,6 +255,7 @@ export const UserTable = ({ table }: Props) => {
               columnFilters: table.getState().columnFilters,
               columnOrder: table.getState().columnOrder,
               rowSelection: table.getState().rowSelection,
+              columnVisibility: table.getState().columnVisibility,
             },
             null,
             2,

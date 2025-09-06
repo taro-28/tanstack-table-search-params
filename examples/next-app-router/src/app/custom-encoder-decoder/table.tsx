@@ -53,6 +53,9 @@ export const Table = () => {
         rowSelection: (rowSelection) => ({
           rowSelection: JSON.stringify(rowSelection),
         }),
+        columnVisibility: (columnVisibility) => ({
+          columnVisibility: JSON.stringify(columnVisibility),
+        }),
       },
       decoders: {
         globalFilter: (query) =>
@@ -87,6 +90,10 @@ export const Table = () => {
         rowSelection: (query) =>
           query["rowSelection"]
             ? JSON.parse(query["rowSelection"] as string)
+            : {},
+        columnVisibility: (query) =>
+          query["columnVisibility"]
+            ? JSON.parse(query["columnVisibility"] as string)
             : {},
       },
     },

@@ -45,6 +45,9 @@ export default function CustomEncoderDecoder() {
       rowSelection: (rowSelection) => ({
         rowSelection: JSON.stringify(rowSelection),
       }),
+      columnVisibility: (columnVisibility) => ({
+        columnVisibility: JSON.stringify(columnVisibility),
+      }),
     },
     decoders: {
       globalFilter: (query) =>
@@ -77,6 +80,10 @@ export default function CustomEncoderDecoder() {
       rowSelection: (query) =>
         query["rowSelection"]
           ? JSON.parse(query["rowSelection"] as string)
+          : {},
+      columnVisibility: (query) =>
+        query["columnVisibility"]
+          ? JSON.parse(query["columnVisibility"] as string)
           : {},
     },
   });

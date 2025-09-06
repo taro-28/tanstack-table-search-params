@@ -63,6 +63,9 @@ function Page() {
         rowSelection: (rowSelection) => ({
           rowSelection: JSON.stringify(rowSelection),
         }),
+        columnVisibility: (columnVisibility) => ({
+          columnVisibility: JSON.stringify(columnVisibility),
+        }),
       },
       decoders: {
         globalFilter: (query) =>
@@ -97,6 +100,10 @@ function Page() {
         rowSelection: (query) =>
           query["rowSelection"]
             ? JSON.parse(query["rowSelection"] as string)
+            : {},
+        columnVisibility: (query) =>
+          query["columnVisibility"]
+            ? JSON.parse(query["columnVisibility"] as string)
             : {},
       },
     },

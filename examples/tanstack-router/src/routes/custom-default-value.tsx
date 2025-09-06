@@ -43,6 +43,7 @@ function Page() {
         columnFilters: [{ id: "name", value: "b" }],
         columnOrder: userColumns.reverse().map((c) => c.id as string),
         rowSelection: { "1": true },
+        columnVisibility: { id: false },
       },
     },
   );

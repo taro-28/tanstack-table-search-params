@@ -416,7 +416,7 @@ List of supported TanStack table states
 - [ ] columnPinning
 - [ ] columnSizing
 - [ ] columnSizingInfo
-- [ ] columnVisibility
+- [x] columnVisibility
 - [ ] expanded
 - [ ] grouping
 - [ ] rowPinning
