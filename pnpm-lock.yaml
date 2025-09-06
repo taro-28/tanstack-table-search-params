@@ -17,7 +17,7 @@ importers:
         version: 2.2.3
       knip:
         specifier: ^5.63.1
-        version: 5.63.1(@types/node@22.15.29)(typescript@5.8.3)
+        version: 5.63.1(@types/node@22.15.29)(typescript@5.9.2)
       turbo:
         specifier: ^2.5.6
         version: 2.5.6
@@ -56,8 +56,8 @@ importers:
         specifier: ^3.4.17
         version: 3.4.17
       typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
+        specifier: ^5.9.2
+        version: 5.9.2
 
   examples/next-app-router:
     dependencies:
@@ -99,8 +99,8 @@ importers:
         specifier: ^3.4.17
         version: 3.4.17
       typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
+        specifier: ^5.9.2
+        version: 5.9.2
 
   examples/next-pages-router:
     dependencies:
@@ -142,8 +142,8 @@ importers:
         specifier: ^3.4.17
         version: 3.4.17
       typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
+        specifier: ^5.9.2
+        version: 5.9.2
 
   examples/react-router-lib:
     dependencies:
@@ -185,8 +185,8 @@ importers:
         specifier: ^3.4.17
         version: 3.4.17
       typescript:
-        specifier: ~5.8.3
-        version: 5.8.3
+        specifier: ~5.9.2
+        version: 5.9.2
       vite:
         specifier: ^6.3.5
         version: 6.3.5(@types/node@22.15.29)(jiti@2.5.1)(tsx@4.19.2)(yaml@2.6.0)
@@ -237,8 +237,8 @@ importers:
         specifier: ^3.4.17
         version: 3.4.17
       typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
+        specifier: ^5.9.2
+        version: 5.9.2
       vite:
         specifier: ^6.3.5
         version: 6.3.5(@types/node@22.15.29)(jiti@2.5.1)(tsx@4.19.2)(yaml@2.6.0)
@@ -277,10 +277,10 @@ importers:
         version: 19.1.1
       tsup:
         specifier: ^8.5.0
-        version: 8.5.0(@swc/core@1.13.5)(jiti@2.5.1)(postcss@8.5.6)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.6.0)
+        version: 8.5.0(@swc/core@1.13.5)(jiti@2.5.1)(postcss@8.5.6)(tsx@4.19.2)(typescript@5.9.2)(yaml@2.6.0)
       typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
+        specifier: ^5.9.2
+        version: 5.9.2
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.15.29)(jiti@2.5.1)(jsdom@26.1.0)(tsx@4.19.2)(yaml@2.6.0)
@@ -288,8 +288,8 @@ importers:
   packages/tsconfig:
     devDependencies:
       typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
+        specifier: ^5.9.2
+        version: 5.9.2
 
 packages:
 
@@ -2571,8 +2571,8 @@ packages:
     resolution: {integrity: sha512-gxToHmi9oTBNB05UjUsrWf0OyN5ZXtD0apOarC1KIx232Vp3WimRNy3810QzeNSgyD5rsaIDXlxlbnOzlouo+w==}
     hasBin: true
 
-  typescript@5.8.3:
-    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+  typescript@5.9.2:
+    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -4262,7 +4262,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  knip@5.63.1(@types/node@22.15.29)(typescript@5.8.3):
+  knip@5.63.1(@types/node@22.15.29)(typescript@5.9.2):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@types/node': 22.15.29
@@ -4276,7 +4276,7 @@ snapshots:
       picomatch: 4.0.2
       smol-toml: 1.4.2
       strip-json-comments: 5.0.2
-      typescript: 5.8.3
+      typescript: 5.9.2
       zod: 3.25.76
       zod-validation-error: 3.4.0(zod@3.25.76)
 
@@ -4800,7 +4800,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsup@8.5.0(@swc/core@1.13.5)(jiti@2.5.1)(postcss@8.5.6)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.6.0):
+  tsup@8.5.0(@swc/core@1.13.5)(jiti@2.5.1)(postcss@8.5.6)(tsx@4.19.2)(typescript@5.9.2)(yaml@2.6.0):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.25.0)
       cac: 6.7.14
@@ -4822,7 +4822,7 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.13.5
       postcss: 8.5.6
-      typescript: 5.8.3
+      typescript: 5.9.2
     transitivePeerDependencies:
       - jiti
       - supports-color
@@ -4863,7 +4863,7 @@ snapshots:
       turbo-windows-64: 2.5.6
       turbo-windows-arm64: 2.5.6
 
-  typescript@5.8.3: {}
+  typescript@5.9.2: {}
 
   ufo@1.6.1: {}
 
