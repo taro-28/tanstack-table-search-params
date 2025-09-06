@@ -18,9 +18,7 @@ export const defaultDefaultSorting =
  */
 export const encodeSorting = (
   value: TanstackTableState["sorting"],
-  options?: {
-    defaultValue?: TanstackTableState["sorting"];
-  },
+  options?: { defaultValue?: TanstackTableState["sorting"] },
 ): Query[string] => {
   const defaultValue = options?.defaultValue ?? defaultDefaultSorting;
   if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
@@ -50,9 +48,7 @@ export const encodeSorting = (
  */
 export const decodeSorting = (
   value: Query[string],
-  options?: {
-    defaultValue?: TanstackTableState["sorting"];
-  },
+  options?: { defaultValue?: TanstackTableState["sorting"] },
 ): TanstackTableState["sorting"] => {
   const defaultValue = options?.defaultValue ?? defaultDefaultSorting;
   if (typeof value !== "string") return defaultValue;

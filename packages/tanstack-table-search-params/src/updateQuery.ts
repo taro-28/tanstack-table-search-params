@@ -1,11 +1,7 @@
 import { convertQueryToURLSearchParams } from "./convertQueryToURLSearchParams";
 import type { Query, Router } from "./types";
 
-type Props = {
-  oldQuery: Query;
-  newQuery: Query;
-  router: Router;
-};
+type Props = { oldQuery: Query; newQuery: Query; router: Router };
 
 export const updateQuery = async ({ oldQuery, newQuery, router }: Props) => {
   const oldQueryEntries = Object.entries(oldQuery);

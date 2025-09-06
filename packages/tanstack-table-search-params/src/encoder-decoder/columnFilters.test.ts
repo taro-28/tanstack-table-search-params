@@ -10,12 +10,7 @@ type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodeColumnFilters>[1]>["defaultValue"]
 >;
 
-const customDefaultValue = [
-  {
-    id: "custom",
-    value: "default",
-  },
-];
+const customDefaultValue = [{ id: "custom", value: "default" }];
 
 describe("columnFilters", () => {
   describe("encode", () =>
@@ -28,11 +23,7 @@ describe("columnFilters", () => {
         stateValue: Parameters<typeof encodeColumnFilters>[0];
         want: ReturnType<typeof encodeColumnFilters>;
       }>([
-        {
-          name: "default value",
-          stateValue: defaultValue,
-          want: undefined,
-        },
+        { name: "default value", stateValue: defaultValue, want: undefined },
         {
           name: "empty array",
           stateValue: [],
@@ -199,11 +190,7 @@ describe("columnFilters", () => {
             queryValue: encodeColumnFilters(defaultValue, { defaultValue }),
             want: defaultValue,
           },
-          {
-            name: "empty string",
-            queryValue: "",
-            want: defaultValue,
-          },
+          { name: "empty string", queryValue: "", want: defaultValue },
           {
             name: "noneStringForCustomDefaultValue",
             queryValue: noneStringForCustomDefaultValue,
@@ -354,21 +341,9 @@ describe("columnFilters", () => {
             queryValue: ["invalid"],
             want: defaultValue,
           },
-          {
-            name: "undefined",
-            queryValue: undefined,
-            want: defaultValue,
-          },
-          {
-            name: "invalid string",
-            queryValue: "foo",
-            want: defaultValue,
-          },
-          {
-            name: "invalid value",
-            queryValue: "foo.bar",
-            want: defaultValue,
-          },
+          { name: "undefined", queryValue: undefined, want: defaultValue },
+          { name: "invalid string", queryValue: "foo", want: defaultValue },
+          { name: "invalid value", queryValue: "foo.bar", want: defaultValue },
         ])("$name", ({ queryValue, want }) =>
           expect(decodeColumnFilters(queryValue, { defaultValue })).toEqual(
             want,
@@ -385,38 +360,17 @@ describe("columnFilters", () => {
         name: string;
         stateValue: Parameters<typeof encodeColumnFilters>[0];
       }>([
-        {
-          name: "default value",
-          stateValue: defaultValue,
-        },
-        {
-          name: "empty array",
-          stateValue: [],
-        },
-        {
-          name: "string value",
-          stateValue: [{ id: "foo", value: "bar" }],
-        },
-        {
-          name: "number value",
-          stateValue: [{ id: "foo", value: 42 }],
-        },
-        {
-          name: "boolean value",
-          stateValue: [{ id: "foo", value: true }],
-        },
-        {
-          name: "null value",
-          stateValue: [{ id: "foo", value: null }],
-        },
+        { name: "default value", stateValue: defaultValue },
+        { name: "empty array", stateValue: [] },
+        { name: "string value", stateValue: [{ id: "foo", value: "bar" }] },
+        { name: "number value", stateValue: [{ id: "foo", value: 42 }] },
+        { name: "boolean value", stateValue: [{ id: "foo", value: true }] },
+        { name: "null value", stateValue: [{ id: "foo", value: null }] },
         {
           name: "undefined value",
           stateValue: [{ id: "foo", value: undefined }],
         },
-        {
-          name: "empty object value",
-          stateValue: [{ id: "foo", value: {} }],
-        },
+        { name: "empty object value", stateValue: [{ id: "foo", value: {} }] },
         {
           name: "string object value",
           stateValue: [{ id: "foo", value: { bar: "baz" } }],
@@ -462,10 +416,7 @@ describe("columnFilters", () => {
             },
           ],
         },
-        {
-          name: "empty array value",
-          stateValue: [{ id: "foo", value: [] }],
-        },
+        { name: "empty array value", stateValue: [{ id: "foo", value: [] }] },
         {
           name: "string array value",
           stateValue: [{ id: "foo", value: ["bar", "baz"] }],

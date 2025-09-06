@@ -2,9 +2,7 @@
   "name": "@examples/lib",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "type-check": "tsc --noEmit"
-  },
+  "scripts": { "type-check": "tsc --noEmit" },
   "dependencies": {
     "@faker-js/faker": "^9.9.0",
     "@tanstack/react-table": "^8.21.3",

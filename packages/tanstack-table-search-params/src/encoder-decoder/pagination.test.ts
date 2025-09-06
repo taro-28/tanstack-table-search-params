@@ -9,22 +9,13 @@ type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodePagination>[1]>["defaultValue"]
 >;
 
-const customDefaultValue = {
-  pageIndex: 9,
-  pageSize: 99,
-} as const;
+const customDefaultValue = { pageIndex: 9, pageSize: 99 } as const;
 
 describe("pagination", () => {
   describe("encode", () =>
     describe.each<{ name: string; defaultValue: DefaultValue }>([
-      {
-        name: "default default value",
-        defaultValue: defaultDefaultPagination,
-      },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "default default value", defaultValue: defaultDefaultPagination },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
@@ -43,18 +34,12 @@ describe("pagination", () => {
         },
         {
           name: "default pageIndex",
-          pagination: {
-            pageIndex: defaultValue.pageIndex,
-            pageSize: 25,
-          },
+          pagination: { pageIndex: defaultValue.pageIndex, pageSize: 25 },
           want: { pageIndex: undefined, pageSize: "25" },
         },
         {
           name: "default pageSize",
-          pagination: {
-            pageIndex: 2,
-            pageSize: defaultValue.pageSize,
-          },
+          pagination: { pageIndex: 2, pageSize: defaultValue.pageSize },
           want: { pageIndex: "3", pageSize: undefined },
         },
         {
@@ -85,14 +70,8 @@ describe("pagination", () => {
 
   describe("decode", () =>
     describe.each<{ name: string; defaultValue: DefaultValue }>([
-      {
-        name: "default default value",
-        defaultValue: defaultDefaultPagination,
-      },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "default default value", defaultValue: defaultDefaultPagination },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
@@ -176,27 +155,15 @@ describe("pagination", () => {
 
   describe("encode and decode", () =>
     describe.each<{ name: string; defaultValue: DefaultValue }>([
-      {
-        name: "default default value",
-        defaultValue: defaultDefaultPagination,
-      },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "default default value", defaultValue: defaultDefaultPagination },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
         pagination: Parameters<typeof encodePagination>[0];
       }>([
-        {
-          name: "basic",
-          pagination: { pageIndex: 2, pageSize: 25 },
-        },
-        {
-          name: "default",
-          pagination: defaultValue,
-        },
+        { name: "basic", pagination: { pageIndex: 2, pageSize: 25 } },
+        { name: "default", pagination: defaultValue },
         {
           name: "0 pageIndex and pageSize",
           pagination: { pageIndex: 0, pageSize: 0 },

@@ -19,21 +19,14 @@ describe("rowSelection", () => {
         name: "default default value",
         defaultValue: defaultDefaultRowSelection,
       },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
         stateValue: Parameters<typeof encodeRowSelection>[0];
         want: ReturnType<typeof encodeRowSelection>;
       }>([
-        {
-          name: "default value",
-          stateValue: defaultValue,
-          want: undefined,
-        },
+        { name: "default value", stateValue: defaultValue, want: undefined },
         {
           name: "empty object",
           stateValue: {},
@@ -43,11 +36,7 @@ describe("rowSelection", () => {
               ? undefined
               : noneStringForCustomDefaultValue,
         },
-        {
-          name: "non-empty object",
-          stateValue: { foo: true },
-          want: "foo",
-        },
+        { name: "non-empty object", stateValue: { foo: true }, want: "foo" },
         {
           name: "multiple items",
           stateValue: { foo: true, bar: true },
@@ -64,10 +53,7 @@ describe("rowSelection", () => {
         name: "default default value",
         defaultValue: defaultDefaultRowSelection,
       },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
@@ -79,31 +65,19 @@ describe("rowSelection", () => {
           queryValue: encodeRowSelection(defaultValue, { defaultValue }),
           want: defaultValue,
         },
-        {
-          name: "empty string",
-          queryValue: "",
-          want: defaultValue,
-        },
+        { name: "empty string", queryValue: "", want: defaultValue },
         {
           name: "noneStringForCustomDefaultValue",
           queryValue: noneStringForCustomDefaultValue,
           want: {},
         },
-        {
-          name: "string",
-          queryValue: "foo",
-          want: { foo: true },
-        },
+        { name: "string", queryValue: "foo", want: { foo: true } },
         {
           name: "string array",
           queryValue: "foo,bar",
           want: { foo: true, bar: true },
         },
-        {
-          name: "undefined",
-          queryValue: undefined,
-          want: defaultValue,
-        },
+        { name: "undefined", queryValue: undefined, want: defaultValue },
       ])("$name", ({ queryValue, want }) =>
         expect(decodeRowSelection(queryValue, { defaultValue })).toEqual(want),
       ),
@@ -115,31 +89,16 @@ describe("rowSelection", () => {
         name: "default default value",
         defaultValue: defaultDefaultRowSelection,
       },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
         stateValue: Parameters<typeof encodeRowSelection>[0];
       }>([
-        {
-          name: "default value",
-          stateValue: defaultValue,
-        },
-        {
-          name: "empty object",
-          stateValue: {},
-        },
-        {
-          name: "non-empty array",
-          stateValue: { foo: true },
-        },
-        {
-          name: "multiple items",
-          stateValue: { foo: true, bar: true },
-        },
+        { name: "default value", stateValue: defaultValue },
+        { name: "empty object", stateValue: {} },
+        { name: "non-empty array", stateValue: { foo: true } },
+        { name: "multiple items", stateValue: { foo: true, bar: true } },
       ])("$name", ({ stateValue }) => {
         expect(
           decodeRowSelection(encodeRowSelection(stateValue, { defaultValue }), {

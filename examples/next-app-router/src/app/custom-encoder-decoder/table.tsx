@@ -20,11 +20,7 @@ export const Table = () => {
 
   const { replace } = useRouter();
   const stateAndOnChanges = useTableSearchParams(
-    {
-      pathname: usePathname(),
-      query: useSearchParams(),
-      replace,
-    },
+    { pathname: usePathname(), query: useSearchParams(), replace },
     {
       encoders: {
         globalFilter: (globalFilter) => ({
@@ -72,10 +68,7 @@ export const Table = () => {
         pagination: (query) =>
           query["pagination"]
             ? JSON.parse(query["pagination"] as string)
-            : {
-                pageIndex: 0,
-                pageSize: 10,
-              },
+            : { pageIndex: 0, pageSize: 10 },
         columnFilters: (query) =>
           Object.entries(query)
             .filter(([key]) => key.startsWith("columnFilters."))

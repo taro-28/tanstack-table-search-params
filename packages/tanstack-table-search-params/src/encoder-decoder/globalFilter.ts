@@ -20,9 +20,7 @@ export const defaultDefaultGlobalFilter =
  */
 export const encodeGlobalFilter = (
   value: TanstackTableState["globalFilter"] | undefined = "",
-  options?: {
-    defaultValue?: TanstackTableState["globalFilter"];
-  },
+  options?: { defaultValue?: TanstackTableState["globalFilter"] },
 ): Query[string] => {
   const defaultValue = options?.defaultValue ?? defaultDefaultGlobalFilter;
   if (value === defaultValue) {
@@ -52,9 +50,7 @@ export const encodeGlobalFilter = (
  */
 export const decodeGlobalFilter = (
   value: Query[string],
-  options?: {
-    defaultValue?: TanstackTableState["globalFilter"];
-  },
+  options?: { defaultValue?: TanstackTableState["globalFilter"] },
 ): TanstackTableState["globalFilter"] => {
   const defaultValue = options?.defaultValue ?? defaultDefaultGlobalFilter;
   if (typeof value !== "string") {

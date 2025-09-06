@@ -68,10 +68,7 @@ export default function CustomEncoderDecoderPage() {
         pagination: (query) =>
           query["pagination"]
             ? JSON.parse(query["pagination"] as string)
-            : {
-                pageIndex: 0,
-                pageSize: 10,
-              },
+            : { pageIndex: 0, pageSize: 10 },
         columnFilters: (query) =>
           Object.entries(query)
             .filter(([key]) => key.startsWith("columnFilters."))

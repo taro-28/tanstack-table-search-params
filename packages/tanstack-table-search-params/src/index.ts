@@ -83,10 +83,7 @@ export type Options = {
   paramNames?: {
     [KEY in keyof State]?: KEY extends "pagination"
       ?
-          | {
-              pageIndex: string;
-              pageSize: string;
-            }
+          | { pageIndex: string; pageSize: string }
           | ((defaultParamName: { pageIndex: string; pageSize: string }) => {
               pageIndex: string;
               pageSize: string;

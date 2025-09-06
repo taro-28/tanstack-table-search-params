@@ -1,35 +1,14 @@
 import { NavLink, Outlet } from "react-router";
 
-type Menu = {
-  title: string;
-  href: string;
-};
+type Menu = { title: string; href: string };
 
 const menus = [
-  {
-    title: "Basic",
-    href: "/",
-  },
-  {
-    title: "Custom query param name",
-    href: "/custom-param-name",
-  },
-  {
-    title: "Custom default value",
-    href: "/custom-default-value",
-  },
-  {
-    title: "Custom encoder/decoder",
-    href: "/custom-encoder-decoder",
-  },
-  {
-    title: "Debounce",
-    href: "/debounce",
-  },
-  {
-    title: "Push(instead of replace)",
-    href: "/push",
-  },
+  { title: "Basic", href: "/" },
+  { title: "Custom query param name", href: "/custom-param-name" },
+  { title: "Custom default value", href: "/custom-default-value" },
+  { title: "Custom encoder/decoder", href: "/custom-encoder-decoder" },
+  { title: "Debounce", href: "/debounce" },
+  { title: "Push(instead of replace)", href: "/push" },
 ] as const satisfies Menu[];
 
 export default function Layout() {

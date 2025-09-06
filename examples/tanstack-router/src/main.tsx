@@ -4,10 +4,7 @@ import ReactDOM from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 
 // Set up a Router instance
-const router = createRouter({
-  routeTree,
-  defaultPreload: "intent",
-});
+const router = createRouter({ routeTree, defaultPreload: "intent" });
 
 // Register things for typesafety
 declare module "@tanstack/react-router" {

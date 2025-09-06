@@ -23,11 +23,7 @@ describe("columnOrder", () => {
         stateValue: Parameters<typeof encodeColumnOrder>[0];
         want: ReturnType<typeof encodeColumnOrder>;
       }>([
-        {
-          name: "default value",
-          stateValue: defaultValue,
-          want: undefined,
-        },
+        { name: "default value", stateValue: defaultValue, want: undefined },
         {
           name: "empty array",
           stateValue: [],
@@ -37,21 +33,13 @@ describe("columnOrder", () => {
               ? undefined
               : noneStringForCustomDefaultValue,
         },
-        {
-          name: "one column",
-          stateValue: ["foo"],
-          want: "foo",
-        },
+        { name: "one column", stateValue: ["foo"], want: "foo" },
         {
           name: "one column with comma",
           stateValue: ["foo,bar"],
           want: "foo%2Cbar",
         },
-        {
-          name: "two columns",
-          stateValue: ["foo", "bar"],
-          want: "foo,bar",
-        },
+        { name: "two columns", stateValue: ["foo", "bar"], want: "foo,bar" },
         {
           name: "two columns with comma",
           stateValue: ["foo", "bar,baz"],
@@ -76,31 +64,19 @@ describe("columnOrder", () => {
             queryValue: encodeColumnOrder(defaultValue, { defaultValue }),
             want: defaultValue,
           },
-          {
-            name: "empty string",
-            queryValue: "",
-            want: defaultValue,
-          },
+          { name: "empty string", queryValue: "", want: defaultValue },
           {
             name: "noneStringForCustomDefaultValue",
             queryValue: noneStringForCustomDefaultValue,
             want: [],
           },
-          {
-            name: "one column",
-            queryValue: "foo",
-            want: ["foo"],
-          },
+          { name: "one column", queryValue: "foo", want: ["foo"] },
           {
             name: "one column with comma",
             queryValue: "foo%2Cbar",
             want: ["foo,bar"],
           },
-          {
-            name: "two columns",
-            queryValue: "foo,bar",
-            want: ["foo", "bar"],
-          },
+          { name: "two columns", queryValue: "foo,bar", want: ["foo", "bar"] },
           {
             name: "two columns with comma",
             queryValue: "foo,bar%2Cbaz",
@@ -111,11 +87,7 @@ describe("columnOrder", () => {
             queryValue: ["invalid"],
             want: defaultValue,
           },
-          {
-            name: "undefined",
-            queryValue: undefined,
-            want: defaultValue,
-          },
+          { name: "undefined", queryValue: undefined, want: defaultValue },
         ])("$name", ({ queryValue, want }) =>
           expect(decodeColumnOrder(queryValue, { defaultValue })).toEqual(want),
         ),
@@ -130,30 +102,12 @@ describe("columnOrder", () => {
         name: string;
         stateValue: Parameters<typeof encodeColumnOrder>[0];
       }>([
-        {
-          name: "default value",
-          stateValue: defaultValue,
-        },
-        {
-          name: "empty array",
-          stateValue: [],
-        },
-        {
-          name: "one column",
-          stateValue: ["foo"],
-        },
-        {
-          name: "one column with comma",
-          stateValue: ["foo,bar"],
-        },
-        {
-          name: "two columns",
-          stateValue: ["foo", "bar"],
-        },
-        {
-          name: "two columns with comma",
-          stateValue: ["foo", "bar,baz"],
-        },
+        { name: "default value", stateValue: defaultValue },
+        { name: "empty array", stateValue: [] },
+        { name: "one column", stateValue: ["foo"] },
+        { name: "one column with comma", stateValue: ["foo,bar"] },
+        { name: "two columns", stateValue: ["foo", "bar"] },
+        { name: "two columns with comma", stateValue: ["foo", "bar,baz"] },
       ])("$name", ({ stateValue }) => {
         expect(
           decodeColumnOrder(encodeColumnOrder(stateValue, { defaultValue }), {

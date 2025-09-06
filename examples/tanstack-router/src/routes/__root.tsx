@@ -1,41 +1,18 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-type Menu = {
-  title: string;
-  to: string;
-};
+type Menu = { title: string; to: string };
 
 const menus = [
-  {
-    title: "Basic",
-    to: "/",
-  },
-  {
-    title: "Custom query param name",
-    to: "/custom-param-name",
-  },
-  {
-    title: "Custom encoder/decoder",
-    to: "/custom-encoder-decoder",
-  },
-  {
-    title: "Custom default value",
-    to: "/custom-default-value",
-  },
-  {
-    title: "Debounce",
-    to: "/debounce",
-  },
-  {
-    title: "Push(instead of replace)",
-    to: "/push",
-  },
+  { title: "Basic", to: "/" },
+  { title: "Custom query param name", to: "/custom-param-name" },
+  { title: "Custom encoder/decoder", to: "/custom-encoder-decoder" },
+  { title: "Custom default value", to: "/custom-default-value" },
+  { title: "Debounce", to: "/debounce" },
+  { title: "Push(instead of replace)", to: "/push" },
 ] as const satisfies Menu[];
 
-export const Route = createRootRoute({
-  component: RootComponent,
-});
+export const Route = createRootRoute({ component: RootComponent });
 
 function RootComponent() {
   return (

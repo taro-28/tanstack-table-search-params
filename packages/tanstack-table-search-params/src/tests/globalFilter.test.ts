@@ -19,24 +19,14 @@ describe("globalFilter", () => {
     name: string;
     options?: Parameters<typeof useTableSearchParams>[1];
   }>([
-    {
-      name: "no options",
-    },
+    { name: "no options" },
     {
       name: "with options: string param name",
-      options: {
-        paramNames: {
-          globalFilter: "GLOBAL_FILTER",
-        },
-      },
+      options: { paramNames: { globalFilter: "GLOBAL_FILTER" } },
     },
     {
       name: "with options: function param name",
-      options: {
-        paramNames: {
-          globalFilter: (key) => `userTable-${key}`,
-        },
-      },
+      options: { paramNames: { globalFilter: (key) => `userTable-${key}` } },
     },
     {
       name: "with options: default param name encoder/decoder",
@@ -72,35 +62,21 @@ describe("globalFilter", () => {
     },
     {
       name: "with options: custom default value",
-      options: {
-        defaultValues: {
-          globalFilter: "default",
-        },
-      },
+      options: { defaultValues: { globalFilter: "default" } },
     },
     {
       name: "with options: debounce milliseconds",
-      options: {
-        debounceMilliseconds: 1,
-      },
+      options: { debounceMilliseconds: 1 },
     },
     {
       name: "with options: debounce milliseconds for globalFilter",
-      options: {
-        debounceMilliseconds: {
-          globalFilter: 1,
-        },
-      },
+      options: { debounceMilliseconds: { globalFilter: 1 } },
     },
     {
       name: "with options: custom param name, default value, debounce",
       options: {
-        paramNames: {
-          globalFilter: "GLOBAL_FILTER",
-        },
-        defaultValues: {
-          globalFilter: "default",
-        },
+        paramNames: { globalFilter: "GLOBAL_FILTER" },
+        defaultValues: { globalFilter: "default" },
         debounceMilliseconds: 1,
       },
     },
@@ -153,9 +129,7 @@ describe("globalFilter", () => {
       rerender();
       expect(result.current.getState().globalFilter).toBe("John");
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.globalFilter?.("John") ?? {
-          [paramName]: "John",
-        },
+        options?.encoders?.globalFilter?.("John") ?? { [paramName]: "John" },
       );
 
       // reset

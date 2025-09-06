@@ -17,9 +17,7 @@ const Button = (
   />
 );
 
-type Props = {
-  table: Table<User>;
-};
+type Props = { table: Table<User> };
 
 export const UserTable = ({ table }: Props) => {
   const [isReversed, setIsReversed] = useState(false);
