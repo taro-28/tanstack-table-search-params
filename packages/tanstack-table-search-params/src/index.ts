@@ -42,35 +42,35 @@ export type Returns = {
   /**
    * Tanstack Table's state
    */
-  state: State;
+  state: Partial<State>;
   /**
    * Tanstack Table's `onChangeGlobalFilter` function
    */
-  onGlobalFilterChange: OnChangeFn<State["globalFilter"]>;
+  onGlobalFilterChange?: OnChangeFn<State["globalFilter"]>;
   /**
    * Tanstack Table's `onChangeSorting` function
    */
-  onSortingChange: OnChangeFn<State["sorting"]>;
+  onSortingChange?: OnChangeFn<State["sorting"]>;
   /**
    * Tanstack Table's `onChangePagination` function
    */
-  onPaginationChange: OnChangeFn<State["pagination"]>;
+  onPaginationChange?: OnChangeFn<State["pagination"]>;
   /**
    * Tanstack Table's `onChangeColumnFilters` function
    */
-  onColumnFiltersChange: OnChangeFn<State["columnFilters"]>;
+  onColumnFiltersChange?: OnChangeFn<State["columnFilters"]>;
   /**
    * Tanstack Table's `onChangeColumnOrder` function
    */
-  onColumnOrderChange: OnChangeFn<State["columnOrder"]>;
+  onColumnOrderChange?: OnChangeFn<State["columnOrder"]>;
   /**
    * Tanstack Table's `onChangeRowSelection` function
    */
-  onRowSelectionChange: OnChangeFn<State["rowSelection"]>;
+  onRowSelectionChange?: OnChangeFn<State["rowSelection"]>;
   /**
    * Tanstack Table's `onChangeColumnVisibility` function
    */
-  onColumnVisibilityChange: OnChangeFn<State["columnVisibility"]>;
+  onColumnVisibilityChange?: OnChangeFn<State["columnVisibility"]>;
   onStateChange: (updater: Updater<TableState>) => void;
 };
 
@@ -128,6 +128,12 @@ export type Options = {
         [KEY in keyof State]?: number;
       }
     | number;
+  /**
+   * The enabled states of synchronization between the state and the query parameter.
+   *
+   * @link [README](https://github.com/taro-28/tanstack-table-search-params?tab=readme-ov-file#enable-disable)
+   */
+  enabled?: { [KEY in keyof State]?: boolean };
 };
 
 const regex = /s$/;
@@ -232,16 +238,25 @@ export const useTableSearchParams = (
     router,
     options: extractSpecificStateOptions({ options, key: "columnVisibility" }),
   });
+  const enabled = {
+    globalFilter: options?.enabled?.globalFilter ?? true,
+    sorting: options?.enabled?.sorting ?? true,
+    pagination: options?.enabled?.pagination ?? true,
+    columnFilters: options?.enabled?.columnFilters ?? true,
+    columnOrder: options?.enabled?.columnOrder ?? true,
+    rowSelection: options?.enabled?.rowSelection ?? true,
+    columnVisibility: options?.enabled?.columnVisibility ?? true,
+  };
 
   const state = useMemo(
     () => ({
-      sorting,
-      pagination,
-      globalFilter,
-      columnFilters,
-      columnOrder,
-      rowSelection,
-      columnVisibility,
+      ...(enabled.globalFilter ? { globalFilter } : {}),
+      ...(enabled.sorting ? { sorting } : {}),
+      ...(enabled.pagination ? { pagination } : {}),
+      ...(enabled.columnFilters ? { columnFilters } : {}),
+      ...(enabled.columnOrder ? { columnOrder } : {}),
+      ...(enabled.rowSelection ? { rowSelection } : {}),
+      ...(enabled.columnVisibility ? { columnVisibility } : {}),
     }),
     [
       sorting,
@@ -251,14 +266,30 @@ export const useTableSearchParams = (
       columnOrder,
       rowSelection,
       columnVisibility,
+      enabled.globalFilter,
+      enabled.pagination,
+      enabled.sorting,
+      enabled.columnFilters,
+      enabled.columnOrder,
+      enabled.rowSelection,
+      enabled.columnVisibility,
     ],
   );
 
   const onStateChange: Returns["onStateChange"] = useCallback(
     async (updater) => {
       const newState = functionalUpdate(updater, {
-        ...state,
-        columnVisibility: {},
+        globalFilter: enabled.globalFilter ? state.globalFilter : "",
+        sorting: (enabled.sorting && state.sorting) || [],
+        pagination: (enabled.pagination && state.pagination) || {
+          pageIndex: 0,
+          pageSize: 10,
+        },
+        columnFilters: (enabled.columnFilters && state.columnFilters) || [],
+        columnOrder: (enabled.columnOrder && state.columnOrder) || [],
+        rowSelection: (enabled.rowSelection && state.rowSelection) || {},
+        columnVisibility:
+          (enabled.columnVisibility && state.columnVisibility) || {},
         columnPinning: {},
         rowPinning: {},
         expanded: {},
@@ -273,14 +304,28 @@ export const useTableSearchParams = (
           startSize: null,
         },
       });
-      const encodeState = (state: State) => ({
-        ...globalFilterEncoder(state.globalFilter),
-        ...sortingEncoder(state.sorting),
-        ...paginationEncoder(state.pagination),
-        ...columnFiltersEncoder(state.columnFilters),
-        ...columnOrderEncoder(state.columnOrder),
-        ...rowSelectionEncoder(state.rowSelection),
-        ...columnVisibilityEncoder(state.columnVisibility),
+      const encodeState = (state: Partial<State>): Query => ({
+        ...(enabled.globalFilter
+          ? globalFilterEncoder(state.globalFilter)
+          : {}),
+        ...(enabled.sorting ? sortingEncoder(state?.sorting ?? []) : {}),
+        ...(enabled.pagination
+          ? paginationEncoder(
+              state?.pagination ?? { pageIndex: 0, pageSize: 10 },
+            )
+          : {}),
+        ...(enabled.columnFilters
+          ? columnFiltersEncoder(state?.columnFilters ?? [])
+          : {}),
+        ...(enabled.columnOrder
+          ? columnOrderEncoder(state?.columnOrder ?? [])
+          : {}),
+        ...(enabled.rowSelection
+          ? rowSelectionEncoder(state?.rowSelection ?? {})
+          : {}),
+        ...(enabled.columnVisibility
+          ? columnVisibilityEncoder(state?.columnVisibility ?? {})
+          : {}),
       });
       await updateQuery({
         oldQuery: encodeState(state),
@@ -298,18 +343,25 @@ export const useTableSearchParams = (
       columnOrderEncoder,
       rowSelectionEncoder,
       columnVisibilityEncoder,
+      enabled.globalFilter,
+      enabled.sorting,
+      enabled.pagination,
+      enabled.columnFilters,
+      enabled.columnOrder,
+      enabled.rowSelection,
+      enabled.columnVisibility,
     ],
   );
 
   return {
     state,
-    onGlobalFilterChange,
-    onSortingChange,
-    onPaginationChange,
-    onColumnFiltersChange,
-    onColumnOrderChange,
-    onRowSelectionChange,
-    onColumnVisibilityChange,
     onStateChange,
+    ...(enabled.globalFilter ? { onGlobalFilterChange } : {}),
+    ...(enabled.sorting ? { onSortingChange } : {}),
+    ...(enabled.pagination ? { onPaginationChange } : {}),
+    ...(enabled.columnFilters ? { onColumnFiltersChange } : {}),
+    ...(enabled.columnOrder ? { onColumnOrderChange } : {}),
+    ...(enabled.rowSelection ? { onRowSelectionChange } : {}),
+    ...(enabled.columnVisibility ? { onColumnVisibilityChange } : {}),
   };
 };

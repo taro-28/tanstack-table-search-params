@@ -92,6 +92,10 @@ describe("sorting", () => {
       options: { debounceMilliseconds: { sorting: 1 } },
     },
     {
+      name: "with options: enabled false",
+      options: { enabled: { sorting: false } },
+    },
+    {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: { sorting: "SORTING" },
@@ -114,6 +118,8 @@ describe("sorting", () => {
           ? options.debounceMilliseconds.sorting
           : options.debounceMilliseconds
         : undefined;
+
+    const enabled = options?.enabled?.sorting ?? true;
 
     test("single column", () => {
       const { result: routerResult, rerender: routerRerender } = renderHook(
@@ -157,9 +163,11 @@ describe("sorting", () => {
         { id: "id", desc: true },
       ]);
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.sorting?.([{ id: "id", desc: true }]) ?? {
-          [paramName]: "id.desc",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([{ id: "id", desc: true }]) ?? {
+              [paramName]: "id.desc",
+            }),
       );
 
       // sort by first column again
@@ -173,9 +181,11 @@ describe("sorting", () => {
         { id: "id", desc: false },
       ]);
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
-          [paramName]: "id.asc",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
+              [paramName]: "id.asc",
+            }),
       );
 
       // sort by another column
@@ -189,9 +199,11 @@ describe("sorting", () => {
         { id: "name", desc: false },
       ]);
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.sorting?.([{ id: "name", desc: false }]) ?? {
-          [paramName]: "name.asc",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([{ id: "name", desc: false }]) ?? {
+              [paramName]: "name.asc",
+            }),
       );
 
       // reset
@@ -209,12 +221,14 @@ describe("sorting", () => {
       rerender();
       expect(result.current.getState().sorting).toEqual([]);
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.sorting?.([]) ?? {
-          [paramName]:
-            defaultSorting.length > 0
-              ? noneStringForCustomDefaultValue
-              : undefined,
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([]) ?? {
+              [paramName]:
+                defaultSorting.length > 0
+                  ? noneStringForCustomDefaultValue
+                  : undefined,
+            }),
       );
     });
 
@@ -267,10 +281,12 @@ describe("sorting", () => {
         { id: "name", desc: false },
       ]);
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.sorting?.([
-          { id: "id", desc: true },
-          { id: "name", desc: false },
-        ]) ?? { [paramName]: "id.desc,name.asc" },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([
+              { id: "id", desc: true },
+              { id: "name", desc: false },
+            ]) ?? { [paramName]: "id.desc,name.asc" }),
       );
 
       // sort by first column again
@@ -285,10 +301,12 @@ describe("sorting", () => {
         { id: "name", desc: false },
       ]);
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.sorting?.([
-          { id: "id", desc: false },
-          { id: "name", desc: false },
-        ]) ?? { [paramName]: "id.asc,name.asc" },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([
+              { id: "id", desc: false },
+              { id: "name", desc: false },
+            ]) ?? { [paramName]: "id.asc,name.asc" }),
       );
 
       // sort by another column again
@@ -302,9 +320,11 @@ describe("sorting", () => {
         { id: "id", desc: false },
       ]);
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
-          [paramName]: "id.asc",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
+              [paramName]: "id.asc",
+            }),
       );
     });
   });

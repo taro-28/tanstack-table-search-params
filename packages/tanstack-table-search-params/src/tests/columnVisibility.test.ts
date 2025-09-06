@@ -116,6 +116,10 @@ describe("columnVisibility", () => {
       options: { debounceMilliseconds: { columnVisibility: 1 } },
     },
     {
+      name: "with options: enabled false",
+      options: { enabled: { columnVisibility: false } },
+    },
+    {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: { columnVisibility: "COLUMN_VISIBILITY" },
@@ -139,6 +143,8 @@ describe("columnVisibility", () => {
           ? options.debounceMilliseconds.columnVisibility
           : options.debounceMilliseconds
         : undefined;
+
+    const enabled = options?.enabled?.columnVisibility ?? true;
 
     test("basic", () => {
       const { result: routerResult, rerender: routerRerender } = renderHook(
@@ -184,9 +190,11 @@ describe("columnVisibility", () => {
         extractFalseProperties(result.current.getState().columnVisibility),
       ).toEqual(extractFalseProperties(wantToggledFirstColumnState));
       expect(routerResult.current.query).toEqual(
-        encoder?.(wantToggledFirstColumnState) ?? {
-          [paramName]: defaultEncoder(wantToggledFirstColumnState),
-        },
+        !enabled
+          ? {}
+          : (encoder?.(wantToggledFirstColumnState) ?? {
+              [paramName]: defaultEncoder(wantToggledFirstColumnState),
+            }),
       );
 
       // toggle second column (name)
@@ -200,9 +208,11 @@ describe("columnVisibility", () => {
         extractFalseProperties(result.current.getState().columnVisibility),
       ).toEqual(extractFalseProperties(wantRetoggledFirstColumnState));
       expect(routerResult.current.query).toEqual(
-        encoder?.(wantRetoggledFirstColumnState) ?? {
-          [paramName]: defaultEncoder(wantRetoggledFirstColumnState),
-        },
+        !enabled
+          ? {}
+          : (encoder?.(wantRetoggledFirstColumnState) ?? {
+              [paramName]: defaultEncoder(wantRetoggledFirstColumnState),
+            }),
       );
 
       // toggle first column (id)
@@ -216,12 +226,14 @@ describe("columnVisibility", () => {
         extractFalseProperties(result.current.getState().columnVisibility),
       ).toEqual(extractFalseProperties(wantToggledSecondColumnState));
       expect(routerResult.current.query).toEqual(
-        encoder?.(wantToggledSecondColumnState) ?? {
-          [paramName]:
-            Object.keys(wantToggledSecondColumnState).length === 0
-              ? noneStringForCustomDefaultValue
-              : defaultEncoder(wantToggledSecondColumnState),
-        },
+        !enabled
+          ? {}
+          : (encoder?.(wantToggledSecondColumnState) ?? {
+              [paramName]:
+                Object.keys(wantToggledSecondColumnState).length === 0
+                  ? noneStringForCustomDefaultValue
+                  : defaultEncoder(wantToggledSecondColumnState),
+            }),
       );
 
       // toggle second column (name)
@@ -235,7 +247,7 @@ describe("columnVisibility", () => {
         extractFalseProperties(result.current.getState().columnVisibility),
       ).toEqual(extractFalseProperties(wantRetoggledSecondColumnState));
       expect(routerResult.current.query).toEqual(
-        encoder?.(wantRetoggledSecondColumnState) ?? {},
+        !enabled ? {} : (encoder?.(wantRetoggledSecondColumnState) ?? {}),
       );
     });
   });

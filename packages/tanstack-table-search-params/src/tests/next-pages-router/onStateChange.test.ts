@@ -305,6 +305,20 @@ describe("onStateChange", () => {
       options: { debounceMilliseconds: 1 },
     },
     {
+      name: "with options: enabled false for all states",
+      options: {
+        enabled: {
+          globalFilter: false,
+          sorting: false,
+          columnFilters: false,
+          columnOrder: false,
+          rowSelection: false,
+          columnVisibility: false,
+          pagination: false,
+        },
+      },
+    },
+    {
       name: "with options: custom param name, default value",
       options: {
         paramNames: {
@@ -362,6 +376,14 @@ describe("onStateChange", () => {
             pageSize: "pageSize",
           });
 
+    const globalFilterEnabled = options?.enabled?.globalFilter ?? true;
+    const sortingEnabled = options?.enabled?.sorting ?? true;
+    const columnFiltersEnabled = options?.enabled?.columnFilters ?? true;
+    const columnOrderEnabled = options?.enabled?.columnOrder ?? true;
+    const rowSelectionEnabled = options?.enabled?.rowSelection ?? true;
+    const columnVisibilityEnabled = options?.enabled?.columnVisibility ?? true;
+    const paginationEnabled = options?.enabled?.pagination ?? true;
+
     const { result, rerender: resultRerender } = renderHook(() => {
       const stateAndOnChanges = useTableSearchParams(mockRouter, options);
       return useReactTable({
@@ -387,7 +409,7 @@ describe("onStateChange", () => {
 
     const defaultState: TableState = {
       ...emptyState,
-      globalFilter: defaultGlobalFilter,
+      globalFilter: !globalFilterEnabled ? undefined : defaultGlobalFilter,
       sorting: defaultSorting,
       columnFilters: defaultColumnFilters,
       columnOrder: defaultColumnOrder,
@@ -422,77 +444,108 @@ describe("onStateChange", () => {
     rerender();
     expect(result.current.getState()).toStrictEqual(newState);
     expect(mockRouter.query).toEqual({
-      ...(options?.encoders?.globalFilter?.(newState.globalFilter) ?? {
-        [globalFilterParamName]: newState.globalFilter,
-      }),
-      ...(options?.encoders?.sorting?.(newState.sorting) ?? {
-        [sortingParamName]: "column1.desc",
-      }),
-      ...(options?.encoders?.columnFilters?.(newState.columnFilters) ?? {
-        [columnFiltersParamName]: "column1.%22value%22",
-      }),
-      ...(options?.encoders?.columnOrder?.(newState.columnOrder) ?? {
-        [columnOrderParamName]: "column1",
-      }),
-      ...(options?.encoders?.rowSelection?.(newState.rowSelection) ?? {
-        [rowSelectionParamName]: "row1",
-      }),
-      ...(options?.encoders?.columnVisibility?.(newState.columnVisibility) ?? {
-        [columnVisibilityParamName]: "column1",
-      }),
-      ...(options?.encoders?.pagination?.(newState.pagination) ?? {
-        [paginationParamName.pageIndex]: `${newState.pagination.pageIndex + 1}`,
-        [paginationParamName.pageSize]: `${newState.pagination.pageSize}`,
-      }),
+      ...(globalFilterEnabled
+        ? (options?.encoders?.globalFilter?.(newState.globalFilter) ?? {
+            [globalFilterParamName]: newState.globalFilter,
+          })
+        : {}),
+      ...(sortingEnabled
+        ? (options?.encoders?.sorting?.(newState.sorting) ?? {
+            [sortingParamName]: "column1.desc",
+          })
+        : {}),
+      ...(columnFiltersEnabled
+        ? (options?.encoders?.columnFilters?.(newState.columnFilters) ?? {
+            [columnFiltersParamName]: "column1.%22value%22",
+          })
+        : {}),
+      ...(columnOrderEnabled
+        ? (options?.encoders?.columnOrder?.(newState.columnOrder) ?? {
+            [columnOrderParamName]: "column1",
+          })
+        : {}),
+      ...(rowSelectionEnabled
+        ? (options?.encoders?.rowSelection?.(newState.rowSelection) ?? {
+            [rowSelectionParamName]: "row1",
+          })
+        : {}),
+      ...(columnVisibilityEnabled
+        ? (options?.encoders?.columnVisibility?.(newState.columnVisibility) ?? {
+            [columnVisibilityParamName]: "column1",
+          })
+        : {}),
+      ...(paginationEnabled
+        ? (options?.encoders?.pagination?.(newState.pagination) ?? {
+            [paginationParamName.pageIndex]: `${newState.pagination.pageIndex + 1}`,
+            [paginationParamName.pageSize]: `${newState.pagination.pageSize}`,
+          })
+        : {}),
     });
 
     act(() => result.current.reset());
     rerender();
 
-    expect(result.current.getState()).toStrictEqual(emptyState);
+    expect(result.current.getState()).toStrictEqual({
+      ...emptyState,
+      globalFilter: !globalFilterEnabled ? undefined : "",
+    });
     expect(mockRouter.query).toEqual({
-      ...(options?.encoders?.globalFilter?.("") ?? {
-        [globalFilterParamName]: defaultGlobalFilter
-          ? encodedEmptyStringForGlobalFilterCustomDefaultValue
-          : undefined,
-      }),
-      ...(options?.encoders?.sorting?.([]) ?? {
-        [sortingParamName]:
-          defaultSorting.length > 0
-            ? noneStringForCustomDefaultValue
-            : undefined,
-      }),
-      ...(options?.encoders?.columnFilters?.([]) ?? {
-        [columnFiltersParamName]:
-          defaultColumnFilters.length > 0
-            ? noneStringForCustomDefaultValue
-            : undefined,
-      }),
-      ...(options?.encoders?.columnOrder?.([]) ?? {
-        [columnOrderParamName]:
-          defaultColumnOrder.length > 0
-            ? noneStringForCustomDefaultValue
-            : undefined,
-      }),
-      ...(options?.encoders?.rowSelection?.({}) ?? {
-        [rowSelectionParamName]:
-          Object.keys(defaultRowSelection).length > 0
-            ? noneStringForCustomDefaultValue
-            : undefined,
-      }),
-      ...(options?.encoders?.columnVisibility?.(defaultColumnVisibility) ?? {
-        [columnVisibilityParamName]:
-          Object.keys(defaultColumnVisibility).length > 0
-            ? noneStringForCustomDefaultValue
-            : undefined,
-      }),
-      ...(options?.encoders?.pagination?.(defaultPagination) ??
-        (options?.defaultValues?.pagination
-          ? {
-              [paginationParamName.pageIndex]: "1",
-              [paginationParamName.pageSize]: "10",
-            }
-          : {})),
+      ...(globalFilterEnabled
+        ? (options?.encoders?.globalFilter?.("") ?? {
+            [globalFilterParamName]: defaultGlobalFilter
+              ? encodedEmptyStringForGlobalFilterCustomDefaultValue
+              : undefined,
+          })
+        : {}),
+      ...(sortingEnabled
+        ? (options?.encoders?.sorting?.([]) ?? {
+            [sortingParamName]:
+              defaultSorting.length > 0
+                ? noneStringForCustomDefaultValue
+                : undefined,
+          })
+        : {}),
+      ...(columnFiltersEnabled
+        ? (options?.encoders?.columnFilters?.([]) ?? {
+            [columnFiltersParamName]:
+              defaultColumnFilters.length > 0
+                ? noneStringForCustomDefaultValue
+                : undefined,
+          })
+        : {}),
+      ...(columnOrderEnabled
+        ? (options?.encoders?.columnOrder?.([]) ?? {
+            [columnOrderParamName]:
+              defaultColumnOrder.length > 0
+                ? noneStringForCustomDefaultValue
+                : undefined,
+          })
+        : {}),
+      ...(rowSelectionEnabled
+        ? (options?.encoders?.rowSelection?.({}) ?? {
+            [rowSelectionParamName]:
+              Object.keys(defaultRowSelection).length > 0
+                ? noneStringForCustomDefaultValue
+                : undefined,
+          })
+        : {}),
+      ...(columnVisibilityEnabled
+        ? (options?.encoders?.columnVisibility?.(defaultColumnVisibility) ?? {
+            [columnVisibilityParamName]:
+              Object.keys(defaultColumnVisibility).length > 0
+                ? noneStringForCustomDefaultValue
+                : undefined,
+          })
+        : {}),
+      ...(paginationEnabled
+        ? (options?.encoders?.pagination?.(defaultPagination) ??
+          (options?.defaultValues?.pagination
+            ? {
+                [paginationParamName.pageIndex]: "1",
+                [paginationParamName.pageSize]: "10",
+              }
+            : {}))
+        : {}),
     });
   });
 });
