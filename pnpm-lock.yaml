@@ -176,8 +176,8 @@ importers:
         specifier: ^19.1.9
         version: 19.1.9(@types/react@19.1.12)
       '@vitejs/plugin-react-swc':
-        specifier: ^3.11.0
-        version: 3.11.0(vite@6.3.5(@types/node@22.18.1)(jiti@2.5.1)(tsx@4.19.2)(yaml@2.6.0))
+        specifier: ^4.0.1
+        version: 4.0.1(vite@6.3.5(@types/node@22.18.1)(jiti@2.5.1)(tsx@4.19.2)(yaml@2.6.0))
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -228,8 +228,8 @@ importers:
         specifier: ^19.1.9
         version: 19.1.9(@types/react@19.1.12)
       '@vitejs/plugin-react-swc':
-        specifier: ^3.11.0
-        version: 3.11.0(vite@6.3.5(@types/node@22.18.1)(jiti@2.5.1)(tsx@4.19.2)(yaml@2.6.0))
+        specifier: ^4.0.1
+        version: 4.0.1(vite@6.3.5(@types/node@22.18.1)(jiti@2.5.1)(tsx@4.19.2)(yaml@2.6.0))
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -1152,8 +1152,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@rolldown/pluginutils@1.0.0-beta.27':
-    resolution: {integrity: sha512-+d0F4MKMCbeVUJwG96uQ4SgAznZNSq93I3V+9NHA4OpvqG8mRCpGdKmK8l/dl02h2CCDHwW2FqilnTyDcAnqjA==}
+  '@rolldown/pluginutils@1.0.0-beta.32':
+    resolution: {integrity: sha512-QReCdvxiUZAPkvp1xpAg62IeNzykOFA6syH2CnClif4YmALN1XKpB39XneL80008UbtMShthSVDKmrx05N1q/g==}
 
   '@rolldown/pluginutils@1.0.0-beta.34':
     resolution: {integrity: sha512-LyAREkZHP5pMom7c24meKmJCdhf2hEyvam2q0unr3or9ydwDL+DJ8chTF6Av/RFPb3rH8UFBdMzO5MxTZW97oA==}
@@ -1493,8 +1493,9 @@ packages:
   '@types/react@19.1.12':
     resolution: {integrity: sha512-cMoR+FoAf/Jyq6+Df2/Z41jISvGZZ2eTlnsaJRptmZ76Caldwy1odD4xTr/gNV9VLj0AWgg/nmkevIyUfIIq5w==}
 
-  '@vitejs/plugin-react-swc@3.11.0':
-    resolution: {integrity: sha512-YTJCGFdNMHCMfjODYtxRNVAYmTWQ1Lb8PulP/2/f/oEEtglw8oKxKIZmmRkyXrVrHfsKOaVkAc3NT9/dMutO5w==}
+  '@vitejs/plugin-react-swc@4.0.1':
+    resolution: {integrity: sha512-NQhPjysi5duItyrMd5JWZFf2vNOuSMyw+EoZyTBDzk+DkfYD8WNrsUs09sELV2cr1P15nufsN25hsUBt4CKF9Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       vite: ^4 || ^5 || ^6 || ^7
 
@@ -3428,7 +3429,7 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@rolldown/pluginutils@1.0.0-beta.27': {}
+  '@rolldown/pluginutils@1.0.0-beta.32': {}
 
   '@rolldown/pluginutils@1.0.0-beta.34': {}
 
@@ -3742,9 +3743,9 @@ snapshots:
     dependencies:
       csstype: 3.1.3
 
-  '@vitejs/plugin-react-swc@3.11.0(vite@6.3.5(@types/node@22.18.1)(jiti@2.5.1)(tsx@4.19.2)(yaml@2.6.0))':
+  '@vitejs/plugin-react-swc@4.0.1(vite@6.3.5(@types/node@22.18.1)(jiti@2.5.1)(tsx@4.19.2)(yaml@2.6.0))':
     dependencies:
-      '@rolldown/pluginutils': 1.0.0-beta.27
+      '@rolldown/pluginutils': 1.0.0-beta.32
       '@swc/core': 1.13.5
       vite: 6.3.5(@types/node@22.18.1)(jiti@2.5.1)(tsx@4.19.2)(yaml@2.6.0)
     transitivePeerDependencies:

@@ -22,7 +22,7 @@
     "@tanstack/router-plugin": "^1.131.35",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react-swc": "^3.11.0",
+    "@vitejs/plugin-react-swc": "^4.0.1",
     "typescript": "^5.9.2",
     "vite": "^6.3.5",
     "postcss": "^8.5.6",
