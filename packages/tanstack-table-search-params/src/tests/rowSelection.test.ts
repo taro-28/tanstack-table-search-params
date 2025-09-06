@@ -8,10 +8,7 @@ import {
   encodeRowSelection as defaultEncoder,
 } from "../encoder-decoder/rowSelection";
 import { useTestRouter } from "./testRouter";
-
-const typedObjectEntries = <K extends string | number | symbol, V>(
-  object: Record<K, V>,
-): [K, V][] => Object.entries(object) as [K, V][];
+import { typedObjectEntries } from "./utils";
 
 type RowSelection = State["rowSelection"];
 

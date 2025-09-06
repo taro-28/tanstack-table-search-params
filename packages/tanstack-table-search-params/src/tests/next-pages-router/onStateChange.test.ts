@@ -56,6 +56,7 @@ describe("onStateChange", () => {
           columnFilters: "COLUMN_FILTERS",
           columnOrder: "COLUMN_ORDER",
           rowSelection: "ROW_SELECTION",
+          columnVisibility: "COLUMN_VISIBILITY",
           pagination: {
             pageIndex: "PAGE_INDEX",
             pageSize: "PAGE_SIZE",
@@ -72,6 +73,7 @@ describe("onStateChange", () => {
           columnFilters: (key) => `userTable-${key}`,
           columnOrder: (key) => `userTable-${key}`,
           rowSelection: (key) => `userTable-${key}`,
+          columnVisibility: (key) => `userTable-${key}`,
           pagination: ({ pageIndex, pageSize }) => ({
             pageIndex: `userTable-${pageIndex}`,
             pageSize: `userTable-${pageSize}`,
@@ -97,6 +99,9 @@ describe("onStateChange", () => {
           }),
           rowSelection: (rowSelection) => ({
             rowSelection: JSON.stringify(rowSelection),
+          }),
+          columnVisibility: (columnVisibility) => ({
+            columnVisibility: JSON.stringify(columnVisibility),
           }),
           pagination: (pagination) => ({
             pageIndex: JSON.stringify(pagination.pageIndex),
@@ -124,6 +129,10 @@ describe("onStateChange", () => {
             query["rowSelection"]
               ? JSON.parse(query["rowSelection"] as string)
               : query["rowSelection"],
+          columnVisibility: (query) =>
+            query["columnVisibility"]
+              ? JSON.parse(query["columnVisibility"] as string)
+              : query["columnVisibility"],
           pagination: (query) => ({
             pageIndex: query["pageIndex"]
               ? JSON.parse(query["pageIndex"] as string)
@@ -154,6 +163,9 @@ describe("onStateChange", () => {
           rowSelection: (rowSelection) => ({
             "userTable-rowSelection": JSON.stringify(rowSelection),
           }),
+          columnVisibility: (columnVisibility) => ({
+            "userTable-columnVisibility": JSON.stringify(columnVisibility),
+          }),
           pagination: (pagination) => ({
             "userTable-pageIndex": JSON.stringify(pagination.pageIndex),
             "userTable-pageSize": JSON.stringify(pagination.pageSize),
@@ -180,6 +192,10 @@ describe("onStateChange", () => {
             query["userTable-rowSelection"]
               ? JSON.parse(query["userTable-rowSelection"] as string)
               : query["userTable-rowSelection"],
+          columnVisibility: (query) =>
+            query["userTable-columnVisibility"]
+              ? JSON.parse(query["userTable-columnVisibility"] as string)
+              : query["userTable-columnVisibility"],
           pagination: (query) => ({
             pageIndex: query["userTable-pageIndex"]
               ? JSON.parse(query["userTable-pageIndex"] as string)
@@ -223,6 +239,13 @@ describe("onStateChange", () => {
                 "true",
               ]),
             ),
+          columnVisibility: (columnVisibility) =>
+            Object.fromEntries(
+              Object.entries(columnVisibility).map(([id, value]) => [
+                `columnVisibility.${id}`,
+                value ? "true" : "false",
+              ]),
+            ),
           pagination: (pagination) => ({
             pagination: JSON.stringify(pagination),
           }),
@@ -252,6 +275,15 @@ describe("onStateChange", () => {
                 .filter(([key]) => key.startsWith("rowSelection."))
                 .map(([key]) => [key.replace("rowSelection.", ""), true]),
             ),
+          columnVisibility: (query) =>
+            Object.fromEntries(
+              Object.entries(query)
+                .filter(([key]) => key.startsWith("columnVisibility."))
+                .map(([key, value]) => [
+                  key.replace("columnVisibility.", ""),
+                  value === "true",
+                ]),
+            ),
           pagination: (query) =>
             query["pagination"]
               ? JSON.parse(query["pagination"] as string)
@@ -268,6 +300,7 @@ describe("onStateChange", () => {
           columnFilters: [{ id: "custom", value: "default" }],
           columnOrder: ["name", "id"],
           rowSelection: { "1": true },
+          columnVisibility: { id: false },
           pagination: { pageIndex: 3, pageSize: 25 },
         },
       },
@@ -285,6 +318,7 @@ describe("onStateChange", () => {
           columnFilters: "COLUMN_FILTERS",
           columnOrder: "COLUMN_ORDER",
           rowSelection: "ROW_SELECTION",
+          columnVisibility: "COLUMN_VISIBILITY",
           pagination: { pageIndex: "PAGE_INDEX", pageSize: "PAGE_SIZE" },
         },
         defaultValues: {
@@ -293,6 +327,7 @@ describe("onStateChange", () => {
           columnFilters: [{ id: "custom", value: "default" }],
           columnOrder: ["name", "id"],
           rowSelection: { "1": true },
+          columnVisibility: { id: false },
           pagination: { pageIndex: 3, pageSize: 25 },
         },
       },
@@ -306,6 +341,7 @@ describe("onStateChange", () => {
         | "columnFilters"
         | "columnOrder"
         | "rowSelection"
+        | "columnVisibility"
       >,
     ) => {
       const paramName = options?.paramNames?.[name];
@@ -319,6 +355,7 @@ describe("onStateChange", () => {
     const columnFiltersParamName = getParamName("columnFilters");
     const columnOrderParamName = getParamName("columnOrder");
     const rowSelectionParamName = getParamName("rowSelection");
+    const columnVisibilityParamName = getParamName("columnVisibility");
     const paginationParamName =
       typeof options?.paramNames?.pagination === "function"
         ? options.paramNames.pagination({
@@ -346,6 +383,8 @@ describe("onStateChange", () => {
     const defaultColumnFilters = options?.defaultValues?.columnFilters ?? [];
     const defaultColumnOrder = options?.defaultValues?.columnOrder ?? [];
     const defaultRowSelection = options?.defaultValues?.rowSelection ?? {};
+    const defaultColumnVisibility =
+      options?.defaultValues?.columnVisibility ?? {};
     const defaultPagination = options?.defaultValues?.pagination ?? {
       pageIndex: 0,
       pageSize: 10,
@@ -358,6 +397,7 @@ describe("onStateChange", () => {
       columnFilters: defaultColumnFilters,
       columnOrder: defaultColumnOrder,
       rowSelection: defaultRowSelection,
+      columnVisibility: defaultColumnVisibility,
       pagination: defaultPagination,
     };
 
@@ -372,6 +412,7 @@ describe("onStateChange", () => {
       columnFilters: [{ id: "column1", value: "value" }],
       columnOrder: ["column1"],
       rowSelection: { row1: true },
+      columnVisibility: { column1: false },
       pagination: { pageIndex: 1, pageSize: 20 },
     };
 
@@ -400,6 +441,9 @@ describe("onStateChange", () => {
       }),
       ...(options?.encoders?.rowSelection?.(newState.rowSelection) ?? {
         [rowSelectionParamName]: "row1",
+      }),
+      ...(options?.encoders?.columnVisibility?.(newState.columnVisibility) ?? {
+        [columnVisibilityParamName]: "column1",
       }),
       ...(options?.encoders?.pagination?.(newState.pagination) ?? {
         [paginationParamName.pageIndex]: `${newState.pagination.pageIndex + 1}`,
@@ -438,6 +482,12 @@ describe("onStateChange", () => {
       ...(options?.encoders?.rowSelection?.({}) ?? {
         [rowSelectionParamName]:
           Object.keys(defaultRowSelection).length > 0
+            ? noneStringForCustomDefaultValue
+            : undefined,
+      }),
+      ...(options?.encoders?.columnVisibility?.(defaultColumnVisibility) ?? {
+        [columnVisibilityParamName]:
+          Object.keys(defaultColumnVisibility).length > 0
             ? noneStringForCustomDefaultValue
             : undefined,
       }),

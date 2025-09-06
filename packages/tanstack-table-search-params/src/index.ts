@@ -9,6 +9,7 @@ import type { Query, Router } from "./types";
 import { updateQuery } from "./updateQuery";
 import { useColumnFilters } from "./useColumnFilters";
 import { useColumnOrder } from "./useColumnOrder";
+import { useColumnVisibility } from "./useColumnVisibility";
 import { useGlobalFilter } from "./useGlobalFilter";
 import { usePagination } from "./usePagination";
 import { useRowSelection } from "./useRowSelection";
@@ -23,6 +24,7 @@ export type State = Pick<
   | "columnFilters"
   | "columnOrder"
   | "rowSelection"
+  | "columnVisibility"
 >;
 
 export const PARAM_NAMES = {
@@ -33,6 +35,7 @@ export const PARAM_NAMES = {
   COLUMN_FILTERS: "columnFilters",
   COLUMN_ORDER: "columnOrder",
   ROW_SELECTION: "rowSelection",
+  COLUMN_VISIBILITY: "columnVisibility",
 } as const;
 
 export type Returns = {
@@ -64,6 +67,10 @@ export type Returns = {
    * Tanstack Table's `onChangeRowSelection` function
    */
   onRowSelectionChange: OnChangeFn<State["rowSelection"]>;
+  /**
+   * Tanstack Table's `onChangeColumnVisibility` function
+   */
+  onColumnVisibilityChange: OnChangeFn<State["columnVisibility"]>;
   onStateChange: (updater: Updater<TableState>) => void;
 };
 
@@ -220,6 +227,14 @@ export const useTableSearchParams = (
       router,
       options: extractSpecificStateOptions({ options, key: "rowSelection" }),
     });
+  const {
+    columnVisibility,
+    columnVisibilityEncoder,
+    onColumnVisibilityChange,
+  } = useColumnVisibility({
+    router,
+    options: extractSpecificStateOptions({ options, key: "columnVisibility" }),
+  });
 
   const state = useMemo(
     () => ({
@@ -229,6 +244,7 @@ export const useTableSearchParams = (
       columnFilters,
       columnOrder,
       rowSelection,
+      columnVisibility,
     }),
     [
       sorting,
@@ -237,6 +253,7 @@ export const useTableSearchParams = (
       columnFilters,
       columnOrder,
       rowSelection,
+      columnVisibility,
     ],
   );
 
@@ -266,6 +283,7 @@ export const useTableSearchParams = (
         ...columnFiltersEncoder(state.columnFilters),
         ...columnOrderEncoder(state.columnOrder),
         ...rowSelectionEncoder(state.rowSelection),
+        ...columnVisibilityEncoder(state.columnVisibility),
       });
       await updateQuery({
         oldQuery: encodeState(state),
@@ -282,6 +300,7 @@ export const useTableSearchParams = (
       columnFiltersEncoder,
       columnOrderEncoder,
       rowSelectionEncoder,
+      columnVisibilityEncoder,
     ],
   );
 
@@ -293,6 +312,7 @@ export const useTableSearchParams = (
     onColumnFiltersChange,
     onColumnOrderChange,
     onRowSelectionChange,
+    onColumnVisibilityChange,
     onStateChange,
   };
 };
