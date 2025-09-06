@@ -20,11 +20,7 @@ export const Table = () => {
 
   const { replace } = useRouter();
   const stateAndOnChanges = useTableSearchParams(
-    {
-      pathname: usePathname(),
-      query: useSearchParams(),
-      replace,
-    },
+    { pathname: usePathname(), query: useSearchParams(), replace },
     {
       debounceMilliseconds: {
         globalFilter: 1000,

@@ -13,9 +13,7 @@ import {
 } from "@tanstack/react-table";
 import { useTableSearchParams } from "tanstack-table-search-params";
 
-export const Route = createFileRoute("/push")({
-  component: Page,
-});
+export const Route = createFileRoute("/push")({ component: Page });
 
 function Page() {
   const data = useUserData();

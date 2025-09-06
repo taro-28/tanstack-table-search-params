@@ -18,9 +18,7 @@ export const defaultDefaultRowSelection =
  */
 export const encodeRowSelection = (
   value: TanstackTableState["rowSelection"],
-  options?: {
-    defaultValue?: TanstackTableState["rowSelection"];
-  },
+  options?: { defaultValue?: TanstackTableState["rowSelection"] },
 ): Query[string] => {
   const defaultValue = options?.defaultValue ?? defaultDefaultRowSelection;
   if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
@@ -51,9 +49,7 @@ export const encodeRowSelection = (
  */
 export const decodeRowSelection = (
   value: Query[string],
-  options?: {
-    defaultValue?: TanstackTableState["rowSelection"];
-  },
+  options?: { defaultValue?: TanstackTableState["rowSelection"] },
 ): TanstackTableState["rowSelection"] => {
   const defaultValue = options?.defaultValue ?? defaultDefaultRowSelection;
   if (typeof value !== "string") return defaultValue;

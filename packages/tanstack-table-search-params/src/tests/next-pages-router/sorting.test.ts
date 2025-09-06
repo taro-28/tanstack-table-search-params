@@ -17,32 +17,20 @@ describe("sorting", () => {
     name: string;
     options?: Parameters<typeof useTableSearchParams>[1];
   }>([
-    {
-      name: "no options",
-    },
+    { name: "no options" },
     {
       name: "with options: string param name",
-      options: {
-        paramNames: {
-          sorting: "SORTING",
-        },
-      },
+      options: { paramNames: { sorting: "SORTING" } },
     },
     {
       name: "with options: function param name",
-      options: {
-        paramNames: {
-          sorting: (key) => `userTable-${key}`,
-        },
-      },
+      options: { paramNames: { sorting: (key) => `userTable-${key}` } },
     },
     {
       name: "with options: default param name encoder/decoder",
       options: {
         encoders: {
-          sorting: (sorting) => ({
-            sorting: JSON.stringify(sorting),
-          }),
+          sorting: (sorting) => ({ sorting: JSON.stringify(sorting) }),
         },
         decoders: {
           sorting: (query) =>
@@ -93,35 +81,21 @@ describe("sorting", () => {
     },
     {
       name: "with options: custom default value",
-      options: {
-        defaultValues: {
-          sorting: [{ id: "name", desc: true }],
-        },
-      },
+      options: { defaultValues: { sorting: [{ id: "name", desc: true }] } },
     },
     {
       name: "with options: debounce milliseconds",
-      options: {
-        debounceMilliseconds: 1,
-      },
+      options: { debounceMilliseconds: 1 },
     },
     {
       name: "with options: debounce milliseconds for sorting",
-      options: {
-        debounceMilliseconds: {
-          sorting: 1,
-        },
-      },
+      options: { debounceMilliseconds: { sorting: 1 } },
     },
     {
       name: "with options: custom param name, default value, debounce",
       options: {
-        paramNames: {
-          sorting: "SORTING",
-        },
-        defaultValues: {
-          sorting: [{ id: "name", desc: true }],
-        },
+        paramNames: { sorting: "SORTING" },
+        defaultValues: { sorting: [{ id: "name", desc: true }] },
         debounceMilliseconds: 1,
       },
     },

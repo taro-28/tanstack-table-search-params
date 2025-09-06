@@ -19,21 +19,14 @@ describe("globalFilter", () => {
         name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
       },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
         stateValue: Parameters<typeof encodeGlobalFilter>[0];
         want: ReturnType<typeof encodeGlobalFilter>;
       }>([
-        {
-          name: "default value",
-          stateValue: defaultValue,
-          want: undefined,
-        },
+        { name: "default value", stateValue: defaultValue, want: undefined },
         {
           name: "empty string",
           stateValue: "",
@@ -47,16 +40,8 @@ describe("globalFilter", () => {
           stateValue: encodedEmptyStringForGlobalFilterCustomDefaultValue,
           want: encodedEmptyStringForGlobalFilterCustomDefaultValue,
         },
-        {
-          name: "valid",
-          stateValue: "foo",
-          want: "foo",
-        },
-        {
-          name: "not string",
-          stateValue: 1,
-          want: defaultValue,
-        },
+        { name: "valid", stateValue: "foo", want: "foo" },
+        { name: "not string", stateValue: 1, want: defaultValue },
       ])("$name", ({ stateValue, want }) =>
         expect(encodeGlobalFilter(stateValue, { defaultValue })).toEqual(want),
       ),
@@ -68,26 +53,15 @@ describe("globalFilter", () => {
         name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
       },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
         queryValue: Parameters<typeof decodeGlobalFilter>[0];
         want: ReturnType<typeof decodeGlobalFilter>;
       }>([
-        {
-          name: "default value",
-          queryValue: defaultValue,
-          want: defaultValue,
-        },
-        {
-          name: "empty string",
-          queryValue: "",
-          want: "",
-        },
+        { name: "default value", queryValue: defaultValue, want: defaultValue },
+        { name: "empty string", queryValue: "", want: "" },
         {
           name: "encodedEmptyStringForGlobalFilterCustomDefaultValue",
           queryValue: encodedEmptyStringForGlobalFilterCustomDefaultValue,
@@ -96,21 +70,9 @@ describe("globalFilter", () => {
               ? encodedEmptyStringForGlobalFilterCustomDefaultValue
               : "",
         },
-        {
-          name: "string",
-          queryValue: "foo",
-          want: "foo",
-        },
-        {
-          name: "string array",
-          queryValue: ["foo"],
-          want: defaultValue,
-        },
-        {
-          name: "undefined",
-          queryValue: undefined,
-          want: defaultValue,
-        },
+        { name: "string", queryValue: "foo", want: "foo" },
+        { name: "string array", queryValue: ["foo"], want: defaultValue },
+        { name: "undefined", queryValue: undefined, want: defaultValue },
       ])("$name", ({ queryValue, want }) =>
         expect(decodeGlobalFilter(queryValue, { defaultValue })).toBe(want),
       ),
@@ -122,28 +84,16 @@ describe("globalFilter", () => {
         name: "default default value",
         defaultValue: defaultDefaultGlobalFilter,
       },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
         globalFilter: Parameters<typeof encodeGlobalFilter>[0];
         wantDecoded?: ReturnType<typeof decodeGlobalFilter>;
       }>([
-        {
-          name: "default value",
-          globalFilter: defaultValue,
-        },
-        {
-          name: "empty string",
-          globalFilter: "",
-        },
-        {
-          name: "non-empty string",
-          globalFilter: "foo",
-        },
+        { name: "default value", globalFilter: defaultValue },
+        { name: "empty string", globalFilter: "" },
+        { name: "non-empty string", globalFilter: "foo" },
         {
           name: "encodedEmptyStringForGlobalFilterCustomDefaultValue",
           globalFilter: encodedEmptyStringForGlobalFilterCustomDefaultValue,

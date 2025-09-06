@@ -18,9 +18,7 @@ export const defaultDefaultColumnFilters =
  */
 export const encodeColumnFilters = (
   value: TanstackTableState["columnFilters"],
-  options?: {
-    defaultValue?: TanstackTableState["columnFilters"];
-  },
+  options?: { defaultValue?: TanstackTableState["columnFilters"] },
 ): Query[string] => {
   const defaultValue = options?.defaultValue ?? defaultDefaultColumnFilters;
   if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
@@ -53,9 +51,7 @@ export const encodeColumnFilters = (
  */
 export const decodeColumnFilters = (
   value: Query[string],
-  options?: {
-    defaultValue?: TanstackTableState["columnFilters"];
-  },
+  options?: { defaultValue?: TanstackTableState["columnFilters"] },
 ): TanstackTableState["columnFilters"] => {
   const defaultValue = options?.defaultValue ?? defaultDefaultColumnFilters;
   if (typeof value !== "string") return defaultValue;

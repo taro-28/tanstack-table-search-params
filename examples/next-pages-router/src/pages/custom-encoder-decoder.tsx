@@ -29,9 +29,7 @@ export default function CustomEncoderDecoder() {
             desc ? "desc" : "asc",
           ]),
         ),
-      pagination: (pagination) => ({
-        pagination: JSON.stringify(pagination),
-      }),
+      pagination: (pagination) => ({ pagination: JSON.stringify(pagination) }),
       columnFilters: (columnFilters) =>
         Object.fromEntries(
           columnFilters.map(({ id, value }) => [
@@ -64,10 +62,7 @@ export default function CustomEncoderDecoder() {
       pagination: (query) =>
         query["pagination"]
           ? JSON.parse(query["pagination"] as string)
-          : {
-              pageIndex: 0,
-              pageSize: 10,
-            },
+          : { pageIndex: 0, pageSize: 10 },
       columnFilters: (query) =>
         Object.entries(query)
           .filter(([key]) => key.startsWith("columnFilters."))

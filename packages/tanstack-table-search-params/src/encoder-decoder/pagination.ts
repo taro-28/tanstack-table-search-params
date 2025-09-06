@@ -19,13 +19,8 @@ export const defaultDefaultPagination = {
  */
 export const encodePagination = (
   value: TanstackTableState["pagination"],
-  options?: {
-    defaultValue?: TanstackTableState["pagination"] | undefined;
-  },
-): {
-  pageIndex: Query[string];
-  pageSize: Query[string];
-} => {
+  options?: { defaultValue?: TanstackTableState["pagination"] | undefined },
+): { pageIndex: Query[string]; pageSize: Query[string] } => {
   const defaultValue = options?.defaultValue ?? defaultDefaultPagination;
   return {
     pageIndex:
@@ -51,13 +46,8 @@ export const encodePagination = (
  * @returns The decoded value.
  */
 export const decodePagination = (
-  value: {
-    pageIndex: Query[string];
-    pageSize: Query[string];
-  },
-  options?: {
-    defaultValue?: TanstackTableState["pagination"] | undefined;
-  },
+  value: { pageIndex: Query[string]; pageSize: Query[string] },
+  options?: { defaultValue?: TanstackTableState["pagination"] | undefined },
 ): TanstackTableState["pagination"] => {
   const defaultValue = options?.defaultValue ?? defaultDefaultPagination;
   const pageIndex = Number(value.pageIndex);

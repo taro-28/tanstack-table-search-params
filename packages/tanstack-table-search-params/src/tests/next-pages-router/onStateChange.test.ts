@@ -57,10 +57,7 @@ describe("onStateChange", () => {
           columnOrder: "COLUMN_ORDER",
           rowSelection: "ROW_SELECTION",
           columnVisibility: "COLUMN_VISIBILITY",
-          pagination: {
-            pageIndex: "PAGE_INDEX",
-            pageSize: "PAGE_SIZE",
-          },
+          pagination: { pageIndex: "PAGE_INDEX", pageSize: "PAGE_SIZE" },
         },
       },
     },
@@ -88,9 +85,7 @@ describe("onStateChange", () => {
           globalFilter: (globalFilter = "") => ({
             globalFilter: JSON.stringify(globalFilter),
           }),
-          sorting: (sorting) => ({
-            sorting: JSON.stringify(sorting),
-          }),
+          sorting: (sorting) => ({ sorting: JSON.stringify(sorting) }),
           columnFilters: (columnFilters) => ({
             columnFilters: JSON.stringify(columnFilters),
           }),

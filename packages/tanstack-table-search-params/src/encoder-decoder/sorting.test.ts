@@ -6,35 +6,20 @@ type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodeSorting>[1]>["defaultValue"]
 >;
 
-const customDefaultValue = [
-  {
-    id: "custom",
-    desc: true,
-  },
-];
+const customDefaultValue = [{ id: "custom", desc: true }];
 
 describe("sorting", () => {
   describe("encode", () =>
     describe.each<{ name: string; defaultValue: DefaultValue }>([
-      {
-        name: "default default value",
-        defaultValue: defaultDefaultSorting,
-      },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "default default value", defaultValue: defaultDefaultSorting },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
         stateValue: Parameters<typeof encodeSorting>[0];
         want: ReturnType<typeof encodeSorting>;
       }>([
-        {
-          name: "default value",
-          stateValue: defaultValue,
-          want: undefined,
-        },
+        { name: "default value", stateValue: defaultValue, want: undefined },
         {
           name: "empty array",
           stateValue: [],
@@ -64,14 +49,8 @@ describe("sorting", () => {
 
   describe("decode", () =>
     describe.each<{ name: string; defaultValue: DefaultValue }>([
-      {
-        name: "default default value",
-        defaultValue: defaultDefaultSorting,
-      },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "default default value", defaultValue: defaultDefaultSorting },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
@@ -83,11 +62,7 @@ describe("sorting", () => {
           queryValue: encodeSorting(defaultValue, { defaultValue }),
           want: defaultValue,
         },
-        {
-          name: "empty string",
-          queryValue: "",
-          want: defaultValue,
-        },
+        { name: "empty string", queryValue: "", want: defaultValue },
         {
           name: "noneStringForCustomDefaultValue",
           queryValue: noneStringForCustomDefaultValue,
@@ -98,26 +73,10 @@ describe("sorting", () => {
           queryValue: "foo.desc",
           want: [{ id: "foo", desc: true }],
         },
-        {
-          name: "string array",
-          queryValue: ["foo.desc"],
-          want: defaultValue,
-        },
-        {
-          name: "undefined",
-          queryValue: undefined,
-          want: defaultValue,
-        },
-        {
-          name: "invalid string",
-          queryValue: "foo",
-          want: defaultValue,
-        },
-        {
-          name: "invalid order",
-          queryValue: "foo.bar",
-          want: defaultValue,
-        },
+        { name: "string array", queryValue: ["foo.desc"], want: defaultValue },
+        { name: "undefined", queryValue: undefined, want: defaultValue },
+        { name: "invalid string", queryValue: "foo", want: defaultValue },
+        { name: "invalid order", queryValue: "foo.bar", want: defaultValue },
       ])("$name", ({ queryValue, want }) =>
         expect(decodeSorting(queryValue, { defaultValue })).toEqual(want),
       ),
@@ -125,31 +84,16 @@ describe("sorting", () => {
 
   describe("encode and decode", () =>
     describe.each<{ name: string; defaultValue: DefaultValue }>([
-      {
-        name: "default default value",
-        defaultValue: defaultDefaultSorting,
-      },
-      {
-        name: "with custom default value",
-        defaultValue: customDefaultValue,
-      },
+      { name: "default default value", defaultValue: defaultDefaultSorting },
+      { name: "with custom default value", defaultValue: customDefaultValue },
     ])("default value: $name", ({ defaultValue }) =>
       test.each<{
         name: string;
         stateValue: Parameters<typeof encodeSorting>[0];
       }>([
-        {
-          name: "default value",
-          stateValue: defaultValue,
-        },
-        {
-          name: "empty array",
-          stateValue: [],
-        },
-        {
-          name: "non-empty array",
-          stateValue: [{ id: "foo", desc: true }],
-        },
+        { name: "default value", stateValue: defaultValue },
+        { name: "empty array", stateValue: [] },
+        { name: "non-empty array", stateValue: [{ id: "foo", desc: true }] },
         {
           name: "multiple items",
           stateValue: [

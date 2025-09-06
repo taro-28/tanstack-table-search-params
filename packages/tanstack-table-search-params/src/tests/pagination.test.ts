@@ -17,17 +17,12 @@ describe("pagination", () => {
     name: string;
     options?: Parameters<typeof useTableSearchParams>[1];
   }>([
-    {
-      name: "no options",
-    },
+    { name: "no options" },
     {
       name: "with options: string param name",
       options: {
         paramNames: {
-          pagination: {
-            pageIndex: "PAGE_INDEX",
-            pageSize: "PAGE_SIZE",
-          },
+          pagination: { pageIndex: "PAGE_INDEX", pageSize: "PAGE_SIZE" },
         },
       },
     },
@@ -103,43 +98,24 @@ describe("pagination", () => {
     {
       name: "with options: custom default value",
       options: {
-        defaultValues: {
-          pagination: {
-            pageIndex: 3,
-            pageSize: 25,
-          },
-        },
+        defaultValues: { pagination: { pageIndex: 3, pageSize: 25 } },
       },
     },
     {
       name: "with options: debounce milliseconds",
-      options: {
-        debounceMilliseconds: 1,
-      },
+      options: { debounceMilliseconds: 1 },
     },
     {
       name: "with options: debounce milliseconds for pagination",
-      options: {
-        debounceMilliseconds: {
-          pagination: 1,
-        },
-      },
+      options: { debounceMilliseconds: { pagination: 1 } },
     },
     {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: {
-          pagination: {
-            pageIndex: "PAGE_INDEX",
-            pageSize: "PAGE_SIZE",
-          },
+          pagination: { pageIndex: "PAGE_INDEX", pageSize: "PAGE_SIZE" },
         },
-        defaultValues: {
-          pagination: {
-            pageIndex: 3,
-            pageSize: 25,
-          },
-        },
+        defaultValues: { pagination: { pageIndex: 3, pageSize: 25 } },
         debounceMilliseconds: 1,
       },
     },
@@ -206,9 +182,7 @@ describe("pagination", () => {
         options?.encoders?.pagination?.({
           pageIndex: defaultPagination.pageIndex,
           pageSize: updatedPageSize,
-        }) ?? {
-          [paramName.pageSize]: `${updatedPageSize}`,
-        },
+        }) ?? { [paramName.pageSize]: `${updatedPageSize}` },
       );
 
       // set pageIndex
@@ -255,15 +229,9 @@ describe("pagination", () => {
         pageSize: 10,
       });
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.pagination?.({
-          pageIndex: 0,
-          pageSize: 10,
-        }) ??
+        options?.encoders?.pagination?.({ pageIndex: 0, pageSize: 10 }) ??
           (options?.defaultValues?.pagination
-            ? {
-                [paramName.pageIndex]: "1",
-                [paramName.pageSize]: "10",
-              }
+            ? { [paramName.pageIndex]: "1", [paramName.pageSize]: "10" }
             : {}),
       );
     });

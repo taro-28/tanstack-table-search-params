@@ -1,19 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "type-check": {
-      "dependsOn": ["^tanstack-table-search-params#build"]
-    },
+    "type-check": { "dependsOn": ["^tanstack-table-search-params#build"] },
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
-    "dev": {
-      "persistent": true,
-      "cache": false
-    },
-    "test": {
-      "dependsOn": ["^test"]
-    }
+    "dev": { "persistent": true, "cache": false },
+    "test": { "dependsOn": ["^test"] }
   }
 }

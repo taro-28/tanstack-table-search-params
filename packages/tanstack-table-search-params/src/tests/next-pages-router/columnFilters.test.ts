@@ -16,24 +16,14 @@ describe("columnFilters", () => {
     name: string;
     options?: Parameters<typeof useTableSearchParams>[1];
   }>([
-    {
-      name: "no options",
-    },
+    { name: "no options" },
     {
       name: "with options: string param name",
-      options: {
-        paramNames: {
-          columnFilters: "COLUMN_FILTERS",
-        },
-      },
+      options: { paramNames: { columnFilters: "COLUMN_FILTERS" } },
     },
     {
       name: "with options: function param name",
-      options: {
-        paramNames: {
-          columnFilters: (key) => `userTable-${key}`,
-        },
-      },
+      options: { paramNames: { columnFilters: (key) => `userTable-${key}` } },
     },
     {
       name: "with options: default param name encoder/decoder",
@@ -93,34 +83,22 @@ describe("columnFilters", () => {
     {
       name: "with options: custom default value",
       options: {
-        defaultValues: {
-          columnFilters: [{ id: "custom", value: "default" }],
-        },
+        defaultValues: { columnFilters: [{ id: "custom", value: "default" }] },
       },
     },
     {
       name: "with options: debounce milliseconds",
-      options: {
-        debounceMilliseconds: 1,
-      },
+      options: { debounceMilliseconds: 1 },
     },
     {
       name: "with options: debounce milliseconds for columnFilters",
-      options: {
-        debounceMilliseconds: {
-          columnFilters: 1,
-        },
-      },
+      options: { debounceMilliseconds: { columnFilters: 1 } },
     },
     {
       name: "with options: custom param name, default value, debounce",
       options: {
-        paramNames: {
-          columnFilters: "COLUMN_FILTERS",
-        },
-        defaultValues: {
-          columnFilters: [{ id: "custom", value: "default" }],
-        },
+        paramNames: { columnFilters: "COLUMN_FILTERS" },
+        defaultValues: { columnFilters: [{ id: "custom", value: "default" }] },
         debounceMilliseconds: 1,
       },
     },

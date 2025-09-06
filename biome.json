@@ -25,18 +25,14 @@
         "useImportExtensions": "off",
         "noUndeclaredDependencies": "off"
       },
-      "complexity": {
-        "useLiteralKeys": "off"
-      },
-      "suspicious": {
-        "noExplicitAny": "off",
-        "noUnknownAtRules": "off"
-      }
+      "complexity": { "useLiteralKeys": "off" },
+      "suspicious": { "noExplicitAny": "off", "noUnknownAtRules": "off" }
     }
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "expand": "never"
   }
 }

@@ -17,24 +17,14 @@ describe("columnOrder", () => {
     name: string;
     options?: Parameters<typeof useTableSearchParams>[1];
   }>([
-    {
-      name: "no options",
-    },
+    { name: "no options" },
     {
       name: "with options: string param name",
-      options: {
-        paramNames: {
-          columnOrder: "COLUMN_ORDER",
-        },
-      },
+      options: { paramNames: { columnOrder: "COLUMN_ORDER" } },
     },
     {
       name: "with options: function param name",
-      options: {
-        paramNames: {
-          columnOrder: (key) => `userTable-${key}`,
-        },
-      },
+      options: { paramNames: { columnOrder: (key) => `userTable-${key}` } },
     },
     {
       name: "with options: default param name encoder/decoder",
@@ -90,35 +80,21 @@ describe("columnOrder", () => {
     },
     {
       name: "with options: custom default value",
-      options: {
-        defaultValues: {
-          columnOrder: ["name", "id"],
-        },
-      },
+      options: { defaultValues: { columnOrder: ["name", "id"] } },
     },
     {
       name: "with options: debounce milliseconds",
-      options: {
-        debounceMilliseconds: 1,
-      },
+      options: { debounceMilliseconds: 1 },
     },
     {
       name: "with options: debounce milliseconds for columnOrder",
-      options: {
-        debounceMilliseconds: {
-          columnOrder: 1,
-        },
-      },
+      options: { debounceMilliseconds: { columnOrder: 1 } },
     },
     {
       name: "with options: custom param name, default value, debounce",
       options: {
-        paramNames: {
-          columnOrder: "COLUMN_ORDER",
-        },
-        defaultValues: {
-          columnOrder: ["name", "id"],
-        },
+        paramNames: { columnOrder: "COLUMN_ORDER" },
+        defaultValues: { columnOrder: ["name", "id"] },
         debounceMilliseconds: 1,
       },
     },

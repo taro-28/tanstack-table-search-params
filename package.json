@@ -1,8 +1,6 @@
 {
   "name": "@tanstack-table-search-params/root",
-  "engines": {
-    "node": "22.19.0"
-  },
+  "engines": { "node": "22.19.0" },
   "packageManager": "pnpm@10.15.1",
   "scripts": {
     "tanstack-table-search-params": "pnpm --filter './packages/tanstack-table-search-params'",
@@ -22,10 +20,6 @@
     "knip": "^5.63.1",
     "turbo": "^2.5.6"
   },
-  "dependencies": {
-    "prettier": "^3.5.3"
-  },
-  "volta": {
-    "node": "22.19.0"
-  }
+  "dependencies": { "prettier": "^3.5.3" },
+  "volta": { "node": "22.19.0" }
 }

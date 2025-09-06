@@ -1,11 +1,7 @@
 {
   "extends": "@tanstack-table-search-params/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
     "incremental": true,
     "jsx": "preserve",
     "allowJs": true
