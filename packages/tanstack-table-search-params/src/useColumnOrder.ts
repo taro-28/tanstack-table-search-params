@@ -5,7 +5,7 @@ import {
   decodeColumnOrder,
   encodeColumnOrder,
 } from "./encoder-decoder/columnOrder";
-import type { Router } from "./types";
+import type { Query, Router } from "./types";
 import { updateQuery } from "./updateQuery";
 import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
@@ -17,6 +17,7 @@ type Props = {
 
 type Returns = {
   columnOrder: State["columnOrder"];
+  columnOrderEncoder: (columnOrder: State["columnOrder"]) => Query;
   onColumnOrderChange: OnChangeFn<State["columnOrder"]>;
 };
 
@@ -58,32 +59,29 @@ export const useColumnOrder = ({ router, options }: Props): Returns => {
     [stringCustomColumnOrder, uncustomisedColumnOrder, isCustomDecoder],
   );
 
+  const columnOrderEncoder = useCallback(
+    (columnOrder: State["columnOrder"]) =>
+      options?.encoder
+        ? options.encoder(columnOrder)
+        : {
+            [paramName]: encodeColumnOrder(columnOrder, {
+              defaultValue:
+                stringDefaultColumnOrder === undefined
+                  ? undefined
+                  : JSON.parse(stringDefaultColumnOrder),
+            }),
+          },
+    [paramName, options?.encoder, stringDefaultColumnOrder],
+  );
+
   const updateColumnOrderQuery = useCallback(
-    async (newColumnOrder: State["columnOrder"]) => {
-      const encoder = (columnOrder: State["columnOrder"]) =>
-        options?.encoder
-          ? options.encoder(columnOrder)
-          : {
-              [paramName]: encodeColumnOrder(columnOrder, {
-                defaultValue:
-                  stringDefaultColumnOrder === undefined
-                    ? undefined
-                    : JSON.parse(stringDefaultColumnOrder),
-              }),
-            };
-      await updateQuery({
-        oldQuery: encoder(_columnOrder),
-        newQuery: encoder(newColumnOrder),
+    (newColumnOrder: State["columnOrder"]) =>
+      updateQuery({
+        oldQuery: columnOrderEncoder(_columnOrder),
+        newQuery: columnOrderEncoder(newColumnOrder),
         router,
-      });
-    },
-    [
-      router,
-      paramName,
-      options?.encoder,
-      stringDefaultColumnOrder,
-      _columnOrder,
-    ],
+      }),
+    [router, columnOrderEncoder, _columnOrder],
   );
 
   const [debouncedColumnOrder, setDebouncedColumnOrder] = useDebounce({
@@ -102,6 +100,7 @@ export const useColumnOrder = ({ router, options }: Props): Returns => {
 
   return {
     columnOrder,
+    columnOrderEncoder,
     onColumnOrderChange: useCallback(
       async (updater) => {
         const newColumnOrder = functionalUpdate(updater, columnOrder);

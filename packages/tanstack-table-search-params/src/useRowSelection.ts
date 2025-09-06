@@ -5,7 +5,7 @@ import {
   decodeRowSelection,
   encodeRowSelection,
 } from "./encoder-decoder/rowSelection";
-import type { Router } from "./types";
+import type { Query, Router } from "./types";
 import { updateQuery } from "./updateQuery";
 import { useDebounce } from "./useDebounce";
 import type { ExtractSpecificStateOptions } from "./utils";
@@ -17,6 +17,7 @@ type Props = {
 
 type Returns = {
   rowSelection: State["rowSelection"];
+  rowSelectionEncoder: (rowSelection: State["rowSelection"]) => Query;
   onRowSelectionChange: OnChangeFn<State["rowSelection"]>;
 };
 
@@ -58,32 +59,29 @@ export const useRowSelection = ({ router, options }: Props): Returns => {
     [stringCustomRowSelection, uncustomisedRowSelection, isCustomDecoder],
   );
 
+  const rowSelectionEncoder = useCallback(
+    (rowSelection: State["rowSelection"]) =>
+      options?.encoder
+        ? options.encoder(rowSelection)
+        : {
+            [paramName]: encodeRowSelection(rowSelection, {
+              defaultValue:
+                stringDefaultRowSelection === undefined
+                  ? undefined
+                  : JSON.parse(stringDefaultRowSelection),
+            }),
+          },
+    [paramName, options?.encoder, stringDefaultRowSelection],
+  );
+
   const updateRowSelectionQuery = useCallback(
-    async (newRowSelection: State["rowSelection"]) => {
-      const encoder = (rowSelection: State["rowSelection"]) =>
-        options?.encoder
-          ? options.encoder(rowSelection)
-          : {
-              [paramName]: encodeRowSelection(rowSelection, {
-                defaultValue:
-                  stringDefaultRowSelection === undefined
-                    ? undefined
-                    : JSON.parse(stringDefaultRowSelection),
-              }),
-            };
-      await updateQuery({
-        oldQuery: encoder(_rowSelection),
-        newQuery: encoder(newRowSelection),
+    (newRowSelection: State["rowSelection"]) =>
+      updateQuery({
+        oldQuery: rowSelectionEncoder(_rowSelection),
+        newQuery: rowSelectionEncoder(newRowSelection),
         router,
-      });
-    },
-    [
-      router,
-      paramName,
-      options?.encoder,
-      stringDefaultRowSelection,
-      _rowSelection,
-    ],
+      }),
+    [router, rowSelectionEncoder, _rowSelection],
   );
 
   const [debouncedRowSelection, setDebouncedRowSelection] = useDebounce({
@@ -102,6 +100,7 @@ export const useRowSelection = ({ router, options }: Props): Returns => {
 
   return {
     rowSelection,
+    rowSelectionEncoder,
     onRowSelectionChange: useCallback(
       async (updater) => {
         const newRowSelection = functionalUpdate(updater, rowSelection);

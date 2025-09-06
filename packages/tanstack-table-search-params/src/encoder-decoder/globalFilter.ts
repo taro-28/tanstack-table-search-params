@@ -19,7 +19,7 @@ export const defaultDefaultGlobalFilter =
  * @returns The encoded query parameter value.
  */
 export const encodeGlobalFilter = (
-  value: TanstackTableState["globalFilter"] | undefined,
+  value: TanstackTableState["globalFilter"] | undefined = "",
   options?: {
     defaultValue?: TanstackTableState["globalFilter"];
   },
