@@ -91,6 +91,10 @@ describe("columnOrder", () => {
       options: { debounceMilliseconds: { columnOrder: 1 } },
     },
     {
+      name: "with options: enabled false",
+      options: { enabled: { columnOrder: false } },
+    },
+    {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: { columnOrder: "COLUMN_FILTERS" },
@@ -114,6 +118,8 @@ describe("columnOrder", () => {
           : options.debounceMilliseconds
         : undefined;
 
+    const enabled = options?.enabled?.columnOrder ?? true;
+
     test("single column: string value", () => {
       const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
@@ -136,7 +142,7 @@ describe("columnOrder", () => {
 
       // initial state
       expect(result.current.getState().columnOrder).toEqual(defaultColumnOrder);
-      expect(mockRouter.query).toEqual({});
+      expect(mockRouter.query).toEqual(!enabled ? {} : {});
 
       const reversed = result.current
         .getAllLeafColumns()
@@ -150,9 +156,12 @@ describe("columnOrder", () => {
 
       expect(result.current.getState().columnOrder).toEqual(reversed);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.columnOrder?.(reversed) ?? {
-          [paramName]: defaultColumnOrder.length === 0 ? "name,id" : "id,name",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.columnOrder?.(reversed) ?? {
+              [paramName]:
+                defaultColumnOrder.length === 0 ? "name,id" : "id,name",
+            }),
       );
 
       // reset
@@ -162,12 +171,14 @@ describe("columnOrder", () => {
       rerender();
 
       expect(mockRouter.query).toEqual(
-        options?.encoders?.columnOrder?.(defaultColumnOrder) ?? {
-          [paramName]:
-            defaultColumnOrder.length > 0
-              ? noneStringForCustomDefaultValue
-              : undefined,
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.columnOrder?.(defaultColumnOrder) ?? {
+              [paramName]:
+                defaultColumnOrder.length > 0
+                  ? noneStringForCustomDefaultValue
+                  : undefined,
+            }),
       );
       expect(result.current.getState().columnOrder).toEqual([]);
     });

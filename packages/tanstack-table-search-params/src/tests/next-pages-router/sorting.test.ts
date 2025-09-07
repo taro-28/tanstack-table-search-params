@@ -92,6 +92,10 @@ describe("sorting", () => {
       options: { debounceMilliseconds: { sorting: 1 } },
     },
     {
+      name: "with options: enabled false",
+      options: { enabled: { sorting: false } },
+    },
+    {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: { sorting: "SORTING" },
@@ -115,6 +119,8 @@ describe("sorting", () => {
           : options.debounceMilliseconds
         : undefined;
 
+    const enabled = options?.enabled?.sorting ?? true;
+
     test("single column", () => {
       const { result, rerender: resultRerender } = renderHook(() => {
         const stateAndOnChanges = useTableSearchParams(mockRouter, options);
@@ -137,7 +143,7 @@ describe("sorting", () => {
 
       // initial state
       expect(result.current.getState().sorting).toEqual(defaultSorting);
-      expect(mockRouter.query).toEqual({});
+      expect(mockRouter.query).toEqual(!enabled ? {} : {});
 
       // sort by first column
       act(() =>
@@ -150,9 +156,11 @@ describe("sorting", () => {
         { id: "id", desc: true },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.sorting?.([{ id: "id", desc: true }]) ?? {
-          [paramName]: "id.desc",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([{ id: "id", desc: true }]) ?? {
+              [paramName]: "id.desc",
+            }),
       );
 
       // sort by first column again
@@ -166,9 +174,11 @@ describe("sorting", () => {
         { id: "id", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
-          [paramName]: "id.asc",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
+              [paramName]: "id.asc",
+            }),
       );
 
       // sort by another column
@@ -182,9 +192,11 @@ describe("sorting", () => {
         { id: "name", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.sorting?.([{ id: "name", desc: false }]) ?? {
-          [paramName]: "name.asc",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([{ id: "name", desc: false }]) ?? {
+              [paramName]: "name.asc",
+            }),
       );
 
       // reset
@@ -202,12 +214,14 @@ describe("sorting", () => {
       rerender();
       expect(result.current.getState().sorting).toEqual([]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.sorting?.([]) ?? {
-          [paramName]:
-            defaultSorting.length > 0
-              ? noneStringForCustomDefaultValue
-              : undefined,
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([]) ?? {
+              [paramName]:
+                defaultSorting.length > 0
+                  ? noneStringForCustomDefaultValue
+                  : undefined,
+            }),
       );
     });
 
@@ -233,7 +247,7 @@ describe("sorting", () => {
 
       // initial state
       expect(result.current.getState().sorting).toEqual(defaultSorting);
-      expect(mockRouter.query).toEqual({});
+      expect(mockRouter.query).toEqual(!enabled ? {} : {});
 
       // sort by first column and another column
       act(() =>
@@ -253,10 +267,12 @@ describe("sorting", () => {
         { id: "name", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.sorting?.([
-          { id: "id", desc: true },
-          { id: "name", desc: false },
-        ]) ?? { [paramName]: "id.desc,name.asc" },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([
+              { id: "id", desc: true },
+              { id: "name", desc: false },
+            ]) ?? { [paramName]: "id.desc,name.asc" }),
       );
 
       // sort by first column again
@@ -271,10 +287,12 @@ describe("sorting", () => {
         { id: "name", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.sorting?.([
-          { id: "id", desc: false },
-          { id: "name", desc: false },
-        ]) ?? { [paramName]: "id.asc,name.asc" },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([
+              { id: "id", desc: false },
+              { id: "name", desc: false },
+            ]) ?? { [paramName]: "id.asc,name.asc" }),
       );
 
       // sort by another column again
@@ -288,9 +306,11 @@ describe("sorting", () => {
         { id: "id", desc: false },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
-          [paramName]: "id.asc",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.sorting?.([{ id: "id", desc: false }]) ?? {
+              [paramName]: "id.asc",
+            }),
       );
     });
   });

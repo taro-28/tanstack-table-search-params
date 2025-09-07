@@ -110,6 +110,10 @@ describe("pagination", () => {
       options: { debounceMilliseconds: { pagination: 1 } },
     },
     {
+      name: "with options: enabled false",
+      options: { enabled: { pagination: false } },
+    },
+    {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: {
@@ -137,6 +141,8 @@ describe("pagination", () => {
           ? options.debounceMilliseconds.pagination
           : options.debounceMilliseconds
         : undefined;
+
+    const enabled = options?.enabled?.pagination ?? true;
 
     test("basic", () => {
       const { result: routerResult, rerender: routerRerender } = renderHook(
@@ -179,10 +185,12 @@ describe("pagination", () => {
         pageSize: updatedPageSize,
       });
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.pagination?.({
-          pageIndex: defaultPagination.pageIndex,
-          pageSize: updatedPageSize,
-        }) ?? { [paramName.pageSize]: `${updatedPageSize}` },
+        !enabled
+          ? {}
+          : (options?.encoders?.pagination?.({
+              pageIndex: defaultPagination.pageIndex,
+              pageSize: updatedPageSize,
+            }) ?? { [paramName.pageSize]: `${updatedPageSize}` }),
       );
 
       // set pageIndex
@@ -193,13 +201,15 @@ describe("pagination", () => {
         pageSize: updatedPageSize,
       });
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.pagination?.({
-          pageIndex: defaultPagination.pageIndex + 1,
-          pageSize: updatedPageSize,
-        }) ?? {
-          [paramName.pageIndex]: `${defaultPagination.pageIndex + 2}`,
-          [paramName.pageSize]: `${updatedPageSize}`,
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.pagination?.({
+              pageIndex: defaultPagination.pageIndex + 1,
+              pageSize: updatedPageSize,
+            }) ?? {
+              [paramName.pageIndex]: `${defaultPagination.pageIndex + 2}`,
+              [paramName.pageSize]: `${updatedPageSize}`,
+            }),
       );
 
       // reset pageIndex
@@ -210,15 +220,17 @@ describe("pagination", () => {
         pageSize: updatedPageSize,
       });
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.pagination?.({
-          pageIndex: 0,
-          pageSize: updatedPageSize,
-        }) ?? {
-          [paramName.pageIndex]: options?.defaultValues?.pagination
-            ? "1"
-            : undefined,
-          [paramName.pageSize]: `${updatedPageSize}`,
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.pagination?.({
+              pageIndex: 0,
+              pageSize: updatedPageSize,
+            }) ?? {
+              [paramName.pageIndex]: options?.defaultValues?.pagination
+                ? "1"
+                : undefined,
+              [paramName.pageSize]: `${updatedPageSize}`,
+            }),
       );
 
       // reset pageSize
@@ -229,10 +241,12 @@ describe("pagination", () => {
         pageSize: 10,
       });
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.pagination?.({ pageIndex: 0, pageSize: 10 }) ??
-          (options?.defaultValues?.pagination
-            ? { [paramName.pageIndex]: "1", [paramName.pageSize]: "10" }
-            : {}),
+        !enabled
+          ? {}
+          : (options?.encoders?.pagination?.({ pageIndex: 0, pageSize: 10 }) ??
+              (options?.defaultValues?.pagination
+                ? { [paramName.pageIndex]: "1", [paramName.pageSize]: "10" }
+                : {})),
       );
     });
   });

@@ -91,6 +91,10 @@ describe("columnOrder", () => {
       options: { debounceMilliseconds: { columnOrder: 1 } },
     },
     {
+      name: "with options: enabled false",
+      options: { enabled: { columnOrder: false } },
+    },
+    {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: { columnOrder: "COLUMN_ORDER" },
@@ -113,6 +117,8 @@ describe("columnOrder", () => {
           ? options.debounceMilliseconds.columnOrder
           : options.debounceMilliseconds
         : undefined;
+
+    const enabled = options?.enabled?.columnOrder ?? true;
 
     test("single column: string value", () => {
       const { result: routerResult, rerender: routerRerender } = renderHook(
@@ -157,9 +163,12 @@ describe("columnOrder", () => {
 
       expect(result.current.getState().columnOrder).toEqual(reversed);
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.columnOrder?.(reversed) ?? {
-          [paramName]: defaultColumnOrder.length === 0 ? "name,id" : "id,name",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.columnOrder?.(reversed) ?? {
+              [paramName]:
+                defaultColumnOrder.length === 0 ? "name,id" : "id,name",
+            }),
       );
 
       // reset
@@ -169,12 +178,14 @@ describe("columnOrder", () => {
       rerender();
 
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.columnOrder?.(defaultColumnOrder) ?? {
-          [paramName]:
-            defaultColumnOrder.length > 0
-              ? noneStringForCustomDefaultValue
-              : undefined,
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.columnOrder?.(defaultColumnOrder) ?? {
+              [paramName]:
+                defaultColumnOrder.length > 0
+                  ? noneStringForCustomDefaultValue
+                  : undefined,
+            }),
       );
       expect(result.current.getState().columnOrder).toEqual([]);
     });

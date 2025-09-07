@@ -217,6 +217,7 @@ The `useTableSearchParams` hook primarily does the following two things:
 - [🪄 Custom default value](#custom-default-value)
 - [🔢 Custom encoder/decoder](#custom-encoder-decoder)
 - [⏱️ Debounce](#debounce)
+- [☑️ Enable/Disable](#enable-disable)
 
 <h2 id="custom-query-param-name">🏷️ Custom query param name</h2>
 
@@ -363,6 +364,18 @@ const stateAndOnChanges = useTableSearchParams(router, {
 });
 ```
 
+<h2 id="enable-disable">⚙️ Enable/Disable</h2>
+
+You can enable/disable the synchronization of a query parameter.
+All states are enabled by default.
+
+```tsx
+const stateAndOnChanges = useTableSearchParams(router, {
+  // Disable synchronization of sorting
+  enabled: { sorting: false },
+});
+```
+
 ## 💬 Troubleshooting
 
 ### Q. The page transitions every time the search params change
@@ -425,7 +438,6 @@ List of supported TanStack table states
 ## Roadmap
 
 - [ ] Support other table states
-- [ ] Disable specific state
 - [ ] Add `onChangeXxxQuery` option
 
 ## License

@@ -73,6 +73,10 @@ describe("globalFilter", () => {
       options: { debounceMilliseconds: { globalFilter: 1 } },
     },
     {
+      name: "with options: enabled false",
+      options: { enabled: { globalFilter: false } },
+    },
+    {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: { globalFilter: "GLOBAL_FILTER" },
@@ -92,6 +96,8 @@ describe("globalFilter", () => {
           ? options.debounceMilliseconds.globalFilter
           : options.debounceMilliseconds
         : undefined;
+
+    const enabled = options?.enabled?.globalFilter ?? true;
 
     test("basic", () => {
       const { result: routerResult, rerender: routerRerender } = renderHook(
@@ -121,7 +127,9 @@ describe("globalFilter", () => {
         options?.defaultValues?.globalFilter ?? defaultDefaultGlobalFilter;
 
       // initial state
-      expect(result.current.getState().globalFilter).toBe(defaultGlobalFilter);
+      expect(result.current.getState().globalFilter).toBe(
+        !enabled ? undefined : defaultGlobalFilter,
+      );
       expect(routerResult.current.query).toEqual({});
 
       // set
@@ -129,7 +137,11 @@ describe("globalFilter", () => {
       rerender();
       expect(result.current.getState().globalFilter).toBe("John");
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.globalFilter?.("John") ?? { [paramName]: "John" },
+        !enabled
+          ? {}
+          : (options?.encoders?.globalFilter?.("John") ?? {
+              [paramName]: "John",
+            }),
       );
 
       // reset
@@ -138,11 +150,13 @@ describe("globalFilter", () => {
 
       expect(result.current.getState().globalFilter).toBe("");
       expect(routerResult.current.query).toEqual(
-        options?.encoders?.globalFilter?.("") ?? {
-          [paramName]: defaultGlobalFilter
-            ? encodedEmptyStringForGlobalFilterCustomDefaultValue
-            : undefined,
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.globalFilter?.("") ?? {
+              [paramName]: defaultGlobalFilter
+                ? encodedEmptyStringForGlobalFilterCustomDefaultValue
+                : undefined,
+            }),
       );
     });
   });

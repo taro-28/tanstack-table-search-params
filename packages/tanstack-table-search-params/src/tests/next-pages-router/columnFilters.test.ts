@@ -95,6 +95,10 @@ describe("columnFilters", () => {
       options: { debounceMilliseconds: { columnFilters: 1 } },
     },
     {
+      name: "with options: enabled false",
+      options: { enabled: { columnFilters: false } },
+    },
+    {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: { columnFilters: "COLUMN_FILTERS" },
@@ -117,6 +121,8 @@ describe("columnFilters", () => {
           ? options.debounceMilliseconds.columnFilters
           : options.debounceMilliseconds
         : undefined;
+
+    const enabled = options?.enabled?.columnFilters ?? true;
 
     test("single column: string value", () => {
       const { result, rerender: resultRerender } = renderHook(() => {
@@ -142,7 +148,7 @@ describe("columnFilters", () => {
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
       );
-      expect(mockRouter.query).toEqual({});
+      expect(mockRouter.query).toEqual(!enabled ? {} : {});
 
       // set string value for column filter
       act(() => result.current.getFlatHeaders()[1]?.column.setFilterValue("J"));
@@ -152,12 +158,16 @@ describe("columnFilters", () => {
         { id: "name", value: "J" },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.columnFilters?.([{ id: "name", value: "J" }]) ?? {
-          [paramName]:
-            defaultColumnFilters.length === 0
-              ? "name.%22J%22"
-              : "custom.%22default%22,name.%22J%22",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.columnFilters?.([
+              { id: "name", value: "J" },
+            ]) ?? {
+              [paramName]:
+                defaultColumnFilters.length === 0
+                  ? "name.%22J%22"
+                  : "custom.%22default%22,name.%22J%22",
+            }),
       );
 
       // reset
@@ -166,7 +176,7 @@ describe("columnFilters", () => {
       });
       rerender();
       expect(mockRouter.query).toEqual(
-        options?.encoders?.columnFilters?.([]) ?? {},
+        !enabled ? {} : (options?.encoders?.columnFilters?.([]) ?? {}),
       );
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
@@ -203,7 +213,7 @@ describe("columnFilters", () => {
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
       );
-      expect(mockRouter.query).toEqual({});
+      expect(mockRouter.query).toEqual(!enabled ? {} : {});
 
       // set array value for column filter
       act(() =>
@@ -215,14 +225,16 @@ describe("columnFilters", () => {
         { id: "age", value: [30, 40] },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.columnFilters?.([
-          { id: "age", value: [30, 40] },
-        ]) ?? {
-          [paramName]:
-            defaultColumnFilters.length === 0
-              ? "age.%5B30%2C40%5D"
-              : "custom.%22default%22,age.%5B30%2C40%5D",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.columnFilters?.([
+              { id: "age", value: [30, 40] },
+            ]) ?? {
+              [paramName]:
+                defaultColumnFilters.length === 0
+                  ? "age.%5B30%2C40%5D"
+                  : "custom.%22default%22,age.%5B30%2C40%5D",
+            }),
       );
 
       // reset
@@ -234,7 +246,7 @@ describe("columnFilters", () => {
         defaultColumnFilters,
       );
       expect(mockRouter.query).toEqual(
-        options?.encoders?.columnFilters?.([]) ?? {},
+        !enabled ? {} : (options?.encoders?.columnFilters?.([]) ?? {}),
       );
     });
 
@@ -268,7 +280,7 @@ describe("columnFilters", () => {
       expect(result.current.getState().columnFilters).toEqual(
         defaultColumnFilters,
       );
-      expect(mockRouter.query).toEqual({});
+      expect(mockRouter.query).toEqual(!enabled ? {} : {});
 
       // set string value for column filter
       act(() => {
@@ -281,12 +293,16 @@ describe("columnFilters", () => {
         { id: "name", value: "J" },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.columnFilters?.([{ id: "name", value: "J" }]) ?? {
-          [paramName]:
-            defaultColumnFilters.length === 0
-              ? "name.%22J%22"
-              : "custom.%22default%22,name.%22J%22",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.columnFilters?.([
+              { id: "name", value: "J" },
+            ]) ?? {
+              [paramName]:
+                defaultColumnFilters.length === 0
+                  ? "name.%22J%22"
+                  : "custom.%22default%22,name.%22J%22",
+            }),
       );
 
       // set array value for column filter
@@ -310,14 +326,16 @@ describe("columnFilters", () => {
         { id: "age", value: [30, 40] },
       ]);
       expect(mockRouter.query).toEqual(
-        options?.encoders?.columnFilters?.([
-          { id: "age", value: [30, 40] },
-        ]) ?? {
-          [paramName]:
-            defaultColumnFilters.length === 0
-              ? "age.%5B30%2C40%5D"
-              : "custom.%22default%22,age.%5B30%2C40%5D",
-        },
+        !enabled
+          ? {}
+          : (options?.encoders?.columnFilters?.([
+              { id: "age", value: [30, 40] },
+            ]) ?? {
+              [paramName]:
+                defaultColumnFilters.length === 0
+                  ? "age.%5B30%2C40%5D"
+                  : "custom.%22default%22,age.%5B30%2C40%5D",
+            }),
       );
 
       act(() => {
@@ -328,7 +346,7 @@ describe("columnFilters", () => {
         defaultColumnFilters,
       );
       expect(mockRouter.query).toEqual(
-        options?.encoders?.columnFilters?.([]) ?? {},
+        !enabled ? {} : (options?.encoders?.columnFilters?.([]) ?? {}),
       );
     });
   });

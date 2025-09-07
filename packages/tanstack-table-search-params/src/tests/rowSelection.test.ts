@@ -102,6 +102,10 @@ describe("rowSelection", () => {
       options: { debounceMilliseconds: { rowSelection: 1 } },
     },
     {
+      name: "with options: enabled false",
+      options: { enabled: { rowSelection: false } },
+    },
+    {
       name: "with options: custom param name, default value, debounce",
       options: {
         paramNames: { rowSelection: "ROW_SELECTION" },
@@ -124,6 +128,8 @@ describe("rowSelection", () => {
           ? options.debounceMilliseconds.rowSelection
           : options.debounceMilliseconds
         : undefined;
+
+    const enabled = options?.enabled?.rowSelection ?? true;
 
     test("basic", () => {
       const { result: routerResult, rerender: routerRerender } = renderHook(
@@ -169,9 +175,11 @@ describe("rowSelection", () => {
         wantToggledFirstRowState,
       );
       expect(routerResult.current.query).toEqual(
-        encoder?.(wantToggledFirstRowState) ?? {
-          [paramName]: defaultEncoder(wantToggledFirstRowState),
-        },
+        !enabled
+          ? {}
+          : (encoder?.(wantToggledFirstRowState) ?? {
+              [paramName]: defaultEncoder(wantToggledFirstRowState),
+            }),
       );
 
       // toggle second row
@@ -185,9 +193,11 @@ describe("rowSelection", () => {
         wantToggledSecondRowState,
       );
       expect(routerResult.current.query).toEqual(
-        encoder?.(wantToggledSecondRowState) ?? {
-          [paramName]: defaultEncoder(wantToggledSecondRowState),
-        },
+        !enabled
+          ? {}
+          : (encoder?.(wantToggledSecondRowState) ?? {
+              [paramName]: defaultEncoder(wantToggledSecondRowState),
+            }),
       );
 
       // retoggle first row
@@ -201,12 +211,14 @@ describe("rowSelection", () => {
         wantRetoggledFirstRowState,
       );
       expect(routerResult.current.query).toEqual(
-        encoder?.(wantRetoggledFirstRowState) ?? {
-          [paramName]:
-            Object.keys(wantRetoggledFirstRowState).length === 0
-              ? noneStringForCustomDefaultValue
-              : defaultEncoder(wantRetoggledFirstRowState),
-        },
+        !enabled
+          ? {}
+          : (encoder?.(wantRetoggledFirstRowState) ?? {
+              [paramName]:
+                Object.keys(wantRetoggledFirstRowState).length === 0
+                  ? noneStringForCustomDefaultValue
+                  : defaultEncoder(wantRetoggledFirstRowState),
+            }),
       );
 
       // retoggle second row
@@ -220,7 +232,7 @@ describe("rowSelection", () => {
         wantRetoggledSecondRowState,
       );
       expect(routerResult.current.query).toEqual(
-        encoder?.(wantRetoggledSecondRowState) ?? {},
+        !enabled ? {} : (encoder?.(wantRetoggledSecondRowState) ?? {}),
       );
     });
   });

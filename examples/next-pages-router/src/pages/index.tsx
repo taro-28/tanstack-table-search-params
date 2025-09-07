@@ -17,7 +17,9 @@ export default function Basic() {
   const data = useUserData();
 
   const router = useRouter();
-  const stateAndOnChanges = useTableSearchParams(router);
+  const stateAndOnChanges = useTableSearchParams(router, {
+    enabled: { globalFilter: false, sorting: false },
+  });
 
   const table = useReactTable({
     data,
