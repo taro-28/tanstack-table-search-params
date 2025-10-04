@@ -11,14 +11,14 @@
   },
   "dependencies": {
     "@examples/lib": "workspace:*",
-    "@tanstack/react-router": "^1.132.33",
+    "@tanstack/react-router": "^1.132.37",
     "@tanstack/react-table": "^8.21.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tanstack-table-search-params": "workspace:*"
   },
   "devDependencies": {
-    "@tanstack/router-devtools": "^1.132.33",
+    "@tanstack/router-devtools": "^1.132.37",
     "@tanstack/router-plugin": "^1.132.33",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
