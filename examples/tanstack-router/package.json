@@ -18,8 +18,8 @@
     "tanstack-table-search-params": "workspace:*"
   },
   "devDependencies": {
-    "@tanstack/router-devtools": "^1.132.50",
-    "@tanstack/router-plugin": "^1.132.47",
+    "@tanstack/router-devtools": "^1.132.51",
+    "@tanstack/router-plugin": "^1.132.51",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react-swc": "^4.1.0",
