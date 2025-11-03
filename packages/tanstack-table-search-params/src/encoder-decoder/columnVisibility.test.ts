@@ -4,7 +4,7 @@ import {
   defaultDefaultColumnVisibility,
   encodeColumnVisibility,
 } from "./columnVisibility";
-import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "./consts";
 
 type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodeColumnVisibility>[1]>["defaultValue"]
@@ -55,6 +55,16 @@ describe("columnVisibility", () => {
           stateValue: { foo: false, bar: true },
           want: "foo",
         },
+        {
+          name: "column ID with comma",
+          stateValue: { "user,data": false },
+          want: "user%2Cdata",
+        },
+        {
+          name: "multiple column IDs with comma",
+          stateValue: { "user,name": false, "user,age": false },
+          want: "user%2Cname,user%2Cage",
+        },
       ])("$name", ({ stateValue, want }) =>
         expect(encodeColumnVisibility(stateValue, { defaultValue })).toEqual(
           want,
@@ -92,6 +102,16 @@ describe("columnVisibility", () => {
           queryValue: "foo,bar",
           want: { foo: false, bar: false },
         },
+        {
+          name: "column ID with comma",
+          queryValue: "user%2Cdata",
+          want: { "user,data": false },
+        },
+        {
+          name: "multiple column IDs with comma",
+          queryValue: "user%2Cname,user%2Cage",
+          want: { "user,name": false, "user,age": false },
+        },
         { name: "undefined", queryValue: undefined, want: defaultValue },
       ])("$name", ({ queryValue, want }) =>
         expect(decodeColumnVisibility(queryValue, { defaultValue })).toEqual(
@@ -115,6 +135,11 @@ describe("columnVisibility", () => {
         { name: "default value", stateValue: defaultValue },
         { name: "empty object", stateValue: {} },
         { name: "false items", stateValue: { foo: false, bar: false } },
+        { name: "column ID with comma", stateValue: { "user,data": false } },
+        {
+          name: "multiple column IDs with comma",
+          stateValue: { "user,name": false, "user,age": false },
+        },
       ])("$name", ({ stateValue }) => {
         expect(
           decodeColumnVisibility(

@@ -4,7 +4,7 @@ import {
   defaultDefaultColumnOrder,
   encodeColumnOrder,
 } from "./columnOrder";
-import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "./consts";
 
 type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodeColumnOrder>[1]>["defaultValue"]

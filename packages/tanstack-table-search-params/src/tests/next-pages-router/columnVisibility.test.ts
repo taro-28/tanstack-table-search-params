@@ -7,7 +7,7 @@ import {
   defaultDefaultColumnVisibility,
   encodeColumnVisibility as defaultEncoder,
 } from "../../encoder-decoder/columnVisibility";
-import { noneStringForCustomDefaultValue } from "../../encoder-decoder/noneStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "../../encoder-decoder/consts";
 import { typedObjectEntries } from "../utils";
 
 type ColumnVisibility = State["columnVisibility"];

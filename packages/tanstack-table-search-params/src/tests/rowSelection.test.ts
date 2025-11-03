@@ -2,7 +2,7 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { type State, useTableSearchParams } from "..";
-import { noneStringForCustomDefaultValue } from "../encoder-decoder/noneStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "../encoder-decoder/consts";
 import {
   defaultDefaultRowSelection,
   encodeRowSelection as defaultEncoder,

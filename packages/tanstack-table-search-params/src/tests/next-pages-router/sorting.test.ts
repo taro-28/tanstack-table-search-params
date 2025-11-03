@@ -3,7 +3,7 @@ import { act, renderHook } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { useTableSearchParams } from "../..";
-import { noneStringForCustomDefaultValue } from "../../encoder-decoder/noneStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "../../encoder-decoder/consts";
 import { defaultDefaultSorting } from "../../encoder-decoder/sorting";
 
 describe("sorting", () => {

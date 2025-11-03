@@ -6,7 +6,7 @@ import {
   defaultDefaultColumnVisibility,
   encodeColumnVisibility as defaultEncoder,
 } from "../encoder-decoder/columnVisibility";
-import { noneStringForCustomDefaultValue } from "../encoder-decoder/noneStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "../encoder-decoder/consts";
 import { useTestRouter } from "./testRouter";
 import { typedObjectEntries } from "./utils";
 
