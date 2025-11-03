@@ -439,6 +439,9 @@ List of supported TanStack table states
 
 - [ ] Support other table states
 - [ ] Add `onChangeXxxQuery` option
+- [ ] Change the options interface to be based on state
+- [ ] Restrict the combination of `enabled` with other options
+- [ ] Restrict combinations of `encoders`/`decoders` with `paramNames` or `defaultValues`
 
 ## License
 
