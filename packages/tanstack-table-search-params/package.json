@@ -29,7 +29,7 @@
     "@types/node": "^22.18.10",
     "@types/react": "^19.2.2",
     "@vitejs/plugin-react": "^5.1.0",
-    "jsdom": "^27.0.0",
+    "jsdom": "^27.1.0",
     "next-router-mock": "^1.0.4",
     "react": "^19.2.0",
     "tsup": "^8.5.0",
