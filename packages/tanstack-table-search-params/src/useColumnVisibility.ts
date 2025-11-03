@@ -77,7 +77,7 @@ export const useColumnVisibility = ({ router, options }: Props): Returns => {
                   : JSON.parse(stringDefaultColumnVisibility),
             }),
           },
-    [paramName, options?.encoder, stringDefaultColumnVisibility],
+    [paramName, stringDefaultColumnVisibility, options],
   );
 
   const updateColumnVisibilityQuery = useCallback(

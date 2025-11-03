@@ -71,7 +71,7 @@ export const useColumnFilters = ({ router, options }: Props): Returns => {
                   : JSON.parse(stringDefaultColumnFilters),
             }),
           },
-    [paramName, options?.encoder, stringDefaultColumnFilters],
+    [paramName, stringDefaultColumnFilters, options],
   );
 
   const updateColumnFiltersQuery = useCallback(
