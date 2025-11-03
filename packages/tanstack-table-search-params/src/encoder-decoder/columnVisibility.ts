@@ -1,6 +1,6 @@
 import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
-import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+import { encodedComma, noneStringForCustomDefaultValue } from "./consts";
 
 export const defaultDefaultColumnVisibility =
   {} as const satisfies TanstackTableState["columnVisibility"];
@@ -39,7 +39,7 @@ export const encodeColumnVisibility = (
   }
 
   return Object.entries(extractedValue)
-    .map(([id]) => id)
+    .map(([id]) => id.replaceAll(",", encodedComma))
     .join(",");
 };
 
@@ -65,5 +65,7 @@ export const decodeColumnVisibility = (
     return {};
   }
 
-  return Object.fromEntries(value.split(",").map((id) => [id, false]));
+  return Object.fromEntries(
+    value.split(",").map((id) => [id.replaceAll(encodedComma, ","), false]),
+  );
 };

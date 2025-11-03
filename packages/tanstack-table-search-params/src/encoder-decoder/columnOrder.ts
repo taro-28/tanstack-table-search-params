@@ -1,6 +1,6 @@
 import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
-import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+import { encodedComma, noneStringForCustomDefaultValue } from "./consts";
 
 export const defaultDefaultColumnOrder =
   [] as const satisfies TanstackTableState["columnOrder"];
@@ -30,7 +30,7 @@ export const encodeColumnOrder = (
     return noneStringForCustomDefaultValue;
   }
 
-  return value.map((v) => v.replaceAll(",", encodeURIComponent(","))).join(",");
+  return value.map((v) => v.replaceAll(",", encodedComma)).join(",");
 };
 
 /**
@@ -55,7 +55,5 @@ export const decodeColumnOrder = (
     return [];
   }
 
-  return queryValue
-    .split(",")
-    .map((v) => v.replaceAll(encodeURIComponent(","), ","));
+  return queryValue.split(",").map((v) => v.replaceAll(encodedComma, ","));
 };

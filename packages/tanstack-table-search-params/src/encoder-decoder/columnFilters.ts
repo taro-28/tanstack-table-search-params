@@ -1,6 +1,6 @@
 import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
-import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+import { encodedComma, noneStringForCustomDefaultValue } from "./consts";
 
 export const defaultDefaultColumnFilters =
   [] as const satisfies TanstackTableState["columnFilters"];
@@ -33,7 +33,7 @@ export const encodeColumnFilters = (
   return value
     .map(
       ({ id, value }) =>
-        `${id}.${encodeURIComponent(JSON.stringify(value)).replaceAll(".", "%2E")}`,
+        `${id.replaceAll(",", encodedComma).replaceAll(".", "%2E")}.${encodeURIComponent(JSON.stringify(value)).replaceAll(".", "%2E")}`,
     )
     .join(",");
 };
@@ -69,7 +69,7 @@ export const decodeColumnFilters = (
         if (stringValue === undefined) throw new Error("Invalid columnFilters");
 
         return {
-          id,
+          id: id.replaceAll(encodedComma, ",").replaceAll("%2E", "."),
           value:
             stringValue === "undefined"
               ? undefined

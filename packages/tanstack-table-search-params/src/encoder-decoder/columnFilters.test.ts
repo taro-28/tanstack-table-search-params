@@ -4,7 +4,7 @@ import {
   defaultDefaultColumnFilters,
   encodeColumnFilters,
 } from "./columnFilters";
-import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "./consts";
 
 type DefaultValue = NonNullable<
   NonNullable<Parameters<typeof encodeColumnFilters>[1]>["defaultValue"]
@@ -170,6 +170,29 @@ describe("columnFilters", () => {
             },
           ],
           want: "foo.%5B%22bar%22%2C42%2Ctrue%2Cnull%2C%7B%22bar%22%3A%22baz%22%7D%2C%5B%22qux%22%5D%5D",
+        },
+        {
+          name: "column ID with comma",
+          stateValue: [{ id: "user,data", value: "test" }],
+          want: "user%2Cdata.%22test%22",
+        },
+        {
+          name: "column ID with period",
+          stateValue: [{ id: "user.name", value: "test" }],
+          want: "user%2Ename.%22test%22",
+        },
+        {
+          name: "column ID with comma and period",
+          stateValue: [{ id: "a.b,c", value: 123 }],
+          want: "a%2Eb%2Cc.123",
+        },
+        {
+          name: "multiple filters with delimiter in IDs",
+          stateValue: [
+            { id: "user.name", value: "John" },
+            { id: "user,age", value: [30, 40] },
+          ],
+          want: "user%2Ename.%22John%22,user%2Cage.%5B30%2C40%5D",
         },
       ])("$name", ({ stateValue, want }) =>
         expect(encodeColumnFilters(stateValue, { defaultValue })).toEqual(want),
@@ -337,6 +360,29 @@ describe("columnFilters", () => {
             ],
           },
           {
+            name: "column ID with comma",
+            queryValue: "user%2Cdata.%22test%22",
+            want: [{ id: "user,data", value: "test" }],
+          },
+          {
+            name: "column ID with period",
+            queryValue: "user%2Ename.%22test%22",
+            want: [{ id: "user.name", value: "test" }],
+          },
+          {
+            name: "column ID with comma and period",
+            queryValue: "a%2Eb%2Cc.123",
+            want: [{ id: "a.b,c", value: 123 }],
+          },
+          {
+            name: "multiple filters with delimiter in IDs",
+            queryValue: "user%2Ename.%22John%22,user%2Cage.%5B30%2C40%5D",
+            want: [
+              { id: "user.name", value: "John" },
+              { id: "user,age", value: [30, 40] },
+            ],
+          },
+          {
             name: "invalid string array",
             queryValue: ["invalid"],
             want: defaultValue,
@@ -448,6 +494,25 @@ describe("columnFilters", () => {
               id: "foo",
               value: ["bar", 42, true, null, { bar: "baz" }, ["qux"]],
             },
+          ],
+        },
+        {
+          name: "column ID with comma",
+          stateValue: [{ id: "user,data", value: "test" }],
+        },
+        {
+          name: "column ID with period",
+          stateValue: [{ id: "user.name", value: "test" }],
+        },
+        {
+          name: "column ID with comma and period",
+          stateValue: [{ id: "a.b,c", value: 123 }],
+        },
+        {
+          name: "multiple filters with delimiter in IDs",
+          stateValue: [
+            { id: "user.name", value: "John" },
+            { id: "user,age", value: [30, 40] },
           ],
         },
       ])("$name", ({ stateValue }) => {

@@ -1,9 +1,8 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
-  "files": {
-    "includes": ["**", "!**/.next", "!**/dist", "!**/*/routeTree.gen.ts"]
-  },
+  "files": { "includes": ["**", "!**/*/routeTree.gen.ts"] },
   "linter": {
     "domains": {
       "next": "all",

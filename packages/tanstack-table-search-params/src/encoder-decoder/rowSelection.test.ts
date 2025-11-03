@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+import { noneStringForCustomDefaultValue } from "./consts";
 import {
   decodeRowSelection,
   defaultDefaultRowSelection,
@@ -42,6 +42,16 @@ describe("rowSelection", () => {
           stateValue: { foo: true, bar: true },
           want: "foo,bar",
         },
+        {
+          name: "row ID with comma",
+          stateValue: { "user,123": true },
+          want: "user%2C123",
+        },
+        {
+          name: "multiple row IDs with comma",
+          stateValue: { "user,123": true, "order,456": true },
+          want: "user%2C123,order%2C456",
+        },
       ])("$name", ({ stateValue, want }) =>
         expect(encodeRowSelection(stateValue, { defaultValue })).toEqual(want),
       ),
@@ -77,6 +87,16 @@ describe("rowSelection", () => {
           queryValue: "foo,bar",
           want: { foo: true, bar: true },
         },
+        {
+          name: "row ID with comma",
+          queryValue: "user%2C123",
+          want: { "user,123": true },
+        },
+        {
+          name: "multiple row IDs with comma",
+          queryValue: "user%2C123,order%2C456",
+          want: { "user,123": true, "order,456": true },
+        },
         { name: "undefined", queryValue: undefined, want: defaultValue },
       ])("$name", ({ queryValue, want }) =>
         expect(decodeRowSelection(queryValue, { defaultValue })).toEqual(want),
@@ -99,6 +119,11 @@ describe("rowSelection", () => {
         { name: "empty object", stateValue: {} },
         { name: "non-empty array", stateValue: { foo: true } },
         { name: "multiple items", stateValue: { foo: true, bar: true } },
+        { name: "row ID with comma", stateValue: { "user,123": true } },
+        {
+          name: "multiple row IDs with comma",
+          stateValue: { "user,123": true, "order,456": true },
+        },
       ])("$name", ({ stateValue }) => {
         expect(
           decodeRowSelection(encodeRowSelection(stateValue, { defaultValue }), {

@@ -1,6 +1,6 @@
 import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
-import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+import { encodedComma, noneStringForCustomDefaultValue } from "./consts";
 
 export const defaultDefaultSorting =
   [] as const satisfies TanstackTableState["sorting"];
@@ -31,7 +31,12 @@ export const encodeSorting = (
   }
 
   return value
-    .map(({ id, desc }) => `${id}.${desc ? "desc" : "asc"}`)
+    .map(
+      ({ id, desc }) =>
+        `${id
+          .replaceAll(",", encodedComma)
+          .replaceAll(".", "%2E")}.${desc ? "desc" : "asc"}`,
+    )
     .join(",");
 };
 
@@ -64,7 +69,10 @@ export const decodeSorting = (
       if (order !== "asc" && order !== "desc") {
         throw new Error("Invalid sorting");
       }
-      return { id, desc: order === "desc" };
+      return {
+        id: id.replaceAll(encodedComma, ",").replaceAll("%2E", "."),
+        desc: order === "desc",
+      };
     });
   } catch {
     return defaultValue;

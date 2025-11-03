@@ -1,6 +1,6 @@
 import type { State as TanstackTableState } from "..";
 import type { Query } from "../types";
-import { noneStringForCustomDefaultValue } from "./noneStringForCustomDefaultValue";
+import { encodedComma, noneStringForCustomDefaultValue } from "./consts";
 
 export const defaultDefaultRowSelection =
   {} as const satisfies TanstackTableState["rowSelection"];
@@ -32,7 +32,7 @@ export const encodeRowSelection = (
 
   return Object.entries(value)
     .filter(([, v]) => v)
-    .map(([id]) => id)
+    .map(([id]) => id.replaceAll(",", encodedComma))
     .join(",");
 };
 
@@ -58,5 +58,7 @@ export const decodeRowSelection = (
     return {};
   }
 
-  return Object.fromEntries(value.split(",").map((id) => [id, true]));
+  return Object.fromEntries(
+    value.split(",").map((id) => [id.replaceAll(encodedComma, ","), true]),
+  );
 };
