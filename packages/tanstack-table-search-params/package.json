@@ -1,6 +1,6 @@
 {
   "name": "tanstack-table-search-params",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "React Hook for syncing TanStack Table state with URL search params",
   "repository": {
     "type": "git",
