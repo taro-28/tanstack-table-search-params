@@ -71,7 +71,7 @@ export const useColumnOrder = ({ router, options }: Props): Returns => {
                   : JSON.parse(stringDefaultColumnOrder),
             }),
           },
-    [paramName, options?.encoder, stringDefaultColumnOrder],
+    [paramName, stringDefaultColumnOrder, options],
   );
 
   const updateColumnOrderQuery = useCallback(

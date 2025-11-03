@@ -68,7 +68,7 @@ export const useSorting = ({ router, options }: Props): Returns => {
                   : JSON.parse(stringDefaultSorting),
             }),
           },
-    [paramName, options?.encoder, stringDefaultSorting],
+    [paramName, stringDefaultSorting, options],
   );
 
   const updateSortingQuery = useCallback(

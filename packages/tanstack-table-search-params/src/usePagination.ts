@@ -33,7 +33,7 @@ export const usePagination = ({ router, options }: Props): Returns => {
         pageIndex: PARAM_NAMES.PAGE_INDEX,
         pageSize: PARAM_NAMES.PAGE_SIZE,
       },
-    [options?.paramName],
+    [options],
   );
 
   const defaultPagination = useMemo(
@@ -122,6 +122,7 @@ export const usePagination = ({ router, options }: Props): Returns => {
       options?.encoder,
       defaultPagination?.pageIndex,
       defaultPagination?.pageSize,
+      options,
     ],
   );
 

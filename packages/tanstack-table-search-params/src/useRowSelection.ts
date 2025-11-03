@@ -71,7 +71,7 @@ export const useRowSelection = ({ router, options }: Props): Returns => {
                   : JSON.parse(stringDefaultRowSelection),
             }),
           },
-    [paramName, options?.encoder, stringDefaultRowSelection],
+    [paramName, stringDefaultRowSelection, options],
   );
 
   const updateRowSelectionQuery = useCallback(

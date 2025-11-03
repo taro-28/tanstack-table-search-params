@@ -42,7 +42,7 @@ export const useGlobalFilter = ({ router, options }: Props): Returns => {
               defaultValue: options?.defaultValue,
             }),
           },
-    [options?.encoder, options?.defaultValue, paramNames],
+    [paramNames, options],
   );
 
   const updateGlobalFilterQuery = useCallback(
