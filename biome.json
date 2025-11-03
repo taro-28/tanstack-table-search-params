@@ -18,7 +18,8 @@
         "useNamingConvention": "off",
         "useBlockStatements": "off",
         "noDefaultExport": "off",
-        "noNonNullAssertion": "off"
+        "noNonNullAssertion": "off",
+        "useComponentExportOnlyModules": "off"
       },
       "correctness": {
         "noNodejsModules": "off",
