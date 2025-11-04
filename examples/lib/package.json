@@ -4,7 +4,7 @@
   "private": true,
   "scripts": { "type-check": "tsc --noEmit" },
   "dependencies": {
-    "@faker-js/faker": "^10.0.0",
+    "@faker-js/faker": "^10.1.0",
     "@tanstack/react-table": "^8.21.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
