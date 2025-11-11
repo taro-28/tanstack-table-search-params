@@ -27,7 +27,7 @@
     "@tanstack/react-table": "^8.21.3",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^24.10.0",
-    "@types/react": "^19.2.2",
+    "@types/react": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.0",
     "jsdom": "^27.1.0",
     "next-router-mock": "^1.0.4",
