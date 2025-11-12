@@ -47,8 +47,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3
       '@types/react-dom':
-        specifier: ^19.2.2
-        version: 19.2.2(@types/react@19.2.3)
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.3)
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -90,8 +90,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3
       '@types/react-dom':
-        specifier: ^19.2.2
-        version: 19.2.2(@types/react@19.2.3)
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.3)
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -133,8 +133,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3
       '@types/react-dom':
-        specifier: ^19.2.2
-        version: 19.2.2(@types/react@19.2.3)
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.3)
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -173,8 +173,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3
       '@types/react-dom':
-        specifier: ^19.2.2
-        version: 19.2.2(@types/react@19.2.3)
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.3)
       '@vitejs/plugin-react-swc':
         specifier: ^4.2.1
         version: 4.2.1(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.0)(tsx@4.19.2)(yaml@2.6.0))
@@ -225,8 +225,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3
       '@types/react-dom':
-        specifier: ^19.2.2
-        version: 19.2.2(@types/react@19.2.3)
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.3)
       '@vitejs/plugin-react-swc':
         specifier: ^4.2.1
         version: 4.2.1(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.0)(tsx@4.19.2)(yaml@2.6.0))
@@ -256,7 +256,7 @@ importers:
         version: 8.21.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@testing-library/react':
         specifier: ^16.3.0
-        version: 16.3.0(@testing-library/dom@10.3.1)(@types/react-dom@19.2.2(@types/react@19.2.3))(@types/react@19.2.3)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 16.3.0(@testing-library/dom@10.3.1)(@types/react-dom@19.2.3(@types/react@19.2.3))(@types/react@19.2.3)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.1
@@ -1617,8 +1617,8 @@ packages:
   '@types/node@24.10.1':
     resolution: {integrity: sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==}
 
-  '@types/react-dom@19.2.2':
-    resolution: {integrity: sha512-9KQPoO6mZCi7jcIStSnlOWn2nEF3mNmyr3rIAsGnAbQKYbRLyqmeSc39EVgtxXVia+LMT8j3knZLAZAh+xLmrw==}
+  '@types/react-dom@19.2.3':
+    resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
       '@types/react': ^19.2.0
 
@@ -3892,7 +3892,7 @@ snapshots:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
-  '@testing-library/react@16.3.0(@testing-library/dom@10.3.1)(@types/react-dom@19.2.2(@types/react@19.2.3))(@types/react@19.2.3)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@testing-library/react@16.3.0(@testing-library/dom@10.3.1)(@types/react-dom@19.2.3(@types/react@19.2.3))(@types/react@19.2.3)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@testing-library/dom': 10.3.1
@@ -3900,7 +3900,7 @@ snapshots:
       react-dom: 19.2.0(react@19.2.0)
     optionalDependencies:
       '@types/react': 19.2.3
-      '@types/react-dom': 19.2.2(@types/react@19.2.3)
+      '@types/react-dom': 19.2.3(@types/react@19.2.3)
 
   '@tybys/wasm-util@0.10.1':
     dependencies:
@@ -3944,7 +3944,7 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
-  '@types/react-dom@19.2.2(@types/react@19.2.3)':
+  '@types/react-dom@19.2.3(@types/react@19.2.3)':
     dependencies:
       '@types/react': 19.2.3
 
