@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@tanstack-table-search-params/tsconfig": "workspace:*",
-    "@types/react": "^19.2.4",
+    "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "postcss": "^8.5.6",
