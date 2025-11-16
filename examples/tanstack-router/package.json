@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "@examples/lib": "workspace:*",
-    "@tanstack/react-router": "^1.136.5",
+    "@tanstack/react-router": "^1.136.6",
     "@tanstack/react-table": "^8.21.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tanstack-table-search-params": "workspace:*"
   },
   "devDependencies": {
-    "@tanstack/router-devtools": "^1.136.5",
-    "@tanstack/router-plugin": "^1.136.5",
+    "@tanstack/router-devtools": "^1.136.6",
+    "@tanstack/router-plugin": "^1.136.6",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
