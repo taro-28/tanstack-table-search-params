@@ -16,7 +16,7 @@
     "build": "turbo build"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.5",
+    "@biomejs/biome": "2.3.6",
     "knip": "^5.69.1",
     "turbo": "^2.6.1"
   },
